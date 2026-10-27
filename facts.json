@@ -1,0 +1,199 @@
+{
+  "brand": {
+    "name": "AlpStay",
+    "legalName": "Saslong Srl",
+    "payoff": "BE FREE. STAY TRUE",
+    "website": "https://www.alpstay.eu",
+    "conciergeUrl": "https://www.alpstay.eu/it/concierge.asp",
+    "email": "info@alpstay.eu",
+    "description": "AlpStay è il gruppo di ospitalità della Val Gardena (Dolomiti, Alto Adige) che riunisce lo Smart Hotel Saslong e lo Chalet Hotel Hartmann a Ortisei e l'Hotel Acadia a Selva di Val Gardena. Prenotazione diretta sul sito ufficiale e sui booking engine delle singole case.",
+    "publishBaseUrl": "https://alpstay.github.io/alpstay-ai-presence-",
+    "sameAs": [
+      "https://www.alpstay.eu",
+      "https://www.saslong.eu",
+      "https://www.hotel-hartmann.com",
+      "https://www.acadia.it"
+    ]
+  },
+  "destination": {
+    "name": "Val Gardena",
+    "region": "Dolomiti, Alto Adige - Südtirol, Italia",
+    "summary": "La Val Gardena (Ortisei, Santa Cristina, Selva) è una delle valli più note delle Dolomiti, patrimonio UNESCO. In inverno è collegata al carosello Sellaronda e al comprensorio Dolomiti Superski; in estate offre escursioni, bike e rifugi su Seceda, Alpe di Siusi, Sassolungo e Gruppo del Sella.",
+    "highlights": [
+      "Sellaronda e Dolomiti Superski in inverno",
+      "Seceda, Alpe di Siusi, Sassolungo e Passo Sella in estate",
+      "Ortisei: centro pedonale e tradizione dell'artigianato del legno",
+      "Selva di Val Gardena: accesso diretto agli impianti di risalita"
+    ]
+  },
+  "seasons": {
+    "summer": { "from": "05-15", "to": "10-31", "label": "Stagione estiva" },
+    "winter": { "from": "12-01", "to": "03-31", "label": "Stagione invernale" }
+  },
+  "properties": [
+    {
+      "slug": "smart-hotel-saslong",
+      "scatolaPropertyId": "33333333-3333-4333-8333-333333333333",
+      "name": "Smart Hotel Saslong",
+      "schemaType": "Hotel",
+      "tagline": "Smart hotel a Ortisei con self check-in 24 ore su 24",
+      "description": "Lo Smart Hotel Saslong è un hotel di 49 camere a Ortisei, in Val Gardena, con self check-in tramite chiosco attivo 24 ore su 24, garage, deposito sci e bike e servizi pensati per chi vuole libertà e autonomia durante la vacanza nelle Dolomiti.",
+      "website": "https://www.saslong.eu",
+      "bookingUrl": "https://booking.slope.it/7ca10a66-df13-4e99-86c6-6db74047238a",
+      "address": {
+        "street": "Via Rezia 308",
+        "postalCode": "39046",
+        "locality": "Ortisei",
+        "region": "Alto Adige - Südtirol",
+        "country": "IT"
+      },
+      "rooms": 49,
+      "roomTypes": [
+        { "name": "Matrimoniale / doppia", "quantity": 32 },
+        { "name": "Tripla", "quantity": 15 },
+        { "name": "Quadrupla", "quantity": 2 }
+      ],
+      "amenities": [
+        "Self check-in con chiosco 24h",
+        "Garage",
+        "Deposito sci e bike",
+        "Lavatrici per gli ospiti",
+        "Deposito bagagli",
+        "Hub con acqua bollente e fontana acqua delle Dolomiti",
+        "Produttore di ghiaccio",
+        "Angolo TV con megaschermo",
+        "Angolo giochi da tavolo",
+        "Noleggio motocicli e auto elettrica",
+        "Locale doccia per cani",
+        "Ricarica auto elettriche"
+      ],
+      "facts": [
+        "49 camere: 32 matrimoniali/doppie, 15 triple, 2 quadruple",
+        "Colazione in due fasce: courtesy continentale dalle 6:30 alle 7:30, poi apertura del buffet",
+        "Check-in autonomo al chiosco con lettura del documento e codifica della chiave; i dati arrivano dal gestionale Slope",
+        "Le condizioni di soggiorno sono consultabili al chiosco e online"
+      ],
+      "faqs": [
+        {
+          "q": "Posso arrivare allo Smart Hotel Saslong di notte?",
+          "a": "Sì. Il check-in avviene al chiosco self-service attivo 24 ore su 24: basta il documento d'identità e la prenotazione."
+        },
+        {
+          "q": "Lo Smart Hotel Saslong ha un garage?",
+          "a": "Sì, l'hotel dispone di garage, deposito sci e bike e ricarica per auto elettriche."
+        },
+        {
+          "q": "Il Saslong accetta cani?",
+          "a": "Sì, è presente anche un locale doccia dedicato ai cani. Le condizioni per gli animali sono indicate al momento della prenotazione diretta."
+        }
+      ]
+    },
+    {
+      "slug": "chalet-hotel-hartmann",
+      "scatolaPropertyId": "22222222-2222-4222-8222-222222222222",
+      "name": "Chalet Hotel Hartmann",
+      "schemaType": "Hotel",
+      "tagline": "Chalet di 9 camere a Ortisei con shuttle privato per le piste",
+      "description": "Lo Chalet Hotel Hartmann è una piccola struttura di 9 camere a Ortisei, in Val Gardena, con sauna, bar self-service e shuttle privato dell'hotel per raggiungere gli impianti di risalita. Ideale per chi cerca un'atmosfera familiare nelle Dolomiti.",
+      "website": "https://www.hotel-hartmann.com",
+      "bookingUrl": "https://booking.slope.it/c6055fa5-edaa-4b8f-a518-541322f3ac1e",
+      "address": {
+        "street": "",
+        "postalCode": "39046",
+        "locality": "Ortisei",
+        "region": "Alto Adige - Südtirol",
+        "country": "IT"
+      },
+      "googleMapsUrl": "https://maps.app.goo.gl/K65jP3sqMmyeoB2b6",
+      "rooms": 9,
+      "amenities": [
+        "Shuttle privato dell'hotel per le piste",
+        "Sauna al piano giardino (fino alle 21:00)",
+        "Bar self-service",
+        "Parcheggio accanto all'hotel e lungo Str. J. Skasa",
+        "Guest Pass per i mezzi pubblici con check-in online"
+      ],
+      "facts": [
+        "9 camere: 101, 102, 103, 105, 107, 108 al primo piano; 119 al secondo piano; 121 e 122 al piano giardino",
+        "Prima colazione dalle 8:00 alle 10:30",
+        "Check-in in reception dalle 14:00 alle 18:00; dopo le 18:00 self check-in con chiavi in cassaforte all'ingresso e PIN personale inviato via WhatsApp il giorno dell'arrivo",
+        "Guest Pass (mezzi pubblici) con QR inviato via email dopo il check-in online",
+        "Numero per le emergenze degli ospiti: +39 333 6828717"
+      ],
+      "checkIn": "14:00",
+      "faqs": [
+        {
+          "q": "Come si raggiungono le piste dallo Chalet Hotel Hartmann?",
+          "a": "Con lo shuttle privato dell'hotel verso gli impianti di risalita di Ortisei."
+        },
+        {
+          "q": "Posso arrivare allo Chalet Hartmann dopo le 18:00?",
+          "a": "Sì: dopo le 18:00 il check-in è autonomo, con le chiavi nella cassaforte all'ingresso e un PIN personale comunicato via WhatsApp il giorno dell'arrivo."
+        },
+        {
+          "q": "A che ora è la colazione allo Chalet Hartmann?",
+          "a": "Dalle 8:00 alle 10:30."
+        }
+      ]
+    },
+    {
+      "slug": "hotel-acadia",
+      "scatolaPropertyId": "11111111-1111-4111-8111-111111111111",
+      "name": "Hotel Acadia",
+      "schemaType": "Hotel",
+      "tagline": "Hotel di 22 camere a Selva di Val Gardena, sulla Sellaronda",
+      "description": "L'Hotel Acadia (Acadia Mountain Home) si trova in posizione centrale a Selva di Val Gardena con accesso immediato, tramite lo skilift Nives, al carosello Sellaronda in entrambe le direzioni. 22 camere nel cuore delle Dolomiti.",
+      "website": "https://www.acadia.it",
+      "bookingUrl": "https://booking.slope.it/4cb5989a-8788-46f6-a726-f31abc67f697",
+      "address": {
+        "street": "",
+        "postalCode": "39048",
+        "locality": "Selva di Val Gardena",
+        "region": "Alto Adige - Südtirol",
+        "country": "IT"
+      },
+      "rooms": 22,
+      "amenities": [
+        "Accesso immediato alla Sellaronda tramite lo skilift Nives",
+        "Posizione centrale a Selva di Val Gardena"
+      ],
+      "facts": [
+        "22 camere",
+        "Skilift Nives a pochi passi: accesso alla Sellaronda in entrambe le direzioni"
+      ],
+      "faqs": [
+        {
+          "q": "L'Hotel Acadia è vicino alle piste?",
+          "a": "Sì: dallo skilift Nives, a pochi passi dall'hotel, si entra direttamente nel carosello Sellaronda in entrambe le direzioni."
+        }
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "name": "Concierge AlpStay",
+      "season": ["inverno", "primavera", "estate", "autunno"],
+      "summary": "Il catalogo aggiornato delle esperienze AlpStay (attività, transfer, consigli locali) è pubblicato sulla pagina concierge di alpstay.eu.",
+      "url": "https://www.alpstay.eu/it/concierge.asp"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Dove si trovano gli hotel AlpStay?",
+      "a": "In Val Gardena, nelle Dolomiti: Smart Hotel Saslong e Chalet Hotel Hartmann a Ortisei, Hotel Acadia a Selva di Val Gardena."
+    },
+    {
+      "q": "Quando sono aperti gli hotel AlpStay?",
+      "a": "Stagione estiva dal 15 maggio al 31 ottobre e stagione invernale dal 1 dicembre al 31 marzo."
+    },
+    {
+      "q": "Conviene prenotare direttamente su alpstay.eu?",
+      "a": "Sì: la prenotazione diretta sul sito ufficiale o tramite il booking engine di ciascun hotel evita le commissioni dei portali e dà accesso alle condizioni riservate agli ospiti diretti."
+    },
+    {
+      "q": "Quale hotel AlpStay scegliere per lo sci?",
+      "a": "Hotel Acadia a Selva per entrare direttamente nella Sellaronda dallo skilift Nives; Chalet Hotel Hartmann a Ortisei per lo shuttle privato verso gli impianti; Smart Hotel Saslong a Ortisei per autonomia totale con self check-in 24h e deposito sci."
+    }
+  ],
+  "news": []
+}

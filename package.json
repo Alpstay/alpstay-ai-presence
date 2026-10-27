@@ -1,0 +1,18 @@
+{
+  "name": "alpstay-ai-presence",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Fonte ufficiale, verificata e sempre aggiornata su AlpStay (Val Gardena, Dolomiti) per motori di ricerca e assistenti IA.",
+  "type": "module",
+  "scripts": {
+    "build": "tsx build.ts",
+    "typecheck": "tsc --noEmit",
+    "preview": "npx --yes http-server dist -p 8080 -c-1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": { "node": ">=20" }
+}

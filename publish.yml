@@ -1,0 +1,65 @@
+name: Pubblica AlpStay AI Presence
+
+on:
+  schedule:
+    # tre volte al giorno (UTC): 05:17, 11:17, 17:17 → disponibilità sempre fresca
+    - cron: "17 5,11,17 * * *"
+  push:
+    branches: [main]
+    paths: ["*.ts", "facts.json", "package.json", ".github/workflows/publish.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # per salvare data/.last-hash
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Verifica tipi
+        run: npm run typecheck
+
+      - name: Build + ping IndexNow (solo se i contenuti sono cambiati)
+        env:
+          DATABOX_URL: ${{ secrets.DATABOX_URL }}
+          DATABOX_TOKEN: ${{ secrets.DATABOX_TOKEN }}
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          PUBLISH_BASE_URL: ${{ vars.PUBLISH_BASE_URL }}
+        run: npm run build -- --ping
+
+      - name: Salva hash dell'ultimo build
+        run: |
+          git config user.name "alpstay-bot"
+          git config user.email "info@alpstay.eu"
+          git add .last-hash
+          git diff --cached --quiet || git commit -m "chore: aggiorna hash build $(date -u +%F)"
+          git push || true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
