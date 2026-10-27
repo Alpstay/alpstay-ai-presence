@@ -4,7 +4,7 @@
  *      npm run build -- --ping  → genera e avvisa IndexNow solo se i contenuti sono cambiati
  */
 import { createHash } from "node:crypto";
-import { cp, mkdir, readFile, writeFile, rm } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, writeFile, rm } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import type { Facts, SiteModel } from "./types.js";
 import { validateFacts } from "./validate.js";
@@ -13,9 +13,9 @@ import { availabilityUpdates, calendarUpdates } from "./updates.js";
 import { renderAiJson, renderLlmsTxt, renderPages, renderRobots, renderRss, renderSitemap } from "./render.js";
 import { pingIndexNow } from "./indexnow.js";
 
-const ROOT = new URL("..", import.meta.url).pathname;
+const ROOT = new URL(".", import.meta.url).pathname;
 const DIST = join(ROOT, "dist");
-const STATE = join(ROOT, "data", ".last-hash");
+const STATE = join(ROOT, ".last-hash");
 
 async function write(rel: string, content: string): Promise<void> {
   const p = join(DIST, rel);
@@ -27,7 +27,17 @@ async function main(): Promise<void> {
   const ping = process.argv.includes("--ping");
   const today = new Date();
 
-  const facts = JSON.parse(await readFile(join(ROOT, "data", "facts.json"), "utf8")) as Facts;
+  const facts = JSON.parse(await readFile(join(ROOT, "facts.json"), "utf8")) as Facts;
+  // Indirizzo di pubblicazione: 1) variabile PUBLISH_BASE_URL (es. dominio proprio),
+  // 2) ricavato dal repo GitHub (owner.github.io/repo), 3) facts.json.
+  const envUrl = process.env.PUBLISH_BASE_URL?.trim();
+  const ghRepo = process.env.GITHUB_REPOSITORY; // "Owner/repo", presente solo in GitHub Actions
+  if (envUrl) facts.brand.publishBaseUrl = envUrl.replace(/\/$/, "");
+  else if (ghRepo) {
+    const [owner, repo] = ghRepo.split("/");
+    if (owner && repo) facts.brand.publishBaseUrl = `https://${owner.toLowerCase()}.github.io/${repo}`;
+  }
+  console.log(`pubblicazione su ${facts.brand.publishBaseUrl}`);
   const v = validateFacts(facts);
   v.warnings.forEach((w) => console.warn("avviso:", w));
   if (v.errors.length) {
@@ -58,6 +68,13 @@ async function main(): Promise<void> {
   await write(".nojekyll", "");
   // file statici extra (es. public/CNAME per il dominio proprio)
   await cp(join(ROOT, "public"), DIST, { recursive: true, force: true }).catch(() => undefined);
+  // file di verifica dei motori lasciati nella radice del repo: BingSiteAuth.xml, google….html, CNAME
+  for (const name of await readdir(ROOT)) {
+    if (/^BingSiteAuth\.xml$|^google[0-9a-f]+\.html$|^CNAME$/i.test(name)) {
+      await cp(join(ROOT, name), join(DIST, name), { force: true });
+      console.log(`pubblicato file di verifica: ${name}`);
+    }
+  }
   const key = process.env.INDEXNOW_KEY ?? "";
   if (key) await write(`${key}.txt`, key);
 

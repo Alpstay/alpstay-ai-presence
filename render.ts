@@ -4,6 +4,13 @@
  */
 import type { Facts, Property, SiteModel, AvailabilityWindow } from "./types.js";
 
+const MESI = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+/** "05-15" → "15 maggio" */
+const giorno = (md: string): string => {
+  const [mm, dd] = md.split("-");
+  return `${Number(dd)} ${MESI[Number(mm) - 1] ?? mm}`;
+};
+
 const esc = (s: string): string =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -159,7 +166,7 @@ function availabilityTable(m: SiteModel, filterSlug?: string): string {
 }
 
 function propertyCard(m: SiteModel, p: Property): string {
-  return `<div class="card"><h3><a href="${base(m)}/hotel/${p.slug}/">${esc(p.name)}</a></h3><p>${esc(p.tagline)} — ${esc(p.address.locality)}, ${p.rooms} camere.</p><a class="cta" href="${p.bookingUrl}">Prenota direttamente</a></div>`;
+  return `<div class="card"><h3><a href="${base(m)}/hotel/${p.slug}/">${esc(p.name)}</a></h3><p>${esc(p.tagline)} — ${p.rooms} camere.</p><a class="cta" href="${p.bookingUrl}">Prenota direttamente</a></div>`;
 }
 
 /* ---------- pagine ---------- */
@@ -176,7 +183,7 @@ export function renderPages(m: SiteModel): Page[] {
 <p class="lead">${esc(f.brand.description)}</p>
 <h2>Le case</h2>${f.properties.map((p) => propertyCard(m, p)).join("")}
 <h2>${esc(f.destination.name)}</h2><p>${esc(f.destination.summary)}</p><ul>${f.destination.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
-<h2>Stagioni di apertura</h2><p>${esc(f.seasons.summer.label)}: dal ${f.seasons.summer.from.replace("-", "/")} al ${f.seasons.summer.to.replace("-", "/")} (giorno/mese) · ${esc(f.seasons.winter.label)}: dal ${f.seasons.winter.from.replace("-", "/")} al ${f.seasons.winter.to.replace("-", "/")}.</p>
+<h2>Stagioni di apertura</h2><p>${esc(f.seasons.summer.label)}: dal ${giorno(f.seasons.summer.from)} al ${giorno(f.seasons.summer.to)} · ${esc(f.seasons.winter.label)}: dal ${giorno(f.seasons.winter.from)} al ${giorno(f.seasons.winter.to)}.</p>
 <p><a href="${B}/stagione/inverno/">Inverno</a> · <a href="${B}/stagione/primavera/">Primavera</a> · <a href="${B}/stagione/estate/">Estate</a> · <a href="${B}/stagione/autunno/">Autunno</a></p>
 <h2>Disponibilità aggiornata</h2>${availabilityTable(m)}
 <h2>Novità</h2><ul>${m.updates.slice(0, 5).map((n) => `<li><strong>${n.date}</strong> — ${esc(n.title)}</li>`).join("")}</ul>
@@ -201,10 +208,10 @@ export function renderPages(m: SiteModel): Page[] {
 
   // Stagioni
   const seasons: Array<{ slug: string; name: string; text: string }> = [
-    { slug: "inverno", name: "Inverno in Val Gardena", text: `Stagione invernale aperta dal ${f.seasons.winter.from.replace("-", "/")} al ${f.seasons.winter.to.replace("-", "/")}. Sellaronda e Dolomiti Superski a portata di skilift o di shuttle.` },
-    { slug: "primavera", name: "Primavera in Val Gardena", text: `Gli hotel AlpStay riaprono il ${f.seasons.summer.from.replace("-", "/")}: fine maggio e giugno sono il periodo delle prime escursioni, dei prati in fiore e dei prezzi più tranquilli.` },
+    { slug: "inverno", name: "Inverno in Val Gardena", text: `Stagione invernale aperta dal ${giorno(f.seasons.winter.from)} al ${giorno(f.seasons.winter.to)}. Sellaronda e Dolomiti Superski a portata di skilift o di shuttle.` },
+    { slug: "primavera", name: "Primavera in Val Gardena", text: `Gli hotel AlpStay riaprono il ${giorno(f.seasons.summer.from)}: fine maggio e giugno sono il periodo delle prime escursioni, dei prati in fiore e dei prezzi più tranquilli.` },
     { slug: "estate", name: "Estate nelle Dolomiti", text: `Luglio e agosto in Val Gardena: rifugi, Seceda, Alpe di Siusi, passi dolomitici in bici. Tutte le case sono aperte.` },
-    { slug: "autunno", name: "Autunno in Val Gardena", text: `Settembre e ottobre fino al ${f.seasons.summer.to.replace("-", "/")}: larici dorati, sentieri silenziosi, giornate limpide. Ultime settimane prima della pausa di novembre.` },
+    { slug: "autunno", name: "Autunno in Val Gardena", text: `Settembre e ottobre fino al ${giorno(f.seasons.summer.to)}: larici dorati, sentieri silenziosi, giornate limpide. Ultime settimane prima della pausa di novembre.` },
   ];
   for (const s of seasons) {
     const url = `${B}/stagione/${s.slug}/`;
@@ -261,8 +268,8 @@ export function renderLlmsTxt(m: SiteModel, full: boolean): string {
   }
   lines.push("");
   lines.push("## Stagioni");
-  lines.push(`- ${f.seasons.summer.label}: ${f.seasons.summer.from} → ${f.seasons.summer.to} (MM-DD)`);
-  lines.push(`- ${f.seasons.winter.label}: ${f.seasons.winter.from} → ${f.seasons.winter.to} (MM-DD)`);
+  lines.push(`- ${f.seasons.summer.label}: dal ${giorno(f.seasons.summer.from)} al ${giorno(f.seasons.summer.to)}`);
+  lines.push(`- ${f.seasons.winter.label}: dal ${giorno(f.seasons.winter.from)} al ${giorno(f.seasons.winter.to)}`);
   lines.push("");
   lines.push("## Pagine");
   lines.push(`- [Disponibilità aggiornata](${B}/disponibilita/)`);
