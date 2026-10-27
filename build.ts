@@ -13,9 +13,9 @@ import { availabilityUpdates, calendarUpdates } from "./updates.js";
 import { renderAiJson, renderLlmsTxt, renderPages, renderRobots, renderRss, renderSitemap } from "./render.js";
 import { pingIndexNow } from "./indexnow.js";
 
-const ROOT = new URL(".", import.meta.url).pathname;
+const ROOT = new URL("..", import.meta.url).pathname;
 const DIST = join(ROOT, "dist");
-const STATE = join(ROOT, ".last-hash");
+const STATE = join(ROOT, "data", ".last-hash");
 
 async function write(rel: string, content: string): Promise<void> {
   const p = join(DIST, rel);
@@ -27,17 +27,7 @@ async function main(): Promise<void> {
   const ping = process.argv.includes("--ping");
   const today = new Date();
 
-  const facts = JSON.parse(await readFile(join(ROOT, "facts.json"), "utf8")) as Facts;
-  // Indirizzo di pubblicazione: 1) variabile PUBLISH_BASE_URL (es. dominio proprio),
-  // 2) ricavato dal repo GitHub (owner.github.io/repo), 3) facts.json.
-  const envUrl = process.env.PUBLISH_BASE_URL?.trim();
-  const ghRepo = process.env.GITHUB_REPOSITORY; // "Owner/repo", presente solo in GitHub Actions
-  if (envUrl) facts.brand.publishBaseUrl = envUrl.replace(/\/$/, "");
-  else if (ghRepo) {
-    const [owner, repo] = ghRepo.split("/");
-    if (owner && repo) facts.brand.publishBaseUrl = `https://${owner.toLowerCase()}.github.io/${repo}`;
-  }
-  console.log(`pubblicazione su ${facts.brand.publishBaseUrl}`);
+  const facts = JSON.parse(await readFile(join(ROOT, "data", "facts.json"), "utf8")) as Facts;
   const v = validateFacts(facts);
   v.warnings.forEach((w) => console.warn("avviso:", w));
   if (v.errors.length) {
