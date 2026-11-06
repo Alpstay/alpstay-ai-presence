@@ -121,7 +121,11 @@ export interface AvailabilityWindow {
     /** minimo di camere libere in tutte le notti della finestra */
     minFreeRooms: number;
     /** stato semplice per l'IA */
-    status: "disponibile" | "ultime-camere" | "esaurito" | "n/d";
+    status: "disponibile" | "ultime-camere" | "parziale" | "esaurito" | "n/d";
+    /** notti del periodo (solo stagione aperta) con almeno una camera libera */
+    nightsAvailable: number;
+    /** notti del periodo considerate (solo stagione aperta) */
+    nights: number;
   }>;
 }
 

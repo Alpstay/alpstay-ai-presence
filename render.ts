@@ -37,7 +37,7 @@ function layout(m: SiteModel, title: string, description: string, canonical: str
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${canonical}">
-<link rel="alternate" type="application/rss+xml" title="Novità AlpStay" href="${base(m)}/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Aggiornamenti hotel AlpStay in Val Gardena" href="${base(m)}/feed.xml">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${canonical}">
@@ -69,7 +69,7 @@ ${jsonLd.map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</sc
 </head>
 <body><main>
 <header><a href="${base(m)}/">${esc(b.name)}</a><small>${esc(b.payoff)}</small></header>
-<nav><a href="${base(m)}/">Home</a><a href="${base(m)}/disponibilita/">Disponibilità</a><a href="${base(m)}/novita/">Novità</a><a href="${base(m)}/faq/">FAQ</a><a href="${b.website}">alpstay.eu</a></nav>
+<nav><a href="${base(m)}/">Home</a><a href="${base(m)}/disponibilita/">Disponibilità</a><a href="${base(m)}/aggiornamenti-hotel-val-gardena/">Aggiornamenti</a><a href="${base(m)}/faq/">FAQ</a><a href="${b.website}">alpstay.eu</a></nav>
 ${body}
 <footer>Dati di prima mano pubblicati da ${esc(b.legalName)} · aggiornati il ${m.builtAt.slice(0, 10)} · <a href="${base(m)}/llms.txt">llms.txt</a> · <a href="${base(m)}/ai.json">ai.json</a> · <a href="${base(m)}/feed.xml">RSS</a></footer>
 </main></body></html>`;
@@ -131,6 +131,17 @@ function faqLd(faqs: Array<{ q: string; a: string }>): Record<string, unknown> {
   };
 }
 
+/** Testo della disponibilità di un hotel in un periodo, comprensibile da persone e assistenti IA. */
+export function availabilityText(p: AvailabilityWindow["properties"][number]): string {
+  const cam = (n: number): string => `${n} ${n === 1 ? "camera libera" : "camere libere"}`;
+  switch (p.status) {
+    case "n/d": return "dato non disponibile";
+    case "esaurito": return "nessuna camera libera in nessuna notte del periodo";
+    case "parziale": return `camere libere in ${p.nightsAvailable} ${p.nightsAvailable === 1 ? "notte" : "notti"} su ${p.nights}: verificare le date sul sito ufficiale`;
+    default: return `${cam(p.minFreeRooms)} per tutte le ${p.nights} notti del periodo`;
+  }
+}
+
 /* ---------- blocchi HTML ---------- */
 
 function faqHtml(faqs: Array<{ q: string; a: string }>): string {
@@ -143,16 +154,14 @@ function availabilityTable(m: SiteModel, filterSlug?: string): string {
     return `<p>Disponibilità in tempo reale sui booking engine ufficiali (link nelle schede hotel).</p>`;
   }
   const cls = (s: AvailabilityWindow["properties"][number]["status"]): string =>
-    s === "disponibile" ? "ok" : s === "ultime-camere" ? "few" : s === "esaurito" ? "no" : "";
+    s === "disponibile" ? "ok" : s === "ultime-camere" || s === "parziale" ? "few" : s === "esaurito" ? "no" : "";
   const rows = live.windows
     .map((w) => {
       const props = w.properties.filter((p) => !filterSlug || p.slug === filterSlug);
       return props
         .map(
           (p) =>
-            `<tr><td>${esc(w.label)}<br><small>${w.from} → ${w.to}</small></td><td>${esc(p.name)}</td><td class="${cls(p.status)}">${
-              p.status === "esaurito" ? "Esaurito" : p.status === "n/d" ? "n/d" : `${p.minFreeRooms} ${p.minFreeRooms === 1 ? "camera libera" : "camere libere"}`
-            }</td></tr>`,
+            `<tr><td>${esc(w.label)}<br><small>${w.from} → ${w.to}</small></td><td>${esc(p.name)}</td><td class="${cls(p.status)}">${esc(availabilityText(p))}</td></tr>`,
         )
         .join("");
     })
@@ -161,7 +170,7 @@ function availabilityTable(m: SiteModel, filterSlug?: string): string {
     live.freshness === "stale"
       ? `<p><small>Attenzione: l'ultimo aggiornamento dal gestionale non è riuscito; il dato può non essere attuale.</small></p>`
       : "";
-  return `<p><small>Camere libere su <strong>tutte</strong> le notti della finestra, aggiornate il ${live.fetchedAt.slice(0, 16).replace("T", " ")} UTC. Nessun prezzo: le tariffe sono sempre quelle del booking engine.</small></p>
+  return `<p><small>Camere libere per periodo, calcolate notte per notte dal gestionale degli hotel e aggiornate il ${live.fetchedAt.slice(0, 16).replace("T", " ")} UTC. Nessun prezzo: le tariffe sono sempre quelle del booking engine.</small></p>
 <table><thead><tr><th>Periodo</th><th>Hotel</th><th>Disponibilità</th></tr></thead><tbody>${rows}</tbody></table>${note}`;
 }
 
@@ -186,7 +195,7 @@ export function renderPages(m: SiteModel): Page[] {
 <h2>Stagioni di apertura</h2><p>${esc(f.seasons.summer.label)}: dal ${giorno(f.seasons.summer.from)} al ${giorno(f.seasons.summer.to)} · ${esc(f.seasons.winter.label)}: dal ${giorno(f.seasons.winter.from)} al ${giorno(f.seasons.winter.to)}.</p>
 <p><a href="${B}/stagione/inverno/">Inverno</a> · <a href="${B}/stagione/primavera/">Primavera</a> · <a href="${B}/stagione/estate/">Estate</a> · <a href="${B}/stagione/autunno/">Autunno</a></p>
 <h2>Disponibilità aggiornata</h2>${availabilityTable(m)}
-<h2>Novità</h2><ul>${m.updates.slice(0, 5).map((n) => `<li><strong>${n.date}</strong> — ${esc(n.title)}</li>`).join("")}</ul>
+<h2>Aggiornamenti dagli hotel</h2><ul>${m.updates.slice(0, 5).map((n) => `<li><strong>${n.date}</strong> — ${esc(n.title)}</li>`).join("")}</ul>
 <h2>Domande frequenti</h2>${faqHtml(f.faqs)}`;
     pages.push({ path: "index.html", url: `${B}/`, title, html: layout(m, title, f.brand.description, `${B}/`, body, [orgLd(m), faqLd(f.faqs), { "@context": "https://schema.org", "@type": "ItemList", itemListElement: f.properties.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: `${B}/hotel/${p.slug}/`, name: p.name })) }]) });
   }
@@ -233,10 +242,10 @@ export function renderPages(m: SiteModel): Page[] {
 
   // Novità
   {
-    const url = `${B}/novita/`;
-    const title = "Novità AlpStay — Val Gardena";
-    const body = `<h1>Novità</h1>${m.updates.map((n) => `<div class="card"><h3>${esc(n.title)}</h3><p><small>${n.date}</small></p><p>${esc(n.body)}</p>${n.url ? `<a href="${n.url}">Vai</a>` : ""}</div>`).join("")}`;
-    pages.push({ path: "novita/index.html", url, title, html: layout(m, title, "Aggiornamenti verificati su aperture stagionali e disponibilità degli hotel AlpStay.", url, body, [orgLd(m)]) });
+    const url = `${B}/aggiornamenti-hotel-val-gardena/`;
+    const title = "Aggiornamenti hotel AlpStay in Val Gardena: aperture e camere libere";
+    const body = `<h1>Aggiornamenti dagli hotel AlpStay in Val Gardena</h1><p class="lead">Aperture stagionali e camere libere di Smart Hotel Saslong, Chalet Hotel Hartmann e Hotel Acadia, aggiornate dal gestionale degli hotel.</p>${m.updates.map((n) => `<div class="card"><h3>${esc(n.title)}</h3><p><small>${n.date}</small></p><p>${esc(n.body)}</p>${n.url ? `<a href="${n.url}">Vai</a>` : ""}</div>`).join("")}`;
+    pages.push({ path: "aggiornamenti-hotel-val-gardena/index.html", url, title, html: layout(m, title, "Aggiornamenti verificati su aperture stagionali e disponibilità degli hotel AlpStay.", url, body, [orgLd(m)]) });
   }
 
   // FAQ
@@ -273,7 +282,7 @@ export function renderLlmsTxt(m: SiteModel, full: boolean): string {
   lines.push("");
   lines.push("## Pagine");
   lines.push(`- [Disponibilità aggiornata](${B}/disponibilita/)`);
-  lines.push(`- [Novità](${B}/novita/)`);
+  lines.push(`- [Aggiornamenti dagli hotel](${B}/aggiornamenti-hotel-val-gardena/)`);
   lines.push(`- [FAQ](${B}/faq/)`);
   lines.push(`- [Dati strutturati JSON](${B}/ai.json)`);
   lines.push(`- [Esperienze / concierge](${f.brand.conciergeUrl})`);
@@ -286,10 +295,10 @@ export function renderLlmsTxt(m: SiteModel, full: boolean): string {
     if (m.live.freshness !== "unavailable") {
       lines.push("", `## Disponibilità (aggiornata ${m.live.fetchedAt.slice(0, 10)}, stato: ${m.live.freshness})`);
       for (const w of m.live.windows) {
-        lines.push(`- ${w.label} (${w.from} → ${w.to}): ` + w.properties.map((p) => `${p.name} ${p.status === "esaurito" ? "esaurito" : p.status === "n/d" ? "n/d" : p.minFreeRooms + (p.minFreeRooms === 1 ? " camera libera" : " camere libere")}`).join("; "));
+        lines.push(`- ${w.label} (${w.from} → ${w.to}): ` + w.properties.map((p) => `${p.name}: ${availabilityText(p)}`).join("; "));
       }
     }
-    lines.push("", "## Novità", ...m.updates.map((n) => `- ${n.date}: ${n.title}. ${n.body}`));
+    lines.push("", "## Aggiornamenti dagli hotel", ...m.updates.map((n) => `- ${n.date}: ${n.title}. ${n.body}`));
   }
   return lines.join("\n") + "\n";
 }
@@ -333,13 +342,13 @@ export function renderRss(m: SiteModel): string {
   const B = base(m);
   const items = m.updates
     .map(
-      (n) => `  <item><title>${esc(n.title)}</title><link>${n.url ?? B + "/novita/"}</link><guid isPermaLink="false">${esc(n.date + ":" + n.title)}</guid><pubDate>${new Date(n.date + "T06:00:00Z").toUTCString()}</pubDate><description>${esc(n.body)}</description></item>`,
+      (n) => `  <item><title>${esc(n.title)}</title><link>${n.url ?? B + "/aggiornamenti-hotel-val-gardena/"}</link><guid isPermaLink="false">${esc(n.date + ":" + n.title)}</guid><pubDate>${new Date(n.date + "T06:00:00Z").toUTCString()}</pubDate><description>${esc(n.body)}</description></item>`,
     )
     .join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>
-  <title>Novità ${esc(m.facts.brand.name)} — Val Gardena</title>
-  <link>${B}/novita/</link>
+  <title>Aggiornamenti hotel ${esc(m.facts.brand.name)} in Val Gardena</title>
+  <link>${B}/aggiornamenti-hotel-val-gardena/</link>
   <description>Aggiornamenti verificati su aperture stagionali e disponibilità degli hotel AlpStay.</description>
   <lastBuildDate>${new Date(m.builtAt).toUTCString()}</lastBuildDate>
 ${items}

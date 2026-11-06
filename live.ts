@@ -103,7 +103,7 @@ const FILE_MAX_HOURS = 24 * 7;
 interface DisponibilitaFile {
   generatedAt: string;
   scatolaStatus?: string;
-  /** giorno → property_id (verbatim da La Scatola) → camere libere (somma delle tipologie, negativi = 0) */
+  /** giorno → property_id (verbatim da La Scatola) → camere OCCUPATE (physical_rooms - free_after_options, overbooking compreso) */
   days: Record<string, Record<string, number>>;
 }
 
@@ -130,7 +130,8 @@ async function fileSource(today: Date): Promise<{ source: DaySource; stale: bool
     const perProp = f.days[day];
     if (!perProp) throw new Error(`giorno ${day} assente nel file`);
     return {
-      rows: Object.entries(perProp).map(([property_id, free]) => ({ property_id, day, physical_rooms: 0, free_after_options: free })),
+      // riga sintetica: physical = 0, free = -occupate → occupate = physical - free
+      rows: Object.entries(perProp).map(([property_id, occ]) => ({ property_id, day, physical_rooms: 0, free_after_options: -occ })),
       status: stale ? "stale" : "ok",
     };
   };
@@ -163,6 +164,8 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
   for (const w of windows) {
     // min camere libere per struttura su tutte le notti della finestra
     const minFree = new Map<string, number>();
+    const freeNights = new Map<string, number>();
+    let nights = 0;
     try {
       for (const day of eachDay(w.from, w.to)) {
         if (!inSeason(day, facts)) continue; // hotel chiusi: la notte non conta
@@ -172,12 +175,14 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
         const perProp = new Map<string, number>();
         for (const r of rows) {
           if (!byId.has(r.property_id)) continue; // struttura non censita in facts.json: ignora
-          // saldo netto: l'overbooking di una tipologia consuma le libere delle altre
-          perProp.set(r.property_id, (perProp.get(r.property_id) ?? 0) + r.free_after_options);
+          // camere occupate per hotel (overbooking compreso); una tipologia senza righe è tutta libera
+          perProp.set(r.property_id, (perProp.get(r.property_id) ?? 0) + (r.physical_rooms - r.free_after_options));
         }
-        for (const [id] of byId) {
-          const free = Math.max(0, perProp.get(id) ?? 0);
+        nights++;
+        for (const [id, p] of byId) {
+          const free = Math.max(0, p.rooms - (perProp.get(id) ?? 0));
           minFree.set(id, Math.min(minFree.get(id) ?? Number.POSITIVE_INFINITY, free));
+          if (free > 0) freeNights.set(id, (freeNights.get(id) ?? 0) + 1);
         }
       }
     } catch (e) {
@@ -193,7 +198,9 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
       properties: facts.properties.map((p) => {
         const free = minFree.get(p.scatolaPropertyId);
         const n = free === undefined || !Number.isFinite(free) ? -1 : free;
-        return { slug: p.slug, name: p.name, minFreeRooms: Math.max(n, 0), status: n < 0 ? "n/d" : statusOf(n) };
+        const fn = freeNights.get(p.scatolaPropertyId) ?? 0;
+        const status = n < 0 ? "n/d" : n === 0 && fn > 0 ? "parziale" : statusOf(n);
+        return { slug: p.slug, name: p.name, minFreeRooms: Math.max(n, 0), status, nightsAvailable: fn, nights };
       }),
     });
   }

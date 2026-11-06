@@ -66,6 +66,9 @@ async function main(): Promise<void> {
   await write("feed.xml", renderRss(model));
   await write("robots.txt", renderRobots(model));
   await write(".nojekyll", "");
+  // vecchio indirizzo /novita/: rimanda al nuovo ("novita" veniva confuso con il marchio Novita AI)
+  const nuovo = `${facts.brand.publishBaseUrl}/aggiornamenti-hotel-val-gardena/`;
+  await write("novita/index.html", `<!doctype html><html lang="it"><head><meta charset="utf-8"><title>Aggiornamenti hotel AlpStay</title><link rel="canonical" href="${nuovo}"><meta name="robots" content="noindex,follow"><meta http-equiv="refresh" content="0; url=${nuovo}"></head><body><a href="${nuovo}">Aggiornamenti hotel AlpStay in Val Gardena</a></body></html>`);
   // file statici extra (es. public/CNAME per il dominio proprio)
   await cp(join(ROOT, "public"), DIST, { recursive: true, force: true }).catch(() => undefined);
   // file di verifica dei motori lasciati nella radice del repo: BingSiteAuth.xml, google….html, CNAME

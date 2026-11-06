@@ -2,6 +2,7 @@
  * Novità generate automaticamente dal calendario e dalla disponibilità live.
  * Sono deterministiche e verificabili: niente testi inventati, solo date e conteggi.
  */
+import { availabilityText } from "./render.js";
 import type { Facts, LiveSnapshot, NewsItem } from "./types.js";
 
 function iso(d: Date): string {
@@ -61,7 +62,7 @@ export function availabilityUpdates(live: LiveSnapshot, facts: Facts, today: Dat
   return live.windows.map((w) => {
     const parts = w.properties
       .filter((p) => p.status !== "n/d")
-      .map((p) => (p.status === "esaurito" ? `${p.name}: esaurito` : `${p.name}: ${p.minFreeRooms} ${p.minFreeRooms === 1 ? "camera libera" : "camere libere"} su tutte le notti`));
+      .map((p) => `${p.name}: ${availabilityText(p)}`);
     return {
       date: iso(today),
       title: `Disponibilità ${w.label} negli hotel AlpStay (aggiornata il ${iso(today)})`,
