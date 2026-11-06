@@ -8,6 +8,8 @@
  *   DATABOX_TOKEN  bearer del client registrato per questa app
  * Se mancano, il build prosegue con freshness = "unavailable".
  */
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import type { AvailabilityDay, AvailabilityWindow, Facts, LiveSnapshot, Property } from "./types.js";
 
 interface QueryEnvelope {
@@ -92,13 +94,64 @@ function statusOf(free: number): AvailabilityWindow["properties"][number]["statu
   return "esaurito";
 }
 
+type DaySource = (day: string) => Promise<{ rows: AvailabilityDay[]; status: string }>;
+
+/** Massimo di ore di vecchiaia accettate per disponibilita.json prima di dichiararlo "stale" / non pubblicarlo. */
+const FILE_STALE_HOURS = 30;
+const FILE_MAX_HOURS = 24 * 7;
+
+interface DisponibilitaFile {
+  generatedAt: string;
+  scatolaStatus?: string;
+  /** giorno → property_id (verbatim da La Scatola) → camere libere (somma delle tipologie, negativi = 0) */
+  days: Record<string, Record<string, number>>;
+}
+
+/**
+ * Fonte 2: file disponibilita.json scritto ogni mattina dall'attività pianificata
+ * (connettore La Scatola, vista curated_availability_daily, solo conteggi aggregati).
+ */
+async function fileSource(today: Date): Promise<{ source: DaySource; stale: boolean; generatedAt: string } | null> {
+  const ROOT = new URL(".", import.meta.url).pathname;
+  let f: DisponibilitaFile;
+  try {
+    f = JSON.parse(await readFile(join(ROOT, "disponibilita.json"), "utf8")) as DisponibilitaFile;
+  } catch {
+    return null;
+  }
+  const ageH = (today.getTime() - new Date(f.generatedAt).getTime()) / 3_600_000;
+  if (!Number.isFinite(ageH) || ageH > FILE_MAX_HOURS) {
+    console.log(`live: disponibilita.json troppo vecchio (${Math.round(ageH)} h) → non pubblicato`);
+    return null;
+  }
+  const stale = ageH > FILE_STALE_HOURS || f.scatolaStatus === "failing" || f.scatolaStatus === "stale";
+  console.log(`live: uso disponibilita.json del ${f.generatedAt} (${Math.round(ageH)} h, Scatola: ${f.scatolaStatus ?? "?"})`);
+  const source: DaySource = async (day) => {
+    const perProp = f.days[day];
+    if (!perProp) throw new Error(`giorno ${day} assente nel file`);
+    return {
+      rows: Object.entries(perProp).map(([property_id, free]) => ({ property_id, day, physical_rooms: 0, free_after_options: free })),
+      status: stale ? "stale" : "ok",
+    };
+  };
+  return { source, stale, generatedAt: f.generatedAt };
+}
+
 export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveSnapshot> {
   const baseUrl = process.env.DATABOX_URL;
   const token = process.env.DATABOX_TOKEN;
-  const fetchedAt = today.toISOString();
-  if (!baseUrl || !token) {
-    console.log("live: DATABOX_URL/DATABOX_TOKEN assenti → disponibilità non pubblicata");
-    return { fetchedAt, freshness: "unavailable", windows: [] };
+  let fetchedAt = today.toISOString();
+  let source: DaySource;
+  if (baseUrl && token) {
+    source = (day) => queryDay(baseUrl, token, day);
+  } else {
+    const fs = await fileSource(today);
+    if (!fs) {
+      console.log("live: né DATABOX_URL/DATABOX_TOKEN né disponibilita.json valido → disponibilità non pubblicata");
+      return { fetchedAt, freshness: "unavailable", windows: [] };
+    }
+    source = fs.source;
+    fetchedAt = fs.generatedAt;
   }
 
   const windows = buildWindows(today, facts);
@@ -113,16 +166,17 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
     try {
       for (const day of eachDay(w.from, w.to)) {
         if (!inSeason(day, facts)) continue; // hotel chiusi: la notte non conta
-        if (calls++ >= MAX_CALLS) throw new Error("limite chiamate raggiunto");
-        const { rows, status } = await queryDay(baseUrl, token, day);
+        if (calls++ >= MAX_CALLS * 10) throw new Error("limite giorni raggiunto");
+        const { rows, status } = await source(day);
         if (status === "failing" || status === "stale") anyFailing = true;
         const perProp = new Map<string, number>();
         for (const r of rows) {
           if (!byId.has(r.property_id)) continue; // struttura non censita in facts.json: ignora
-          perProp.set(r.property_id, (perProp.get(r.property_id) ?? 0) + Math.max(0, r.free_after_options));
+          // saldo netto: l'overbooking di una tipologia consuma le libere delle altre
+          perProp.set(r.property_id, (perProp.get(r.property_id) ?? 0) + r.free_after_options);
         }
         for (const [id] of byId) {
-          const free = perProp.get(id) ?? 0;
+          const free = Math.max(0, perProp.get(id) ?? 0);
           minFree.set(id, Math.min(minFree.get(id) ?? Number.POSITIVE_INFINITY, free));
         }
       }
@@ -130,6 +184,7 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
       console.warn(`live: finestra ${w.key} saltata: ${(e as Error).message}`);
       continue;
     }
+    if (minFree.size === 0) continue; // nessuna notte aperta nella finestra
     out.push({
       key: w.key,
       label: w.label,

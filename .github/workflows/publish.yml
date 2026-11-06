@@ -2,11 +2,11 @@ name: Pubblica AlpStay AI Presence
 
 on:
   schedule:
-    # tre volte al giorno (UTC): 05:17, 11:17, 17:17 → disponibilità sempre fresca
-    - cron: "17 5,11,17 * * *"
+    # ogni 4 ore a un minuto poco affollato: GitHub ritarda o salta i giri programmati nelle ore di punta
+    - cron: "43 2,6,10,14,18,22 * * *"
   push:
     branches: [main]
-    paths: ["*.ts", "facts.json", "package.json", ".github/workflows/publish.yml"]
+    paths: ["*.ts", "facts.json", "disponibilita.json", "package.json", ".github/workflows/publish.yml"]
   workflow_dispatch:
 
 permissions:
@@ -48,6 +48,7 @@ jobs:
           git config user.email "info@alpstay.eu"
           git add .last-hash
           git diff --cached --quiet || git commit -m "chore: aggiorna hash build $(date -u +%F)"
+          git pull --rebase -q origin main || true
           git push || true
 
       - uses: actions/upload-pages-artifact@v3
