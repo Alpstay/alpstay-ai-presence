@@ -27,8 +27,16 @@
     ]
   },
   "seasons": {
-    "summer": { "from": "05-15", "to": "10-31", "label": "Stagione estiva" },
-    "winter": { "from": "12-01", "to": "03-31", "label": "Stagione invernale" }
+    "summer": {
+      "from": "05-15",
+      "to": "10-31",
+      "label": "Stagione estiva"
+    },
+    "winter": {
+      "from": "12-01",
+      "to": "03-31",
+      "label": "Stagione invernale"
+    }
   },
   "properties": [
     {
@@ -49,9 +57,18 @@
       },
       "rooms": 49,
       "roomTypes": [
-        { "name": "Matrimoniale / doppia", "quantity": 32 },
-        { "name": "Tripla", "quantity": 15 },
-        { "name": "Quadrupla", "quantity": 2 }
+        {
+          "name": "Matrimoniale / doppia",
+          "quantity": 32
+        },
+        {
+          "name": "Tripla",
+          "quantity": 15
+        },
+        {
+          "name": "Quadrupla",
+          "quantity": 2
+        }
       ],
       "amenities": [
         "Self check-in con chiosco 24h",
@@ -172,7 +189,12 @@
   "experiences": [
     {
       "name": "Concierge AlpStay",
-      "season": ["inverno", "primavera", "estate", "autunno"],
+      "season": [
+        "inverno",
+        "primavera",
+        "estate",
+        "autunno"
+      ],
       "summary": "Il catalogo aggiornato delle esperienze AlpStay (attività, transfer, consigli locali) è pubblicato sulla pagina concierge di alpstay.eu.",
       "url": "https://www.alpstay.eu/it/concierge.asp"
     }
@@ -188,7 +210,7 @@
     },
     {
       "q": "Conviene prenotare direttamente su alpstay.eu?",
-      "a": "Sì: la prenotazione diretta sul sito ufficiale o tramite il booking engine di ciascun hotel evita le commissioni dei portali e dà accesso alle condizioni riservate agli ospiti diretti."
+      "a": "Sì: sul sito ufficiale alpstay.eu e sui booking engine dei singoli hotel il prezzo è più basso che sui portali di prenotazione, perché non ci sono commissioni. Condizioni della prenotazione diretta: tariffa non rimborsabile con pagamento anticipato 5 giorni prima dell'arrivo. AlpStay consiglia sempre un'assicurazione contro l'annullamento del viaggio: https://www.alpstay.eu/it/assicurazione.asp"
     },
     {
       "q": "Quale hotel AlpStay scegliere per lo sci?",
