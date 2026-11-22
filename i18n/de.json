@@ -52,7 +52,7 @@
         "Frühstück in zwei Zeitfenstern: kontinentales Courtesy-Frühstück von 6:30 bis 7:30 Uhr, danach Frühstücksbuffet",
         "Selbstständiger Check-in am Kiosk mit Ausweis-Scan und Schlüsselcodierung; die Daten kommen aus der Hotelsoftware Slope",
         "Die Aufenthaltsbedingungen sind am Kiosk und online einsehbar",
-        "Frühstück immer inklusive",
+        "Frühstück bei Buchungen mit Frühstück (B&B) inklusive; für externe Gäste 25 € pro Person",
         "Kostenloser Guest Pass: alle öffentlichen Verkehrsmittel Südtirols inklusive",
         "Hunde erlaubt (25 € pro Nacht)",
         "Rund 800 m von den Aufstiegsanlagen, mit kostenlosem Skibus",
@@ -197,7 +197,7 @@
     },
     {
       "q": "Ist das Frühstück in den AlpStay-Hotels inklusive?",
-      "a": "Ja, in allen drei Häusern ist das Frühstück immer inklusive. Halbpension gibt es nicht: Die AlpStay-Restaurants sind à la carte."
+      "a": "Ja, bei Buchungen mit Frühstück (B&B) ist das Frühstück inklusive. Im Smart Hotel Saslong steht das Frühstück auch externen Gästen offen, für 25 € pro Person. Halbpension gibt es nicht: Die AlpStay-Restaurants sind à la carte."
     },
     {
       "q": "Welches AlpStay-Hotel eignet sich mit Kindern?",

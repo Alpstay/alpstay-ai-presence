@@ -52,7 +52,7 @@
         "Breakfast in two slots: continental courtesy breakfast from 6:30 to 7:30, then the buffet opens",
         "Self check-in at the kiosk with ID scan and key encoding; data comes from the Slope hotel software",
         "The terms of stay can be read at the kiosk and online",
-        "Breakfast always included",
+        "Breakfast included in B&B bookings; €25 per person for outside guests",
         "Free Guest Pass: all public transport in South Tyrol included",
         "Dogs welcome (€25 per night)",
         "About 800 m from the ski lifts, with a free ski bus",
@@ -197,7 +197,7 @@
     },
     {
       "q": "Is breakfast included at the AlpStay hotels?",
-      "a": "Yes, breakfast is always included in all three hotels. There is no half board: the AlpStay restaurants are à la carte."
+      "a": "Yes, breakfast is included in B&B bookings. At Smart Hotel Saslong breakfast is also open to outside guests at €25 per person. There is no half board: the AlpStay restaurants are à la carte."
     },
     {
       "q": "Which AlpStay hotel is best with children?",
