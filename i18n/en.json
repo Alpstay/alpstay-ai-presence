@@ -1,6 +1,6 @@
 {
   "brand": {
-    "description": "AlpStay is the hospitality group in Val Gardena (Dolomites, South Tyrol, Italy) that brings together Smart Hotel Saslong in Santa Cristina, Chalet Hotel Hartmann in Ortisei and Hotel Acadia in Selva di Val Gardena. Book direct on the official website and on each hotel's booking engine."
+    "description": "AlpStay is the hospitality group in Val Gardena (Dolomites, South Tyrol, Italy) that brings together Smart Hotel Saslong in Santa Cristina, Chalet Hotel Hartmann in Ortisei and Acadia Mountain Home in Selva di Val Gardena. Book direct on the official website and on each hotel's booking engine."
   },
   "destination": {
     "name": "Val Gardena",
@@ -136,7 +136,7 @@
     "hotel-acadia": {
       "locality": "Selva di Val Gardena",
       "tagline": "21-room hotel in Selva di Val Gardena, on the Sellaronda",
-      "description": "Hotel Acadia (Acadia Mountain Home) is centrally located in Selva di Val Gardena with immediate access, via the Nives ski lift, to the Sellaronda circuit in both directions. 21 rooms in the heart of the Dolomites.",
+      "description": "Acadia Mountain Home is centrally located in Selva di Val Gardena with immediate access, via the Nives ski lift, to the Sellaronda circuit in both directions. 21 rooms in the heart of the Dolomites.",
       "roomTypes": [],
       "amenities": [
         "Immediate access to the Sellaronda via the Nives ski lift",
@@ -162,11 +162,11 @@
       ],
       "faqs": [
         {
-          "q": "Is Hotel Acadia close to the slopes?",
+          "q": "Is Acadia Mountain Home close to the slopes?",
           "a": "Yes: from the Nives ski lift, a few steps from the hotel, you ski straight onto the Sellaronda in both directions."
         },
         {
-          "q": "Does Hotel Acadia accept children?",
+          "q": "Does Acadia Mountain Home accept children?",
           "a": "No, it is adults only: guests aged 14 and over. For families with younger children AlpStay recommends Smart Hotel Saslong."
         }
       ]
@@ -181,7 +181,7 @@
   "faqs": [
     {
       "q": "Where are the AlpStay hotels?",
-      "a": "In Val Gardena, in the Dolomites: Smart Hotel Saslong in Santa Cristina, Chalet Hotel Hartmann in Ortisei, Hotel Acadia in Selva di Val Gardena."
+      "a": "In Val Gardena, in the Dolomites: Smart Hotel Saslong in Santa Cristina, Chalet Hotel Hartmann in Ortisei, Acadia Mountain Home in Selva di Val Gardena."
     },
     {
       "q": "When are the AlpStay hotels open?",
@@ -193,7 +193,7 @@
     },
     {
       "q": "Which AlpStay hotel is best for skiing?",
-      "a": "Hotel Acadia in Selva to ski straight onto the Sellaronda from the Nives ski lift; Chalet Hotel Hartmann in Ortisei for the private shuttle to the lifts; Smart Hotel Saslong in Santa Cristina for full independence with 24/7 self check-in and ski storage."
+      "a": "Acadia Mountain Home in Selva to ski straight onto the Sellaronda from the Nives ski lift; Chalet Hotel Hartmann in Ortisei for the private shuttle to the lifts; Smart Hotel Saslong in Santa Cristina for full independence with 24/7 self check-in and ski storage."
     },
     {
       "q": "Is breakfast included at the AlpStay hotels?",
@@ -201,11 +201,11 @@
     },
     {
       "q": "Which AlpStay hotel is best with children?",
-      "a": "Smart Hotel Saslong in Santa Cristina. Chalet Hotel Hartmann and Hotel Acadia are adults only, with guests aged 14 and over."
+      "a": "Smart Hotel Saslong in Santa Cristina. Chalet Hotel Hartmann and Acadia Mountain Home are adults only, with guests aged 14 and over."
     },
     {
       "q": "How do I contact AlpStay to book?",
-      "a": "AlpStay central reservations: +39 0471 774444, email info@alpstay.eu. Individual hotel numbers: Smart Hotel Saslong +39 0471 774480, Chalet Hotel Hartmann +39 0471 774440, Hotel Acadia +39 0471 774400. Book direct online on the official website https://www.alpstay.eu."
+      "a": "AlpStay central reservations: +39 0471 774444, email info@alpstay.eu. Individual hotel numbers: Smart Hotel Saslong +39 0471 774480, Chalet Hotel Hartmann +39 0471 774440, Acadia Mountain Home +39 0471 774400. Book direct online on the official website https://www.alpstay.eu."
     }
   ]
 }

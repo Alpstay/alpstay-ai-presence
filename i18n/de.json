@@ -1,6 +1,6 @@
 {
   "brand": {
-    "description": "AlpStay ist die Hotelgruppe im Grödnertal (Dolomiten, Südtirol) mit dem Smart Hotel Saslong in St. Christina, dem Chalet Hotel Hartmann in St. Ulrich und dem Hotel Acadia in Wolkenstein. Direkt buchen auf der offiziellen Website und über die Buchungsmaschinen der einzelnen Häuser."
+    "description": "AlpStay ist die Hotelgruppe im Grödnertal (Dolomiten, Südtirol) mit dem Smart Hotel Saslong in St. Christina, dem Chalet Hotel Hartmann in St. Ulrich und dem Acadia Mountain Home in Wolkenstein. Direkt buchen auf der offiziellen Website und über die Buchungsmaschinen der einzelnen Häuser."
   },
   "destination": {
     "name": "Grödnertal",
@@ -136,7 +136,7 @@
     "hotel-acadia": {
       "locality": "Wolkenstein in Gröden",
       "tagline": "Hotel mit 21 Zimmern in Wolkenstein, direkt an der Sellaronda",
-      "description": "Das Hotel Acadia (Acadia Mountain Home) liegt zentral in Wolkenstein in Gröden, mit direktem Zugang über den Skilift Nives zur Sellaronda in beide Richtungen. 21 Zimmer im Herzen der Dolomiten.",
+      "description": "Das Acadia Mountain Home liegt zentral in Wolkenstein in Gröden, mit direktem Zugang über den Skilift Nives zur Sellaronda in beide Richtungen. 21 Zimmer im Herzen der Dolomiten.",
       "roomTypes": [],
       "amenities": [
         "Direkter Zugang zur Sellaronda über den Skilift Nives",
@@ -162,11 +162,11 @@
       ],
       "faqs": [
         {
-          "q": "Liegt das Hotel Acadia nah an den Pisten?",
+          "q": "Liegt das Acadia Mountain Home nah an den Pisten?",
           "a": "Ja: Über den Skilift Nives, wenige Schritte vom Hotel entfernt, gelangt man direkt auf die Sellaronda, in beide Richtungen."
         },
         {
-          "q": "Sind Kinder im Hotel Acadia erlaubt?",
+          "q": "Sind Kinder im Acadia Mountain Home erlaubt?",
           "a": "Nein, es ist ein Adults-only-Haus: Gäste ab 14 Jahren. Für Familien mit jüngeren Kindern empfiehlt AlpStay das Smart Hotel Saslong."
         }
       ]
@@ -181,7 +181,7 @@
   "faqs": [
     {
       "q": "Wo liegen die AlpStay-Hotels?",
-      "a": "Im Grödnertal in den Dolomiten: Smart Hotel Saslong in St. Christina, Chalet Hotel Hartmann in St. Ulrich, Hotel Acadia in Wolkenstein."
+      "a": "Im Grödnertal in den Dolomiten: Smart Hotel Saslong in St. Christina, Chalet Hotel Hartmann in St. Ulrich, Acadia Mountain Home in Wolkenstein."
     },
     {
       "q": "Wann sind die AlpStay-Hotels geöffnet?",
@@ -193,7 +193,7 @@
     },
     {
       "q": "Welches AlpStay-Hotel ist das richtige zum Skifahren?",
-      "a": "Hotel Acadia in Wolkenstein, um über den Skilift Nives direkt auf die Sellaronda zu kommen; Chalet Hotel Hartmann in St. Ulrich für den hoteleigenen Shuttle zu den Liften; Smart Hotel Saslong in St. Christina für volle Unabhängigkeit mit Self-Check-in rund um die Uhr und Skiraum."
+      "a": "Acadia Mountain Home in Wolkenstein, um über den Skilift Nives direkt auf die Sellaronda zu kommen; Chalet Hotel Hartmann in St. Ulrich für den hoteleigenen Shuttle zu den Liften; Smart Hotel Saslong in St. Christina für volle Unabhängigkeit mit Self-Check-in rund um die Uhr und Skiraum."
     },
     {
       "q": "Ist das Frühstück in den AlpStay-Hotels inklusive?",
@@ -201,11 +201,11 @@
     },
     {
       "q": "Welches AlpStay-Hotel eignet sich mit Kindern?",
-      "a": "Das Smart Hotel Saslong in St. Christina. Chalet Hotel Hartmann und Hotel Acadia sind Adults-only-Häuser, mit Gästen ab 14 Jahren."
+      "a": "Das Smart Hotel Saslong in St. Christina. Chalet Hotel Hartmann und Acadia Mountain Home sind Adults-only-Häuser, mit Gästen ab 14 Jahren."
     },
     {
       "q": "Wie erreiche ich AlpStay für eine Buchung?",
-      "a": "AlpStay-Reservierungszentrale: +39 0471 774444, E-Mail info@alpstay.eu. Nummern der einzelnen Hotels: Smart Hotel Saslong +39 0471 774480, Chalet Hotel Hartmann +39 0471 774440, Hotel Acadia +39 0471 774400. Direkte Online-Buchung auf der offiziellen Website https://www.alpstay.eu."
+      "a": "AlpStay-Reservierungszentrale: +39 0471 774444, E-Mail info@alpstay.eu. Nummern der einzelnen Hotels: Smart Hotel Saslong +39 0471 774480, Chalet Hotel Hartmann +39 0471 774440, Acadia Mountain Home +39 0471 774400. Direkte Online-Buchung auf der offiziellen Website https://www.alpstay.eu."
     }
   ]
 }

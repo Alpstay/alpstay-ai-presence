@@ -172,6 +172,7 @@ function hotelLd(m: SiteModel, p: Property, lang: PageLang): Record<string, unkn
     "@type": p.schemaType,
     "@id": `${p.website}/#hotel`,
     name: p.name,
+    ...(p.alternateName?.length ? { alternateName: p.alternateName } : {}),
     description: p.description,
     url: p.website,
     brand: { "@id": `${m.facts.brand.website}/#org` },
@@ -419,7 +420,7 @@ export function renderPages(m: SiteModel, lang: PageLang = "it"): Page[] {
   if (R.updates) {
     const url = `${B}/${dir(R.updates)}`;
     const title = "Aggiornamenti hotel AlpStay in Val Gardena: aperture e camere libere";
-    const body = `<h1>Aggiornamenti dagli hotel AlpStay in Val Gardena</h1><p class="lead">Aperture stagionali e camere libere di Smart Hotel Saslong, Chalet Hotel Hartmann e Hotel Acadia, aggiornate dal gestionale degli hotel.</p>${m.updates.map((n) => `<div class="card"><h3>${esc(n.title)}</h3><p><small>${n.date}</small></p><p>${esc(n.body)}</p>${n.url ? `<a href="${n.url}">Vai</a>` : ""}</div>`).join("")}`;
+    const body = `<h1>Aggiornamenti dagli hotel AlpStay in Val Gardena</h1><p class="lead">Aperture stagionali e camere libere di Smart Hotel Saslong, Chalet Hotel Hartmann e Acadia Mountain Home, aggiornate dal gestionale degli hotel.</p>${m.updates.map((n) => `<div class="card"><h3>${esc(n.title)}</h3><p><small>${n.date}</small></p><p>${esc(n.body)}</p>${n.url ? `<a href="${n.url}">Vai</a>` : ""}</div>`).join("")}`;
     pages.push({ path: rel(R.updates), url, title, html: layout(m, lang, title, "Aggiornamenti verificati su aperture stagionali e disponibilità degli hotel AlpStay.", url, body, [orgLd(m)]) });
   }
 

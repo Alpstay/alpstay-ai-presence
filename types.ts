@@ -38,6 +38,8 @@ export interface Property {
   /** ID struttura in La Scatola / Slope. MAI modificare. */
   scatolaPropertyId: string;
   name: string;
+  /** nomi precedenti o alternativi (schema.org alternateName) */
+  alternateName?: string[];
   /** schema.org type */
   schemaType: "Hotel" | "LodgingBusiness";
   tagline: string;
