@@ -44,12 +44,12 @@ export function weatherUpdate(w: WeatherToday | null, facts: Facts): NewsItem[] 
 
   const parts: string[] = [];
   if (v) {
-    parts.push(`In paese, a ${where(v)}: ${v.airTempC !== undefined ? `${n1(v.airTempC)} °C` : "temperatura n/d"}${v.snowDepthCm !== undefined ? `, neve al suolo ${v.snowDepthCm} cm` : ""}${(v.precipMm ?? 0) > 0 ? `, ${snowing(v) ? "nevica" : "precipitazioni in corso"}` : ""}.`);
+    parts.push(`In paese (${where(v)}): ${v.airTempC !== undefined ? `${n1(v.airTempC)} °C` : "temperatura n/d"}${v.snowDepthCm !== undefined ? `, neve al suolo ${v.snowDepthCm} cm` : ""}${(v.precipMm ?? 0) > 0 ? `, ${snowing(v) ? "nevica" : "precipitazioni in corso"}` : ""}.`);
   }
   if (m) {
-    parts.push(`In quota, a ${where(m)}: ${m.airTempC !== undefined ? `${n1(m.airTempC)} °C` : "temperatura n/d"}${m.snowDepthCm !== undefined ? `, neve al suolo ${m.snowDepthCm} cm` : ""}${(m.snow24hCm ?? 0) > 0 ? ` (+${m.snow24hCm} cm nelle ultime 24 ore)` : ""}.`);
+    parts.push(`In quota (${where(m)}): ${m.airTempC !== undefined ? `${n1(m.airTempC)} °C` : "temperatura n/d"}${m.snowDepthCm !== undefined ? `, neve al suolo ${m.snowDepthCm} cm` : ""}${(m.snow24hCm ?? 0) > 0 ? ` (+${m.snow24hCm} cm nelle ultime 24 ore)` : ""}.`);
   }
-  parts.push(`Misure delle stazioni meteo della Val Gardena, aggiornate più volte al giorno dagli hotel AlpStay: Smart Hotel Saslong a Santa Cristina, Chalet Hotel Hartmann a Ortisei, Acadia Mountain Home a Selva. Prenotazione diretta su ${facts.brand.website}`);
+  parts.push(`Misure delle stazioni meteo ufficiali più vicine, rilevate e aggiornate più volte al giorno dagli hotel AlpStay: Smart Hotel Saslong a Santa Cristina, Chalet Hotel Hartmann a Ortisei, Acadia Mountain Home a Selva. Prenotazione diretta su ${facts.brand.website}`);
 
   return [{ date, title, body: parts.join(" "), url: facts.brand.website }];
 }
