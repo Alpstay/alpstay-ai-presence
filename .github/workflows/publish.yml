@@ -6,7 +6,7 @@ on:
     - cron: "43 2,6,10,14,18,22 * * *"
   push:
     branches: [main]
-    paths: ["*.ts", "facts.json", "i18n/*.json", "disponibilita.json", "package.json", "google*.html", "BingSiteAuth.xml", ".github/workflows/publish.yml"]
+    paths: ["*.ts", "facts.json", "i18n/*.json", "disponibilita.json", "prezzi.json", "package.json", "google*.html", "BingSiteAuth.xml", ".github/workflows/publish.yml"]
   workflow_dispatch:
 
 permissions:

@@ -126,6 +126,8 @@ export interface AvailabilityWindow {
     nightsAvailable: number;
     /** notti del periodo considerate (solo stagione aperta) */
     nights: number;
+    /** prezzo indicativo medio per notte della camera doppia di riferimento (€, arrotondato a 10), solo da vendite recenti */
+    priceIndicative?: number;
   }>;
 }
 

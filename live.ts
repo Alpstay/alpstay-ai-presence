@@ -138,6 +138,31 @@ async function fileSource(today: Date): Promise<{ source: DaySource; stale: bool
   return { source, stale, generatedAt: f.generatedAt };
 }
 
+/** prezzi.json (tools/prezzi.mjs): prezzo indicativo per notte, per giorno e property_id. */
+interface PrezziFile { generatedAt: string; nights: Record<string, Record<string, { p: number; src: string }>> }
+const PRICE_MAX_HOURS = 48;
+async function loadPrices(today: Date): Promise<PrezziFile | null> {
+  try {
+    const ROOT = new URL(".", import.meta.url).pathname;
+    const f = JSON.parse(await readFile(join(ROOT, "prezzi.json"), "utf8")) as PrezziFile;
+    const ageH = (today.getTime() - new Date(f.generatedAt).getTime()) / 3_600_000;
+    if (!Number.isFinite(ageH) || ageH > PRICE_MAX_HOURS) {
+      console.log(`live: prezzi.json troppo vecchio (${Math.round(ageH)} h) → prezzi non pubblicati`);
+      return null;
+    }
+    return f;
+  } catch {
+    return null;
+  }
+}
+/** Media delle notti con prezzo, pubblicata solo se copre almeno metà delle notti aperte del periodo. */
+function windowPrice(prices: PrezziFile | null, propertyId: string, days: string[]): number | undefined {
+  if (!prices || days.length === 0) return undefined;
+  const vals = days.map((d) => prices.nights[d]?.[propertyId]?.p).filter((v): v is number => typeof v === "number" && v > 0);
+  if (vals.length * 2 < days.length) return undefined;
+  return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length / 10) * 10;
+}
+
 export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveSnapshot> {
   const baseUrl = process.env.DATABOX_URL;
   const token = process.env.DATABOX_TOKEN;
@@ -156,6 +181,7 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
   }
 
   const windows = buildWindows(today, facts);
+  const prices = await loadPrices(today);
   const byId = new Map<string, Property>(facts.properties.map((p) => [p.scatolaPropertyId, p]));
   const out: AvailabilityWindow[] = [];
   let calls = 0;
@@ -166,6 +192,7 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
     const minFree = new Map<string, number>();
     const freeNights = new Map<string, number>();
     let nights = 0;
+    const openDays: string[] = [];
     try {
       for (const day of eachDay(w.from, w.to)) {
         if (!inSeason(day, facts)) continue; // hotel chiusi: la notte non conta
@@ -179,6 +206,7 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
           perProp.set(r.property_id, (perProp.get(r.property_id) ?? 0) + (r.physical_rooms - r.free_after_options));
         }
         nights++;
+        openDays.push(day);
         for (const [id, p] of byId) {
           const free = Math.max(0, p.rooms - (perProp.get(id) ?? 0));
           minFree.set(id, Math.min(minFree.get(id) ?? Number.POSITIVE_INFINITY, free));
@@ -200,7 +228,8 @@ export async function fetchLive(facts: Facts, today = new Date()): Promise<LiveS
         const n = free === undefined || !Number.isFinite(free) ? -1 : free;
         const fn = freeNights.get(p.scatolaPropertyId) ?? 0;
         const status = n < 0 ? "n/d" : n === 0 && fn > 0 ? "parziale" : statusOf(n);
-        return { slug: p.slug, name: p.name, minFreeRooms: Math.max(n, 0), status, nightsAvailable: fn, nights };
+        const priceIndicative = status === "esaurito" ? undefined : windowPrice(prices, p.scatolaPropertyId, openDays);
+        return { slug: p.slug, name: p.name, minFreeRooms: Math.max(n, 0), status, nightsAvailable: fn, nights, ...(priceIndicative ? { priceIndicative } : {}) };
       }),
     });
   }

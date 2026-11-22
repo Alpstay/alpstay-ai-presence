@@ -196,6 +196,17 @@ function faqLd(faqs: Array<{ q: string; a: string }>): Record<string, unknown> {
 
 /** Testo della disponibilità di un hotel in un periodo, comprensibile da persone e assistenti IA. */
 export function availabilityText(p: AvailabilityWindow["properties"][number], lang: PageLang = "it"): string {
+  const base = availabilityBase(p, lang);
+  if (!p.priceIndicative) return base;
+  return base + tx(
+    lang,
+    ` · prezzo indicativo circa ${p.priceIndicative} € a notte per una camera doppia (il prezzo valido è quello del booking engine)`,
+    ` · Richtpreis ca. ${p.priceIndicative} € pro Nacht für ein Doppelzimmer (verbindlich ist der Preis der Buchungsmaschine)`,
+    ` · indicative price about €${p.priceIndicative} per night for a double room (the booking engine price applies)`,
+  );
+}
+
+function availabilityBase(p: AvailabilityWindow["properties"][number], lang: PageLang): string {
   const n = p.minFreeRooms;
   switch (p.status) {
     case "n/d":
@@ -247,9 +258,9 @@ function availabilityTable(m: SiteModel, lang: PageLang, filterSlug?: string): s
       : "";
   const intro = tx(
     lang,
-    `Camere libere per periodo, calcolate notte per notte dal gestionale degli hotel e aggiornate il ${ts} UTC. Nessun prezzo: le tariffe sono sempre quelle del booking engine.`,
-    `Freie Zimmer pro Zeitraum, Nacht für Nacht aus der Hotelsoftware berechnet und aktualisiert am ${ts} UTC. Keine Preise: Es gelten immer die Tarife der Buchungsmaschine.`,
-    `Free rooms per period, calculated night by night from the hotels' software and updated on ${ts} UTC. No prices: rates are always those of the booking engine.`,
+    `Camere libere per periodo, calcolate notte per notte dal gestionale degli hotel e aggiornate il ${ts} UTC. I prezzi indicativi sono calcolati sulle vendite recenti della camera doppia: il prezzo valido è sempre quello del booking engine.`,
+    `Freie Zimmer pro Zeitraum, Nacht für Nacht aus der Hotelsoftware berechnet und aktualisiert am ${ts} UTC. Richtpreise werden aus den jüngsten Verkäufen des Doppelzimmers berechnet: verbindlich ist immer der Preis der Buchungsmaschine.`,
+    `Free rooms per period, calculated night by night from the hotels' software and updated on ${ts} UTC. Indicative prices are calculated from recent sales of the double room: the booking engine price always applies.`,
   );
   return `<p><small>${intro}</small></p>
 <table><thead><tr><th>${tx(lang, "Periodo", "Zeitraum", "Period")}</th><th>Hotel</th><th>${tx(lang, "Disponibilità", "Verfügbarkeit", "Availability")}</th></tr></thead><tbody>${rows}</tbody></table>${note}`;
