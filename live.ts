@@ -51,8 +51,30 @@ export function buildWindows(today: Date, facts: Facts): Array<{ key: string; la
     { key: `ferragosto-${y}`, label: `Ferragosto ${y}`, from: `${y}-08-10`, to: `${y}-08-20` },
     { key: `ferragosto-${y + 1}`, label: `Ferragosto ${y + 1}`, from: `${y + 1}-08-10`, to: `${y + 1}-08-20` },
   ];
-  // solo finestre future (entro 400 giorni) e dentro le stagioni di apertura
-  return candidates.filter((w) => w.to >= t && w.from <= iso(addDays(today, 400)) && inSeason(w.from, facts));
+  // Periodi più difficili da vendere (scelta del titolare, 22/11/2026): inizio dicembre e marzo a settimane,
+  // settembre e ottobre a quindicine. Prossima occorrenza di ciascuno.
+  for (const [mdFrom, mdTo] of LOW_SEASON) {
+    let yy = y;
+    if (`${yy}-${mdTo}` < t) yy++;
+    const from = `${yy}-${mdFrom}`, to = `${yy}-${mdTo}`;
+    candidates.push({ key: `bassa-${from}-${to}`, label: rangeLabelIt(from, to), from, to });
+  }
+  // solo finestre future (entro 400 giorni) e dentro le stagioni di apertura, in ordine di data
+  return candidates
+    .filter((w) => w.to >= t && w.from <= iso(addDays(today, 400)) && inSeason(w.from, facts))
+    .sort((a, b) => a.from.localeCompare(b.from));
+}
+
+/** Periodi di bassa stagione pubblicati (MM-DD inclusivi). Tenere allineato con tools/finestre.mjs. */
+export const LOW_SEASON: Array<[string, string]> = [
+  ["12-01", "12-07"], ["12-08", "12-14"], ["12-15", "12-21"],
+  ["03-01", "03-07"], ["03-08", "03-14"], ["03-15", "03-21"], ["03-22", "03-31"],
+  ["09-01", "09-15"], ["09-16", "09-30"],
+  ["10-01", "10-15"], ["10-16", "10-31"],
+];
+const MESI_IT = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+function rangeLabelIt(from: string, to: string): string {
+  return `${Number(from.slice(8))}–${Number(to.slice(8))} ${MESI_IT[Number(from.slice(5, 7)) - 1]} ${from.slice(0, 4)}`;
 }
 
 function inSeason(dayIso: string, facts: Facts): boolean {

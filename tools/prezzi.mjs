@@ -72,6 +72,7 @@ function pagesFromTranscript(since) {
   const file = newestTranscript();
   if (!file) throw new Error("registro della sessione non trovato");
   const calls = new Map();
+  const inputs = new Map();
   for (const line of readFileSync(file, "utf8").split("\n")) {
     if (!line.includes("tool_use") && !line.includes("tool_result")) continue;
     let o;
@@ -83,8 +84,16 @@ function pagesFromTranscript(since) {
       if (b.type === "tool_use" && /scatola/i.test(String(b.name)) && /query_curated_view$/.test(String(b.name))
           && b.input?.view === "curated_reservations" && at >= since) {
         calls.set(b.id, null);
+        inputs.set(b.id, b.input);
       } else if (b.type === "tool_result" && calls.has(b.tool_use_id) && b.is_error !== true) {
-        calls.set(b.tool_use_id, asPage(b.content));
+        const pg = asPage(b.content);
+        if (pg) {
+          const f = inputs.get(b.tool_use_id)?.filters ?? [];
+          const types = f.find((x) => x.field === "lodging_type_id")?.value;
+          pg.__refOnly = Array.isArray(types) && types.every((t) => Object.values(REF).includes(t))
+            && f.some((x) => x.field === "is_canceled" && x.op === "eq" && x.value === false);
+        }
+        calls.set(b.tool_use_id, pg);
       }
     }
   }
@@ -111,6 +120,22 @@ for (const env of pages) {
   if (st && (RANK[st] ?? 1) > (RANK[worst] ?? 0)) worst = st;
   for (const r of env.data) {
     if (!UUID.test(String(r.property_id)) || !REF[r.property_id]) continue;
+    if (r.count_reservation_id !== undefined) {
+      // riga aggregata (group_by property_id, arrival, departure, channel_bucket, creation_date):
+      // stesso istante di creazione = stesso ordine; 3+ camere = gruppo, escluso.
+      // Accettata solo se la query filtrava tipologia di riferimento e non cancellate.
+      if (!env.__refOnly) continue;
+      const n = Number(r.count_reservation_id) || 0;
+      const key = `agg|${r.property_id}|${r.arrival}|${r.departure}|${r.channel_bucket}|${r.creation_date}`;
+      rows.set(key, {
+        property_id: String(r.property_id), type: REF[r.property_id], order: key, rooms: n,
+        arrival: String(r.arrival).slice(0, 10), departure: String(r.departure).slice(0, 10),
+        persons: Math.round(Number(r.avg_adults) || 0), created: String(r.creation_date ?? ""), canceled: false,
+        nightly: Number(r.sum_room_amount) / Math.max(1, Number(r.sum_room_nights) || 0),
+        direct: r.channel_bucket === "direct", ota: r.channel_bucket === "ota",
+      });
+      continue;
+    }
     rows.set(String(r.reservation_id), {
       property_id: String(r.property_id), type: String(r.lodging_type_id), order: String(r.order_id ?? ""),
       arrival: String(r.arrival).slice(0, 10), departure: String(r.departure).slice(0, 10),
@@ -122,7 +147,7 @@ for (const env of pages) {
   }
 }
 const perOrder = new Map();
-for (const r of rows.values()) if (r.order) perOrder.set(`${r.property_id}|${r.order}`, (perOrder.get(`${r.property_id}|${r.order}`) ?? 0) + 1);
+for (const r of rows.values()) if (r.rooms !== undefined) perOrder.set(`${r.property_id}|${r.order}`, r.rooms); else if (r.order) perOrder.set(`${r.property_id}|${r.order}`, (perOrder.get(`${r.property_id}|${r.order}`) ?? 0) + 1);
 const pool = [...rows.values()].filter((r) => !r.canceled && r.type === REF[r.property_id] && r.created >= minCreated
   && (r.direct || r.ota) && r.nightly > 0 && (perOrder.get(`${r.property_id}|${r.order}`) ?? 0) < GROUP_ROOMS);
 

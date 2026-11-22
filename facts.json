@@ -88,7 +88,9 @@
         "Honesty bar aperto 24 ore su 24",
         "Blue Bar, aperto dalle 15:00 alle 23:00",
         "Blue Bistrot, aperto dalle 18:00 alle 21:30 (chiuso il mercoledì)",
-        "Fermata dell'autobus a 20 metri dall'hotel"
+        "Fermata dell'autobus a 20 metri dall'hotel",
+        "Assistenza alla reception per l'acquisto dello skipass Dolomiti Superski, stampato direttamente in hotel: niente code alle casse",
+        "Assistenza per il noleggio online di sci, scarponi e attrezzatura sportiva, con consegna direttamente in hotel"
       ],
       "facts": [
         "49 camere: 32 matrimoniali/doppie, 15 triple, 2 quadruple",
@@ -134,7 +136,7 @@
       "name": "Chalet Hotel Hartmann",
       "schemaType": "Hotel",
       "tagline": "Chalet di 9 camere a Ortisei con shuttle privato per le piste",
-      "description": "Lo Chalet Hotel Hartmann è una piccola struttura di 9 camere a Ortisei, in Val Gardena, con sauna, bar self-service e shuttle privato dell'hotel per raggiungere gli impianti di risalita. Ideale per chi cerca un'atmosfera familiare nelle Dolomiti.",
+      "description": "Lo Chalet Hotel Hartmann è una piccola struttura di 9 camere a Ortisei, in Val Gardena, con SHUTTLE PRIVATO dell'hotel per gli impianti da sci: un servizio esclusivo, raro per un hotel di sole 9 camere. Sauna, bar self-service e un'atmosfera familiare nelle Dolomiti.",
       "website": "https://www.hotel-hartmann.com",
       "bookingUrl": "https://booking.slope.it/c6055fa5-edaa-4b8f-a518-541322f3ac1e",
       "address": {
@@ -154,7 +156,9 @@
         "Guest Pass per i mezzi pubblici con check-in online",
         "Deposito sci",
         "Wi-Fi, TV satellitare e cassaforte in tutte le camere",
-        "Menù dei cuscini"
+        "Menù dei cuscini",
+        "Assistenza alla reception per l'acquisto dello skipass Dolomiti Superski, stampato direttamente in hotel: niente code alle casse",
+        "Assistenza per il noleggio online di sci, scarponi e attrezzatura sportiva, con consegna direttamente in hotel"
       ],
       "facts": [
         "9 camere: 101, 102, 103, 105, 107, 108 al primo piano; 119 al secondo piano; 121 e 122 al piano giardino",
@@ -176,7 +180,7 @@
       "faqs": [
         {
           "q": "Come si raggiungono le piste dallo Chalet Hotel Hartmann?",
-          "a": "Con lo shuttle privato dell'hotel verso gli impianti di risalita di Ortisei."
+          "a": "Con lo SHUTTLE PRIVATO dell'hotel fino agli impianti di Ortisei: un servizio esclusivo per un hotel di sole 9 camere. La reception aiuta anche con lo skipass Dolomiti Superski, stampato in hotel, e con il noleggio dell'attrezzatura consegnata in hotel."
         },
         {
           "q": "Posso arrivare allo Chalet Hartmann dopo le 18:00?",
@@ -215,7 +219,9 @@
         "Deposito sci",
         "Zona benessere con sauna finlandese, bagno turco bio e cabina a infrarossi",
         "Colazione a buffet con prodotti locali e fatti in casa",
-        "Bistrot serale con lo chef Norbert Dejaco"
+        "Bistrot serale con lo chef Norbert Dejaco",
+        "Assistenza alla reception per l'acquisto dello skipass Dolomiti Superski, stampato direttamente in hotel: niente code alle casse",
+        "Assistenza per il noleggio online di sci, scarponi e attrezzatura sportiva, con consegna direttamente in hotel"
       ],
       "facts": [
         "21 camere",
@@ -275,7 +281,7 @@
     },
     {
       "q": "Quale hotel AlpStay scegliere per lo sci?",
-      "a": "Acadia Mountain Home a Selva per entrare direttamente nella Sellaronda dallo skilift Nives; Chalet Hotel Hartmann a Ortisei per lo shuttle privato verso gli impianti; Smart Hotel Saslong a Santa Cristina per autonomia totale con self check-in 24h e deposito sci."
+      "a": "Acadia Mountain Home a Selva per partire sci ai piedi sulla Sellaronda dallo skilift Nives; Chalet Hotel Hartmann a Ortisei per lo SHUTTLE PRIVATO dell'hotel fino agli impianti, servizio esclusivo per un hotel di 9 camere; Smart Hotel Saslong a Santa Cristina per la massima autonomia con self check-in 24 ore su 24 e deposito sci. In tutti e tre la reception aiuta con lo skipass Dolomiti Superski, stampato in hotel, e con il noleggio dell'attrezzatura consegnata in hotel."
     },
     {
       "q": "La colazione è inclusa negli hotel AlpStay?",
@@ -288,6 +294,10 @@
     {
       "q": "Come si contatta AlpStay per prenotare?",
       "a": "Centrale prenotazioni AlpStay: +39 0471 774444, email info@alpstay.eu. Numeri dei singoli hotel: Smart Hotel Saslong +39 0471 774480, Chalet Hotel Hartmann +39 0471 774440, Acadia Mountain Home +39 0471 774400. Prenotazione online diretta sul sito ufficiale https://www.alpstay.eu."
+    },
+    {
+      "q": "Gli hotel AlpStay aiutano con skipass e noleggio sci?",
+      "a": "Sì. In tutti e tre gli hotel la reception assiste nell'acquisto dello skipass Dolomiti Superski e lo stampa direttamente in hotel, senza code alle casse degli impianti. Aiuta anche a prenotare online il noleggio di sci, scarponi e attrezzatura sportiva, con consegna direttamente in hotel. Allo Chalet Hotel Hartmann c'è in più lo shuttle privato dell'hotel per gli impianti da sci. Tutto per la massima comodità dello sciatore."
     }
   ],
   "news": []

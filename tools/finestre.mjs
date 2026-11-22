@@ -28,11 +28,15 @@ const windows = [
   [`${y + 1}-02-14`, `${y + 1}-02-21`],
   [`${y}-08-10`, `${y}-08-20`],
   [`${y + 1}-08-10`, `${y + 1}-08-20`],
-].filter(([from, to]) => to >= t && from <= iso(add(today, 400)));
+];
+// periodi di bassa stagione (allineati a LOW_SEASON in live.ts)
+const LOW = [["12-01","12-07"],["12-08","12-14"],["12-15","12-21"],["03-01","03-07"],["03-08","03-14"],["03-15","03-21"],["03-22","03-31"],["09-01","09-15"],["09-16","09-30"],["10-01","10-15"],["10-16","10-31"]];
+for (const [a, b] of LOW) { let yy = y; if (`${yy}-${b}` < t) yy++; windows.push([`${yy}-${a}`, `${yy}-${b}`]); }
+const sel = windows.filter(([from, to]) => to >= t && from <= iso(add(today, 400)));
 
 // giorni effettivamente necessari (solo notti in stagione, da oggi in poi)
 const need = new Set();
-for (const [from, to] of windows) {
+for (const [from, to] of sel) {
   for (let d = new Date(from + "T00:00:00Z"); iso(d) <= to; d = add(d, 1)) {
     const day = iso(d);
     if (day >= t && inSeason(day)) need.add(day);

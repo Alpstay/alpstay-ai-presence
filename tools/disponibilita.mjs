@@ -64,6 +64,7 @@ function newestTranscript() {
 
 /** Pagine delle chiamate a curated_availability_daily presenti nel registro della sessione. */
 const cover = [];
+const followed = new Set(); // cursori già seguiti in chiamate successive
 function pagesFromTranscript(since) {
   const file = newestTranscript();
   if (!file) throw new Error("registro della sessione non trovato");
@@ -80,6 +81,7 @@ function pagesFromTranscript(since) {
           && b.input?.view === "curated_availability_daily" && at >= since) {
         calls.set(b.id, null);
         for (const f of b.input.filters ?? []) if (f.field === "day") cover.push([f.op, String(f.value)]);
+        if (typeof b.input.cursor === "string") followed.add(b.input.cursor);
       } else if (b.type === "tool_result" && calls.has(b.tool_use_id) && b.is_error !== true) {
         calls.set(b.tool_use_id, asPage(b.content));
       }
@@ -111,14 +113,14 @@ let truncated = false;
 for (const env of pages) {
   const st = env.freshness?.overall?.status;
   if (st && (RANK[st] ?? 1) > (RANK[worst] ?? 0)) worst = st;
-  if (env.page?.next_cursor) truncated = true;
+  if (env.page?.next_cursor && !followed.has(env.page.next_cursor)) truncated = true; // pagina successiva mai letta
   for (const r of env.data) {
     if (!UUID.test(String(r.property_id)) || !DAY.test(String(r.day))) continue;
     const key = `${r.property_id}|${r.lodging_type_id}|${r.day}`;
     if (seen.has(key)) continue; // chiamate sovrapposte: non contare due volte
     seen.add(key);
     // camere occupate (overbooking compreso): physical_rooms - free_after_options
-    const occ = (Number(r.physical_rooms) || 0) - (Number(r.free_after_options) || 0);
+    const occ = (Number(r.physical_rooms ?? r.sum_physical_rooms) || 0) - (Number(r.free_after_options ?? r.sum_free_after_options) || 0); // righe singole o aggregate per property_id+day
     (days[r.day] ??= {})[r.property_id] = (days[r.day][r.property_id] ?? 0) + occ;
     rows++;
   }

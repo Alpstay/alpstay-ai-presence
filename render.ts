@@ -46,6 +46,11 @@ const giorno = (md: string, lang: PageLang = "it"): string => {
 /** Etichetta della finestra di disponibilità nella lingua della pagina (la chiave viene da live.ts). */
 function windowLabel(w: AvailabilityWindow, lang: PageLang): string {
   if (lang === "it") return w.label;
+  if (w.key.startsWith("bassa-")) {
+    const mese = MESI[lang][Number(w.from.slice(5, 7)) - 1] ?? "";
+    const d1 = Number(w.from.slice(8)), d2 = Number(w.to.slice(8)), yy = w.from.slice(0, 4);
+    return lang === "de" ? `${d1}.–${d2}. ${mese} ${yy}` : `${d1}–${d2} ${mese} ${yy}`;
+  }
   const y = (w.key.match(/(\d{4})$/) ?? [])[1] ?? "";
   const ny = String(Number(y) + 1);
   if (w.key.startsWith("prossimi-7-giorni")) return tx(lang, "", "Nächste 7 Tage", "Next 7 days");

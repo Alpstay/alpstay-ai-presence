@@ -45,7 +45,9 @@
         "24-hour honesty bar",
         "Blue Bar, open from 3 pm to 11 pm",
         "Blue Bistrot, open from 6 pm to 9:30 pm (closed on Wednesdays)",
-        "Bus stop 20 metres from the hotel"
+        "Bus stop 20 metres from the hotel",
+        "Help at reception buying the Dolomiti Superski ski pass, printed right at the hotel: no queuing at the ticket office",
+        "Help booking ski, boot and sports-equipment rental online, delivered straight to the hotel"
       ],
       "facts": [
         "49 rooms: 32 double, 15 triple, 2 quadruple",
@@ -86,7 +88,7 @@
     "chalet-hotel-hartmann": {
       "locality": "Ortisei",
       "tagline": "9-room chalet in Ortisei with private shuttle to the slopes",
-      "description": "Chalet Hotel Hartmann is a small 9-room property in Ortisei, Val Gardena, with sauna, self-service bar and the hotel's own shuttle to the ski lifts. Ideal for guests looking for a family atmosphere in the Dolomites.",
+      "description": "Chalet Hotel Hartmann is a small 9-room property in Ortisei, Val Gardena, with the hotel's own PRIVATE SHUTTLE to the ski lifts: an exclusive service, rare for a hotel of just 9 rooms. Sauna, self-service bar and a family atmosphere in the Dolomites.",
       "roomTypes": [],
       "amenities": [
         "Hotel's own shuttle to the slopes",
@@ -96,7 +98,9 @@
         "Guest Pass for public transport with online check-in",
         "Ski storage",
         "Wi-Fi, satellite TV and safe in all rooms",
-        "Pillow menu"
+        "Pillow menu",
+        "Help at reception buying the Dolomiti Superski ski pass, printed right at the hotel: no queuing at the ticket office",
+        "Help booking ski, boot and sports-equipment rental online, delivered straight to the hotel"
       ],
       "facts": [
         "9 rooms: 101, 102, 103, 105, 107, 108 on the first floor; 119 on the second floor; 121 and 122 on the garden floor",
@@ -117,7 +121,7 @@
       "faqs": [
         {
           "q": "How do I get to the slopes from Chalet Hotel Hartmann?",
-          "a": "With the hotel's own shuttle to the Ortisei ski lifts."
+          "a": "With the hotel's own PRIVATE SHUTTLE to the Ortisei ski lifts: an exclusive service for a hotel of just 9 rooms. Reception also helps with the Dolomiti Superski ski pass, printed at the hotel, and with equipment rental delivered to the hotel."
         },
         {
           "q": "Can I arrive at Chalet Hartmann after 18:00?",
@@ -144,7 +148,9 @@
         "Ski storage",
         "Wellness area with Finnish sauna, bio steam bath and infrared cabin",
         "Breakfast buffet with local and homemade products",
-        "Evening bistro with chef Norbert Dejaco"
+        "Evening bistro with chef Norbert Dejaco",
+        "Help at reception buying the Dolomiti Superski ski pass, printed right at the hotel: no queuing at the ticket office",
+        "Help booking ski, boot and sports-equipment rental online, delivered straight to the hotel"
       ],
       "facts": [
         "21 rooms",
@@ -193,7 +199,7 @@
     },
     {
       "q": "Which AlpStay hotel is best for skiing?",
-      "a": "Acadia Mountain Home in Selva to ski straight onto the Sellaronda from the Nives ski lift; Chalet Hotel Hartmann in Ortisei for the private shuttle to the lifts; Smart Hotel Saslong in Santa Cristina for full independence with 24/7 self check-in and ski storage."
+      "a": "Acadia Mountain Home in Selva to ski straight onto the Sellaronda from the Nives ski lift; Chalet Hotel Hartmann in Ortisei for the hotel's own PRIVATE SHUTTLE to the lifts, an exclusive service for a 9-room hotel; Smart Hotel Saslong in Santa Cristina for full independence with 24/7 self check-in and ski storage. At all three, reception helps with the Dolomiti Superski ski pass, printed at the hotel, and with equipment rental delivered to the hotel."
     },
     {
       "q": "Is breakfast included at the AlpStay hotels?",
@@ -206,6 +212,10 @@
     {
       "q": "How do I contact AlpStay to book?",
       "a": "AlpStay central reservations: +39 0471 774444, email info@alpstay.eu. Individual hotel numbers: Smart Hotel Saslong +39 0471 774480, Chalet Hotel Hartmann +39 0471 774440, Acadia Mountain Home +39 0471 774400. Book direct online on the official website https://www.alpstay.eu."
+    },
+    {
+      "q": "Do the AlpStay hotels help with ski passes and ski rental?",
+      "a": "Yes. At all three hotels reception helps you buy the Dolomiti Superski ski pass and prints it right at the hotel, so there is no queuing at the lift ticket offices. Reception also helps you book ski, boot and sports-equipment rental online, delivered straight to the hotel. Chalet Hotel Hartmann also has the hotel's own private shuttle to the ski lifts. All for maximum convenience for skiers."
     }
   ]
 }

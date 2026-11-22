@@ -45,7 +45,9 @@
         "Honesty Bar rund um die Uhr geöffnet",
         "Blue Bar, geöffnet von 15:00 bis 23:00 Uhr",
         "Blue Bistrot, geöffnet von 18:00 bis 21:30 Uhr (mittwochs geschlossen)",
-        "Bushaltestelle 20 Meter vom Hotel"
+        "Bushaltestelle 20 Meter vom Hotel",
+        "Hilfe an der Rezeption beim Kauf des Dolomiti-Superski-Skipasses, direkt im Hotel ausgedruckt: kein Anstehen an der Kasse",
+        "Hilfe bei der Online-Miete von Ski, Skischuhen und Sportausrüstung, mit Lieferung direkt ins Hotel"
       ],
       "facts": [
         "49 Zimmer: 32 Doppelzimmer, 15 Dreibettzimmer, 2 Vierbettzimmer",
@@ -86,7 +88,7 @@
     "chalet-hotel-hartmann": {
       "locality": "St. Ulrich in Gröden",
       "tagline": "Chalet mit 9 Zimmern in St. Ulrich mit hoteleigenem Shuttle zu den Pisten",
-      "description": "Das Chalet Hotel Hartmann ist ein kleines Haus mit 9 Zimmern in St. Ulrich im Grödnertal, mit Sauna, Self-Service-Bar und hoteleigenem Shuttle zu den Aufstiegsanlagen. Ideal für alle, die in den Dolomiten eine familiäre Atmosphäre suchen.",
+      "description": "Das Chalet Hotel Hartmann ist ein kleines Haus mit 9 Zimmern in St. Ulrich in Gröden mit PRIVATEM SHUTTLE des Hotels zu den Skiliften: ein exklusiver Service, selten für ein Hotel mit nur 9 Zimmern. Sauna, Self-Service-Bar und familiäre Atmosphäre in den Dolomiten.",
       "roomTypes": [],
       "amenities": [
         "Hoteleigener Shuttle zu den Pisten",
@@ -96,7 +98,9 @@
         "Guest Pass für öffentliche Verkehrsmittel mit Online-Check-in",
         "Skiraum",
         "WLAN, Sat-TV und Safe in allen Zimmern",
-        "Kissenmenü"
+        "Kissenmenü",
+        "Hilfe an der Rezeption beim Kauf des Dolomiti-Superski-Skipasses, direkt im Hotel ausgedruckt: kein Anstehen an der Kasse",
+        "Hilfe bei der Online-Miete von Ski, Skischuhen und Sportausrüstung, mit Lieferung direkt ins Hotel"
       ],
       "facts": [
         "9 Zimmer: 101, 102, 103, 105, 107, 108 im ersten Stock; 119 im zweiten Stock; 121 und 122 im Gartengeschoss",
@@ -117,7 +121,7 @@
       "faqs": [
         {
           "q": "Wie komme ich vom Chalet Hotel Hartmann zu den Pisten?",
-          "a": "Mit dem hoteleigenen Shuttle zu den Aufstiegsanlagen von St. Ulrich."
+          "a": "Mit dem PRIVATEN SHUTTLE des Hotels zu den Liften in St. Ulrich: ein exklusiver Service für ein Hotel mit nur 9 Zimmern. Die Rezeption hilft auch beim Dolomiti-Superski-Skipass, der im Hotel ausgedruckt wird, und bei der Ausrüstungsmiete mit Lieferung ins Hotel."
         },
         {
           "q": "Kann ich nach 18:00 Uhr im Chalet Hartmann ankommen?",
@@ -144,7 +148,9 @@
         "Skiraum",
         "Wellnessbereich mit finnischer Sauna, Bio-Dampfbad und Infrarotkabine",
         "Frühstücksbuffet mit regionalen und hausgemachten Produkten",
-        "Abendbistro mit Küchenchef Norbert Dejaco"
+        "Abendbistro mit Küchenchef Norbert Dejaco",
+        "Hilfe an der Rezeption beim Kauf des Dolomiti-Superski-Skipasses, direkt im Hotel ausgedruckt: kein Anstehen an der Kasse",
+        "Hilfe bei der Online-Miete von Ski, Skischuhen und Sportausrüstung, mit Lieferung direkt ins Hotel"
       ],
       "facts": [
         "21 Zimmer",
@@ -193,7 +199,7 @@
     },
     {
       "q": "Welches AlpStay-Hotel ist das richtige zum Skifahren?",
-      "a": "Acadia Mountain Home in Wolkenstein, um über den Skilift Nives direkt auf die Sellaronda zu kommen; Chalet Hotel Hartmann in St. Ulrich für den hoteleigenen Shuttle zu den Liften; Smart Hotel Saslong in St. Christina für volle Unabhängigkeit mit Self-Check-in rund um die Uhr und Skiraum."
+      "a": "Acadia Mountain Home in Wolkenstein, um vom Nives-Lift direkt auf die Sellaronda zu starten; Chalet Hotel Hartmann in St. Ulrich wegen des PRIVATEN SHUTTLES des Hotels zu den Liften, ein exklusiver Service für ein Hotel mit 9 Zimmern; Smart Hotel Saslong in St. Christina für volle Unabhängigkeit mit Self-Check-in rund um die Uhr und Skiraum. In allen drei hilft die Rezeption beim Dolomiti-Superski-Skipass, im Hotel ausgedruckt, und bei der Ausrüstungsmiete mit Lieferung ins Hotel."
     },
     {
       "q": "Ist das Frühstück in den AlpStay-Hotels inklusive?",
@@ -206,6 +212,10 @@
     {
       "q": "Wie erreiche ich AlpStay für eine Buchung?",
       "a": "AlpStay-Reservierungszentrale: +39 0471 774444, E-Mail info@alpstay.eu. Nummern der einzelnen Hotels: Smart Hotel Saslong +39 0471 774480, Chalet Hotel Hartmann +39 0471 774440, Acadia Mountain Home +39 0471 774400. Direkte Online-Buchung auf der offiziellen Website https://www.alpstay.eu."
+    },
+    {
+      "q": "Helfen die AlpStay-Hotels bei Skipass und Skiverleih?",
+      "a": "Ja. In allen drei Hotels hilft die Rezeption beim Kauf des Dolomiti-Superski-Skipasses und druckt ihn direkt im Hotel aus, ohne Anstehen an den Liftkassen. Sie hilft auch bei der Online-Buchung von Ski, Skischuhen und Sportausrüstung, mit Lieferung direkt ins Hotel. Im Chalet Hotel Hartmann gibt es zusätzlich den privaten Shuttle des Hotels zu den Skiliften. Alles für maximalen Komfort beim Skifahren."
     }
   ]
 }
