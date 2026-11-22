@@ -10,6 +10,8 @@ import type { Facts, SiteModel } from "./types.js";
 import { validateFacts } from "./validate.js";
 import { fetchLive } from "./live.js";
 import { availabilityUpdates, calendarUpdates } from "./updates.js";
+import { eventUpdates } from "./events.js";
+import { fetchWeather, weatherUpdate } from "./weather.js";
 import { renderAiJson, renderLlmsTxt, renderPages, renderRobots, renderRss, renderSitemap } from "./render.js";
 import { pingIndexNow } from "./indexnow.js";
 import { localize, type Translation } from "./i18n.js";
@@ -53,7 +55,9 @@ async function main(): Promise<void> {
   const factsEn = localize(facts, enText, "en");
 
   const live = await fetchLive(facts, today);
-  const updates = [...facts.news, ...calendarUpdates(facts, today), ...availabilityUpdates(live, facts, today)].sort((a, b) => b.date.localeCompare(a.date));
+  const weather = await fetchWeather();
+  // meteo per primo: a parità di data resta in cima (ordinamento stabile)
+  const updates = [...weatherUpdate(weather, facts), ...facts.news, ...eventUpdates(facts, today), ...calendarUpdates(facts, today), ...availabilityUpdates(live, facts, today)].sort((a, b) => b.date.localeCompare(a.date));
 
   // hash dei contenuti (senza timestamp) per capire se c'è davvero qualcosa di nuovo
   const contentHash = createHash("sha256")
