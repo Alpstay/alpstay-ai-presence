@@ -1,0 +1,33 @@
+name: Scarica foto da alpstay.eu (staging)
+
+# Avvio manuale: scarica le foto ufficiali elencate in tools/foto-sorgenti.txt
+# e le salva sul ramo "foto-staging" (non su main), per sceglierle prima di pubblicarle.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scarica
+        run: |
+          mkdir -p staging
+          while read -r u; do
+            [ -z "$u" ] && continue
+            f="staging/$(echo "$u" | sed 's#https://www.alpstay.eu/img/##; s#/#__#g')"
+            curl -fsSL --max-time 30 -o "$f" "$u" || echo "mancante: $u"
+          done < tools/foto-sorgenti.txt
+          ls -la staging | head -80
+      - name: Salva sul ramo foto-staging
+        run: |
+          git config user.name "alpstay-bot"
+          git config user.email "info@alpstay.eu"
+          git checkout --orphan foto-staging
+          git rm -rq --cached . 
+          git add staging
+          git commit -qm "foto originali da alpstay.eu (staging)"
+          git push -f origin foto-staging
