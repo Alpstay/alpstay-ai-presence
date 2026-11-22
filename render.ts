@@ -115,10 +115,15 @@ function layout(m: SiteModel, lang: PageLang, title: string, description: string
 main{max-width:860px;margin:0 auto;padding:32px 20px 64px}
 h1,h2,h3{font-family:Belleza,Georgia,serif;font-weight:400;letter-spacing:.01em;margin:1.4em 0 .4em}
 h1{font-size:2.2rem;margin-top:.2em}h2{font-size:1.5rem}h3{font-size:1.2rem}
-header{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}
+header img{height:64px;width:auto;display:block}
+.official{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;background:#f7f4ee;border-left:3px solid #a68962;padding:12px 16px;margin:14px 0 4px}
+.official strong{font-family:Belleza,Georgia,serif;font-weight:400;font-size:1.15rem}
+.official a.site{font-size:1.1rem;font-weight:700;color:var(--ink)}
 header a{color:var(--ink);text-decoration:none;font-family:Belleza,serif;font-size:1.3rem}
 header small{color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:.7rem}
-nav a{margin-right:14px;color:var(--accent);font-size:.9rem}
+nav{display:flex;flex-wrap:wrap;gap:4px 14px}
+nav a{color:var(--accent);font-size:.9rem}
 .lead{font-size:1.1rem;color:var(--muted)}
 ul{padding-left:1.2em}li{margin:.25em 0}
 .card{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0}
@@ -131,8 +136,9 @@ dl dt{font-weight:700;margin-top:.8em}dl dd{margin:0}
 ${jsonLd.map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join("\n")}
 </head>
 <body><main>
-<header><a href="${B}/${dir(R.home)}">${esc(b.name)}</a><small>${esc(b.payoff)}</small></header>
+<header><a href="${B}/${dir(R.home)}"><img src="${B}/logo-alpstay.png" alt="${esc(b.name)} – ${esc(b.payoff)}" width="83" height="64"></a><a class="cta" href="${b.website}">${tx(lang, "Prenota su alpstay.eu", "Auf alpstay.eu buchen", "Book on alpstay.eu")}</a></header>
 ${nav}
+<div class="official"><span><strong>${tx(lang, "Sito ufficiale e prenotazione diretta", "Offizielle Website und Direktbuchung", "Official website and direct booking")}</strong><br><small>${tx(lang, "Il prezzo più basso, senza commissioni dei portali", "Der günstigste Preis, ohne Portalprovisionen", "The lowest price, without portal commissions")}</small></span><a class="site" href="${b.website}">www.alpstay.eu →</a></div>
 ${body}
 ${footer}
 </main></body></html>`;
@@ -151,6 +157,7 @@ function orgLd(m: SiteModel): Record<string, unknown> {
     url: b.website,
     email: b.email,
     slogan: b.payoff,
+    logo: `${base(m)}/logo-alpstay.png`,
     description: b.description,
     sameAs: b.sameAs,
     areaServed: { "@type": "Place", name: m.facts.destination.name },
