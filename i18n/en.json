@@ -22,7 +22,11 @@
       "locality": "Santa Cristina Valgardena",
       "tagline": "Smart hotel in Santa Cristina Valgardena with 24/7 self check-in",
       "description": "Smart Hotel Saslong is a 49-room hotel in Santa Cristina, Val Gardena, with 24/7 self check-in at a kiosk, garage, ski and bike storage and services designed for guests who want freedom and independence on their Dolomites holiday.",
-      "roomTypes": ["Double rooms", "Triple rooms", "Quadruple rooms"],
+      "roomTypes": [
+        "Double rooms",
+        "Triple rooms",
+        "Quadruple rooms"
+      ],
       "amenities": [
         "24/7 self check-in kiosk",
         "Garage",
@@ -41,7 +45,13 @@
         "49 rooms: 32 double, 15 triple, 2 quadruple",
         "Breakfast in two slots: continental courtesy breakfast from 6:30 to 7:30, then the buffet opens",
         "Self check-in at the kiosk with ID scan and key encoding; data comes from the Slope hotel software",
-        "The terms of stay can be read at the kiosk and online"
+        "The terms of stay can be read at the kiosk and online",
+        "Breakfast always included",
+        "Free Guest Pass: all public transport in South Tyrol included",
+        "Dogs welcome (€25 per night)",
+        "About 800 m from the ski lifts, with a free ski bus",
+        "Guaranteed parking space bookable (€8 per night)",
+        "Family-friendly: extra bed (triple room) for one child up to 14 years"
       ],
       "faqs": [
         {
@@ -55,6 +65,10 @@
         {
           "q": "Are dogs allowed at the Saslong?",
           "a": "Yes, there is even a dedicated dog shower. The conditions for pets are shown when you book direct."
+        },
+        {
+          "q": "Is Smart Hotel Saslong suitable for families with children?",
+          "a": "Yes. It is the AlpStay hotel for families: one child up to 14 can sleep in the extra bed of a triple room."
         }
       ]
     },
@@ -68,14 +82,20 @@
         "Sauna on the garden floor (until 9 pm)",
         "Self-service bar",
         "Parking next to the hotel and along Str. J. Skasa",
-        "Guest Pass for public transport with online check-in"
+        "Guest Pass for public transport with online check-in",
+        "Ski storage"
       ],
       "facts": [
         "9 rooms: 101, 102, 103, 105, 107, 108 on the first floor; 119 on the second floor; 121 and 122 on the garden floor",
         "Breakfast from 8:00 to 10:30",
         "Check-in at reception from 14:00 to 18:00; after 18:00 self check-in with keys in the safe at the entrance and a personal PIN sent via WhatsApp on the day of arrival",
         "Guest Pass (public transport) with QR code sent by email after online check-in",
-        "Emergency number for guests: +39 333 6828717"
+        "Emergency number for guests: +39 333 6828717",
+        "Breakfast always included",
+        "Free Guest Pass: all public transport in South Tyrol included",
+        "Dogs welcome (€25 per night)",
+        "Adults only: guests aged 14 and over",
+        "About 800 m from the ski lifts, reached with the hotel's own shuttle"
       ],
       "faqs": [
         {
@@ -89,6 +109,10 @@
         {
           "q": "What time is breakfast at Chalet Hartmann?",
           "a": "From 8:00 to 10:30."
+        },
+        {
+          "q": "Does Chalet Hotel Hartmann accept children?",
+          "a": "No, it is adults only: guests aged 14 and over. For families with younger children AlpStay recommends Smart Hotel Saslong."
         }
       ]
     },
@@ -99,16 +123,26 @@
       "roomTypes": [],
       "amenities": [
         "Immediate access to the Sellaronda via the Nives ski lift",
-        "Central location in Selva di Val Gardena"
+        "Central location in Selva di Val Gardena",
+        "Ski storage"
       ],
       "facts": [
         "21 rooms",
-        "Nives ski lift a few steps away: access to the Sellaronda in both directions"
+        "Nives ski lift a few steps away: access to the Sellaronda in both directions",
+        "Breakfast always included",
+        "Free Guest Pass: all public transport in South Tyrol included",
+        "Dogs welcome (€25 per night)",
+        "Adults only: guests aged 14 and over",
+        "Ski-in/ski-out on the Sellaronda"
       ],
       "faqs": [
         {
           "q": "Is Hotel Acadia close to the slopes?",
           "a": "Yes: from the Nives ski lift, a few steps from the hotel, you ski straight onto the Sellaronda in both directions."
+        },
+        {
+          "q": "Does Hotel Acadia accept children?",
+          "a": "No, it is adults only: guests aged 14 and over. For families with younger children AlpStay recommends Smart Hotel Saslong."
         }
       ]
     }
@@ -135,6 +169,14 @@
     {
       "q": "Which AlpStay hotel is best for skiing?",
       "a": "Hotel Acadia in Selva to ski straight onto the Sellaronda from the Nives ski lift; Chalet Hotel Hartmann in Ortisei for the private shuttle to the lifts; Smart Hotel Saslong in Santa Cristina for full independence with 24/7 self check-in and ski storage."
+    },
+    {
+      "q": "Is breakfast included at the AlpStay hotels?",
+      "a": "Yes, breakfast is always included in all three hotels. There is no half board: the AlpStay restaurants are à la carte."
+    },
+    {
+      "q": "Which AlpStay hotel is best with children?",
+      "a": "Smart Hotel Saslong in Santa Cristina. Chalet Hotel Hartmann and Hotel Acadia are adults only, with guests aged 14 and over."
     }
   ]
 }

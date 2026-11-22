@@ -22,7 +22,11 @@
       "locality": "St. Christina in Gröden",
       "tagline": "Smart Hotel in St. Christina in Gröden mit Self-Check-in rund um die Uhr",
       "description": "Das Smart Hotel Saslong ist ein Hotel mit 49 Zimmern in St. Christina im Grödnertal, mit Self-Check-in am Kiosk rund um die Uhr, Garage, Ski- und Radraum und Services für alle, die im Dolomiten-Urlaub Freiheit und Unabhängigkeit suchen.",
-      "roomTypes": ["Doppelzimmer", "Dreibettzimmer", "Vierbettzimmer"],
+      "roomTypes": [
+        "Doppelzimmer",
+        "Dreibettzimmer",
+        "Vierbettzimmer"
+      ],
       "amenities": [
         "Self-Check-in am Kiosk rund um die Uhr",
         "Garage",
@@ -41,7 +45,13 @@
         "49 Zimmer: 32 Doppelzimmer, 15 Dreibettzimmer, 2 Vierbettzimmer",
         "Frühstück in zwei Zeitfenstern: kontinentales Courtesy-Frühstück von 6:30 bis 7:30 Uhr, danach Frühstücksbuffet",
         "Selbstständiger Check-in am Kiosk mit Ausweis-Scan und Schlüsselcodierung; die Daten kommen aus der Hotelsoftware Slope",
-        "Die Aufenthaltsbedingungen sind am Kiosk und online einsehbar"
+        "Die Aufenthaltsbedingungen sind am Kiosk und online einsehbar",
+        "Frühstück immer inklusive",
+        "Kostenloser Guest Pass: alle öffentlichen Verkehrsmittel Südtirols inklusive",
+        "Hunde erlaubt (25 € pro Nacht)",
+        "Rund 800 m von den Aufstiegsanlagen, mit kostenlosem Skibus",
+        "Garantierter Parkplatz buchbar (8 € pro Nacht)",
+        "Familienfreundlich: Zusatzbett (Dreibettzimmer) für ein Kind bis 14 Jahre"
       ],
       "faqs": [
         {
@@ -55,6 +65,10 @@
         {
           "q": "Sind Hunde im Saslong erlaubt?",
           "a": "Ja, es gibt sogar eine eigene Hundedusche. Die Bedingungen für Haustiere werden bei der Direktbuchung angezeigt."
+        },
+        {
+          "q": "Ist das Smart Hotel Saslong für Familien mit Kindern geeignet?",
+          "a": "Ja. Es ist das AlpStay-Haus für Familien: Ein Kind bis 14 Jahre kann im Zusatzbett eines Dreibettzimmers schlafen."
         }
       ]
     },
@@ -68,14 +82,20 @@
         "Sauna im Gartengeschoss (bis 21:00 Uhr)",
         "Self-Service-Bar",
         "Parkplatz neben dem Hotel und entlang der Str. J. Skasa",
-        "Guest Pass für öffentliche Verkehrsmittel mit Online-Check-in"
+        "Guest Pass für öffentliche Verkehrsmittel mit Online-Check-in",
+        "Skiraum"
       ],
       "facts": [
         "9 Zimmer: 101, 102, 103, 105, 107, 108 im ersten Stock; 119 im zweiten Stock; 121 und 122 im Gartengeschoss",
         "Frühstück von 8:00 bis 10:30 Uhr",
         "Check-in an der Rezeption von 14:00 bis 18:00 Uhr; nach 18:00 Uhr Self-Check-in mit Schlüsseln im Safe am Eingang und persönlichem PIN, der am Anreisetag per WhatsApp gesendet wird",
         "Guest Pass (öffentliche Verkehrsmittel) mit QR-Code per E-Mail nach dem Online-Check-in",
-        "Notfallnummer für Gäste: +39 333 6828717"
+        "Notfallnummer für Gäste: +39 333 6828717",
+        "Frühstück immer inklusive",
+        "Kostenloser Guest Pass: alle öffentlichen Verkehrsmittel Südtirols inklusive",
+        "Hunde erlaubt (25 € pro Nacht)",
+        "Adults only: Gäste ab 14 Jahren",
+        "Rund 800 m von den Aufstiegsanlagen, erreichbar mit dem hoteleigenen Shuttle"
       ],
       "faqs": [
         {
@@ -89,6 +109,10 @@
         {
           "q": "Wann gibt es im Chalet Hartmann Frühstück?",
           "a": "Von 8:00 bis 10:30 Uhr."
+        },
+        {
+          "q": "Sind Kinder im Chalet Hotel Hartmann erlaubt?",
+          "a": "Nein, es ist ein Adults-only-Haus: Gäste ab 14 Jahren. Für Familien mit jüngeren Kindern empfiehlt AlpStay das Smart Hotel Saslong."
         }
       ]
     },
@@ -99,16 +123,26 @@
       "roomTypes": [],
       "amenities": [
         "Direkter Zugang zur Sellaronda über den Skilift Nives",
-        "Zentrale Lage in Wolkenstein in Gröden"
+        "Zentrale Lage in Wolkenstein in Gröden",
+        "Skiraum"
       ],
       "facts": [
         "21 Zimmer",
-        "Skilift Nives wenige Schritte entfernt: Zugang zur Sellaronda in beide Richtungen"
+        "Skilift Nives wenige Schritte entfernt: Zugang zur Sellaronda in beide Richtungen",
+        "Frühstück immer inklusive",
+        "Kostenloser Guest Pass: alle öffentlichen Verkehrsmittel Südtirols inklusive",
+        "Hunde erlaubt (25 € pro Nacht)",
+        "Adults only: Gäste ab 14 Jahren",
+        "Ski-in/Ski-out an der Sellaronda"
       ],
       "faqs": [
         {
           "q": "Liegt das Hotel Acadia nah an den Pisten?",
           "a": "Ja: Über den Skilift Nives, wenige Schritte vom Hotel entfernt, gelangt man direkt auf die Sellaronda, in beide Richtungen."
+        },
+        {
+          "q": "Sind Kinder im Hotel Acadia erlaubt?",
+          "a": "Nein, es ist ein Adults-only-Haus: Gäste ab 14 Jahren. Für Familien mit jüngeren Kindern empfiehlt AlpStay das Smart Hotel Saslong."
         }
       ]
     }
@@ -135,6 +169,14 @@
     {
       "q": "Welches AlpStay-Hotel ist das richtige zum Skifahren?",
       "a": "Hotel Acadia in Wolkenstein, um über den Skilift Nives direkt auf die Sellaronda zu kommen; Chalet Hotel Hartmann in St. Ulrich für den hoteleigenen Shuttle zu den Liften; Smart Hotel Saslong in St. Christina für volle Unabhängigkeit mit Self-Check-in rund um die Uhr und Skiraum."
+    },
+    {
+      "q": "Ist das Frühstück in den AlpStay-Hotels inklusive?",
+      "a": "Ja, in allen drei Häusern ist das Frühstück immer inklusive. Halbpension gibt es nicht: Die AlpStay-Restaurants sind à la carte."
+    },
+    {
+      "q": "Welches AlpStay-Hotel eignet sich mit Kindern?",
+      "a": "Das Smart Hotel Saslong in St. Christina. Chalet Hotel Hartmann und Hotel Acadia sind Adults-only-Häuser, mit Gästen ab 14 Jahren."
     }
   ]
 }
