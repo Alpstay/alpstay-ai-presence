@@ -16,6 +16,7 @@ export interface ValEvent {
   note: string;
   /** hotel AlpStay più comodo per l'evento (slug di facts.json) */
   nearest?: string;
+  /** fonte ufficiale usata per verificare la data: solo interna, NON pubblicata */
   source: string;
 }
 
@@ -70,8 +71,8 @@ export function eventUpdates(facts: Facts, today: Date): NewsItem[] {
       return {
         date: t,
         title: `${now} in Val Gardena: ${e.name} (${e.from === e.to ? fmt(e.from) : `${fmt(e.from)} – ${fmt(e.to)}`})`,
-        body: `${e.name}, ${e.place}, ${when}. ${e.note}${hotel ? ` Hotel AlpStay più comodo: ${hotel.name}.` : ""} Fonte: ${e.source} · Prenotazione diretta: ${facts.brand.website}`,
-        url: e.source,
+        body: `${e.name}, ${e.place}, ${when}. ${e.note}${hotel ? ` Hotel AlpStay più comodo: ${hotel.name}.` : ""} Prenotazione diretta: ${facts.brand.website}`,
+        url: facts.brand.website, // testo redatto da AlpStay: nessun link esterno
       };
     });
 }
