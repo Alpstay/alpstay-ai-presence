@@ -82,7 +82,13 @@
         "Angolo giochi da tavolo",
         "Noleggio motocicli e auto elettrica",
         "Locale doccia per cani",
-        "Ricarica auto elettriche"
+        "Ricarica auto elettriche",
+        "Wi-Fi gratuito",
+        "Scaldascarponi nel deposito sci",
+        "Honesty bar aperto 24 ore su 24",
+        "Blue Bar, aperto dalle 15:00 alle 23:00",
+        "Blue Bistrot, aperto dalle 18:00 alle 21:30 (chiuso il mercoledì)",
+        "Fermata dell'autobus a 20 metri dall'hotel"
       ],
       "facts": [
         "49 camere: 32 matrimoniali/doppie, 15 triple, 2 quadruple",
@@ -94,7 +100,12 @@
         "Cani ammessi (25 € a notte)",
         "A circa 800 m dagli impianti di risalita, con skibus gratuito",
         "Posto auto garantito prenotabile (8 € a notte)",
-        "Adatto alle famiglie: bambini dai 3 ai 12 anni nel letto aggiunto (camera tripla); ragazzi oltre i 12 anni in camere doppie o triple adiacenti a quella dei genitori"
+        "Adatto alle famiglie: bambini dai 3 ai 12 anni nel letto aggiunto (camera tripla); ragazzi oltre i 12 anni in camere doppie o triple adiacenti a quella dei genitori",
+        "Check-in dalle 15:00, check-out entro le 11:00",
+        "Reception aperta dalle 7:30 alle 11:30 e dalle 15:00 alle 19:00; per gli arrivi tardivi c'è il self check-in",
+        "Camere arredate in legno di larice, con elementi di design dell'architetto Antonio Citterio",
+        "Prenotazioni: +39 0471 774444 (dalle 8:00 alle 22:00) · WhatsApp +39 324 872 9239 · info@alpstay.eu",
+        "Gruppi di 25 persone o più: richiesta diretta a info@alpstay.eu"
       ],
       "faqs": [
         {
@@ -113,7 +124,9 @@
           "q": "Lo Smart Hotel Saslong è adatto alle famiglie con bambini?",
           "a": "Sì. È la casa AlpStay per le famiglie: i bambini dai 3 ai 12 anni dormono nel letto aggiunto di una camera tripla, i ragazzi oltre i 12 anni in camere adiacenti a quella dei genitori."
         }
-      ]
+      ],
+      "checkIn": "15:00",
+      "checkOut": "11:00"
     },
     {
       "slug": "chalet-hotel-hartmann",
@@ -139,7 +152,9 @@
         "Bar self-service",
         "Parcheggio accanto all'hotel e lungo Str. J. Skasa",
         "Guest Pass per i mezzi pubblici con check-in online",
-        "Deposito sci"
+        "Deposito sci",
+        "Wi-Fi, TV satellitare e cassaforte in tutte le camere",
+        "Menù dei cuscini"
       ],
       "facts": [
         "9 camere: 101, 102, 103, 105, 107, 108 al primo piano; 119 al secondo piano; 121 e 122 al piano giardino",
@@ -151,7 +166,11 @@
         "Guest Pass gratuito: tutti i mezzi pubblici dell'Alto Adige inclusi",
         "Cani ammessi (25 € a notte)",
         "Solo adulti: ospiti a partire dai 14 anni",
-        "A circa 800 m dagli impianti di risalita, raggiungibili con lo shuttle privato dell'hotel"
+        "A circa 800 m dagli impianti di risalita, raggiungibili con lo shuttle privato dell'hotel",
+        "Camera Romantic: doppia di 20–22 m², alcune con balcone, vasca idromassaggio su richiesta",
+        "Camera Panorama: doppia di 24 m² con ampia terrazza panoramica su Ortisei",
+        "Camera Superior: 30 m² con camera comunicante, per 2 o 3 persone",
+        "Contatti: +39 0471 774440 · WhatsApp +39 377 397 9120 · info@alpstay.eu"
       ],
       "checkIn": "14:00",
       "faqs": [
@@ -193,7 +212,10 @@
       "amenities": [
         "Accesso immediato alla Sellaronda tramite lo skilift Nives",
         "Posizione centrale a Selva di Val Gardena",
-        "Deposito sci"
+        "Deposito sci",
+        "Zona benessere con sauna finlandese, bagno turco bio e cabina a infrarossi",
+        "Colazione a buffet con prodotti locali e fatti in casa",
+        "Bistrot serale con lo chef Norbert Dejaco"
       ],
       "facts": [
         "21 camere",
@@ -202,7 +224,12 @@
         "Guest Pass gratuito: tutti i mezzi pubblici dell'Alto Adige inclusi",
         "Cani ammessi (25 € a notte)",
         "Solo adulti: ospiti a partire dai 14 anni",
-        "Ski-in/ski-out sulla Sellaronda"
+        "Ski-in/ski-out sulla Sellaronda",
+        "A pochi passi dal centro di Selva di Val Gardena, direttamente sulle piste",
+        "Camera Romantic: 25 m², balcone su richiesta",
+        "Camera Lumina: 28 m², luminosa, in legno di abete locale; balcone e vasca su richiesta",
+        "Junior Suite: 40–56 m², balcone su richiesta",
+        "Contatti: +39 0471 774400 · WhatsApp +39 377 356 5900 · info@alpstay.eu"
       ],
       "faqs": [
         {
