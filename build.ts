@@ -49,20 +49,22 @@ async function main(): Promise<void> {
   // Traduzione tedesca: solo testi, verificata voce per voce contro facts.json (vedi i18n.ts)
   const deText = JSON.parse(await readFile(join(ROOT, "i18n", "de.json"), "utf8")) as Translation;
   const factsDe = localize(facts, deText, "de");
+  const enText = JSON.parse(await readFile(join(ROOT, "i18n", "en.json"), "utf8")) as Translation;
+  const factsEn = localize(facts, enText, "en");
 
   const live = await fetchLive(facts, today);
   const updates = [...facts.news, ...calendarUpdates(facts, today), ...availabilityUpdates(live, facts, today)].sort((a, b) => b.date.localeCompare(a.date));
 
   // hash dei contenuti (senza timestamp) per capire se c'è davvero qualcosa di nuovo
   const contentHash = createHash("sha256")
-    .update(JSON.stringify({ facts, deText, windows: live.windows, updates: updates.map((u) => u.title + u.body) }))
+    .update(JSON.stringify({ facts, deText, enText, windows: live.windows, updates: updates.map((u) => u.title + u.body) }))
     .digest("hex")
     .slice(0, 16);
 
   const model: SiteModel = { facts, live, builtAt: today.toISOString(), contentHash, updates };
 
   await rm(DIST, { recursive: true, force: true });
-  const pages = [...renderPages(model, "it"), ...renderPages({ ...model, facts: factsDe }, "de")];
+  const pages = [...renderPages(model, "it"), ...renderPages({ ...model, facts: factsDe }, "de"), ...renderPages({ ...model, facts: factsEn }, "en")];
   for (const p of pages) await write(p.path, p.html);
   await write("llms.txt", renderLlmsTxt(model, false));
   await write("llms-full.txt", renderLlmsTxt(model, true));

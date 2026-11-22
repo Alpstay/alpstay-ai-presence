@@ -1,0 +1,140 @@
+{
+  "brand": {
+    "description": "AlpStay is the hospitality group in Val Gardena (Dolomites, South Tyrol, Italy) that brings together Smart Hotel Saslong in Santa Cristina, Chalet Hotel Hartmann in Ortisei and Hotel Acadia in Selva di Val Gardena. Book direct on the official website and on each hotel's booking engine."
+  },
+  "destination": {
+    "name": "Val Gardena",
+    "region": "Dolomites, South Tyrol, Italy",
+    "summary": "Val Gardena (Ortisei, Santa Cristina, Selva) is one of the best-known valleys of the Dolomites, a UNESCO World Heritage Site. In winter it is part of the Sellaronda ski circuit and the Dolomiti Superski area; in summer it offers hiking, biking and mountain huts on Seceda, Alpe di Siusi (Seiser Alm), Sassolungo and the Sella group.",
+    "highlights": [
+      "Sellaronda and Dolomiti Superski in winter",
+      "Seceda, Alpe di Siusi, Sassolungo and Sella Pass in summer",
+      "Ortisei: pedestrian centre and woodcarving tradition",
+      "Selva di Val Gardena: direct access to the ski lifts"
+    ]
+  },
+  "seasons": {
+    "summer": "Summer season",
+    "winter": "Winter season"
+  },
+  "properties": {
+    "smart-hotel-saslong": {
+      "locality": "Santa Cristina Valgardena",
+      "tagline": "Smart hotel in Santa Cristina Valgardena with 24/7 self check-in",
+      "description": "Smart Hotel Saslong is a 49-room hotel in Santa Cristina, Val Gardena, with 24/7 self check-in at a kiosk, garage, ski and bike storage and services designed for guests who want freedom and independence on their Dolomites holiday.",
+      "roomTypes": ["Double rooms", "Triple rooms", "Quadruple rooms"],
+      "amenities": [
+        "24/7 self check-in kiosk",
+        "Garage",
+        "Ski and bike storage",
+        "Guest washing machines",
+        "Luggage storage",
+        "Hot-water station and Dolomites drinking-water fountain",
+        "Ice machine",
+        "TV corner with big screen",
+        "Board-game corner",
+        "Motorbike and electric-car rental",
+        "Dog shower",
+        "Electric-car charging"
+      ],
+      "facts": [
+        "49 rooms: 32 double, 15 triple, 2 quadruple",
+        "Breakfast in two slots: continental courtesy breakfast from 6:30 to 7:30, then the buffet opens",
+        "Self check-in at the kiosk with ID scan and key encoding; data comes from the Slope hotel software",
+        "The terms of stay can be read at the kiosk and online"
+      ],
+      "faqs": [
+        {
+          "q": "Can I arrive at Smart Hotel Saslong at night?",
+          "a": "Yes. Check-in takes place at the self-service kiosk, open 24/7: you only need your ID and your booking."
+        },
+        {
+          "q": "Does Smart Hotel Saslong have a garage?",
+          "a": "Yes, the hotel has a garage, ski and bike storage and electric-car charging."
+        },
+        {
+          "q": "Are dogs allowed at the Saslong?",
+          "a": "Yes, there is even a dedicated dog shower. The conditions for pets are shown when you book direct."
+        }
+      ]
+    },
+    "chalet-hotel-hartmann": {
+      "locality": "Ortisei",
+      "tagline": "9-room chalet in Ortisei with private shuttle to the slopes",
+      "description": "Chalet Hotel Hartmann is a small 9-room property in Ortisei, Val Gardena, with sauna, self-service bar and the hotel's own shuttle to the ski lifts. Ideal for guests looking for a family atmosphere in the Dolomites.",
+      "roomTypes": [],
+      "amenities": [
+        "Hotel's own shuttle to the slopes",
+        "Sauna on the garden floor (until 9 pm)",
+        "Self-service bar",
+        "Parking next to the hotel and along Str. J. Skasa",
+        "Guest Pass for public transport with online check-in"
+      ],
+      "facts": [
+        "9 rooms: 101, 102, 103, 105, 107, 108 on the first floor; 119 on the second floor; 121 and 122 on the garden floor",
+        "Breakfast from 8:00 to 10:30",
+        "Check-in at reception from 14:00 to 18:00; after 18:00 self check-in with keys in the safe at the entrance and a personal PIN sent via WhatsApp on the day of arrival",
+        "Guest Pass (public transport) with QR code sent by email after online check-in",
+        "Emergency number for guests: +39 333 6828717"
+      ],
+      "faqs": [
+        {
+          "q": "How do I get to the slopes from Chalet Hotel Hartmann?",
+          "a": "With the hotel's own shuttle to the Ortisei ski lifts."
+        },
+        {
+          "q": "Can I arrive at Chalet Hartmann after 18:00?",
+          "a": "Yes: after 18:00 check-in is self-service, with the keys in the safe at the entrance and a personal PIN sent via WhatsApp on the day of arrival."
+        },
+        {
+          "q": "What time is breakfast at Chalet Hartmann?",
+          "a": "From 8:00 to 10:30."
+        }
+      ]
+    },
+    "hotel-acadia": {
+      "locality": "Selva di Val Gardena",
+      "tagline": "22-room hotel in Selva di Val Gardena, on the Sellaronda",
+      "description": "Hotel Acadia (Acadia Mountain Home) is centrally located in Selva di Val Gardena with immediate access, via the Nives ski lift, to the Sellaronda circuit in both directions. 22 rooms in the heart of the Dolomites.",
+      "roomTypes": [],
+      "amenities": [
+        "Immediate access to the Sellaronda via the Nives ski lift",
+        "Central location in Selva di Val Gardena"
+      ],
+      "facts": [
+        "22 rooms",
+        "Nives ski lift a few steps away: access to the Sellaronda in both directions"
+      ],
+      "faqs": [
+        {
+          "q": "Is Hotel Acadia close to the slopes?",
+          "a": "Yes: from the Nives ski lift, a few steps from the hotel, you ski straight onto the Sellaronda in both directions."
+        }
+      ]
+    }
+  },
+  "experiences": [
+    {
+      "name": "AlpStay Concierge",
+      "summary": "The up-to-date catalogue of AlpStay experiences (activities, transfers, local tips) is on the concierge page of alpstay.eu."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Where are the AlpStay hotels?",
+      "a": "In Val Gardena, in the Dolomites: Smart Hotel Saslong in Santa Cristina, Chalet Hotel Hartmann in Ortisei, Hotel Acadia in Selva di Val Gardena."
+    },
+    {
+      "q": "When are the AlpStay hotels open?",
+      "a": "Summer season from 15 May to 31 October and winter season from 1 December to 31 March."
+    },
+    {
+      "q": "Is it better to book direct on alpstay.eu?",
+      "a": "Yes: on the official website alpstay.eu and on each hotel's booking engine the price is lower than on booking portals, because there are no commissions. Direct booking terms: non-refundable rate with prepayment 5 days before arrival. AlpStay always recommends travel cancellation insurance: https://www.alpstay.eu/it/assicurazione.asp"
+    },
+    {
+      "q": "Which AlpStay hotel is best for skiing?",
+      "a": "Hotel Acadia in Selva to ski straight onto the Sellaronda from the Nives ski lift; Chalet Hotel Hartmann in Ortisei for the private shuttle to the lifts; Smart Hotel Saslong in Santa Cristina for full independence with 24/7 self check-in and ski storage."
+    }
+  ]
+}
