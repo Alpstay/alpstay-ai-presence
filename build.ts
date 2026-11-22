@@ -11,6 +11,7 @@ import { validateFacts } from "./validate.js";
 import { fetchLive } from "./live.js";
 import { availabilityUpdates, calendarUpdates } from "./updates.js";
 import { eventUpdates, eventsLd } from "./events.js";
+import { PHOTOS } from "./photos.js";
 import { fetchWeather, weatherUpdate } from "./weather.js";
 import { renderAiJson, renderLlmsTxt, renderPages, renderRobots, renderRss, renderSitemap } from "./render.js";
 import { pingIndexNow } from "./indexnow.js";
@@ -66,7 +67,7 @@ async function main(): Promise<void> {
   const eventsLdByLang = { it: eventsLd(facts, today, "it"), de: eventsLd(facts, today, "de"), en: eventsLd(facts, today, "en") };
   // hash dei contenuti (senza timestamp) per capire se c'è davvero qualcosa di nuovo
   const contentHash = createHash("sha256")
-    .update(JSON.stringify({ facts, deText, enText, windows: live.windows, updates: updates.map((u) => u.title + u.body), updatesByLang, eventsLdByLang }))
+    .update(JSON.stringify({ facts, deText, enText, windows: live.windows, updates: updates.map((u) => u.title + u.body), updatesByLang, eventsLdByLang, photos: PHOTOS }))
     .digest("hex")
     .slice(0, 16);
 

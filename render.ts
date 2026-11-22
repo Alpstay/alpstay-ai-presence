@@ -2,6 +2,7 @@
  * Renderer: HTML (stile AlpStay: Belleza + Lato, sfondo bianco), JSON-LD schema.org,
  * llms.txt, ai.json, sitemap, RSS, robots. Pagine in italiano, tedesco e inglese.
  */
+import { HOME_HERO, PHOTOS, photoUrls, pictureHtml } from "./photos.js";
 import type { Property, SiteModel, AvailabilityWindow } from "./types.js";
 
 /* ---------- lingue: percorsi e testi fissi ---------- */
@@ -139,6 +140,16 @@ table{border-collapse:collapse;width:100%;font-size:.95rem}td,th{border-bottom:1
 .ok{color:#1f7a4d}.few{color:#b36b00}.no{color:#a33}
 footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;color:var(--muted);font-size:.85rem}
 dl dt{font-weight:700;margin-top:.8em}dl dd{margin:0}
+picture,picture img{display:block;width:100%;height:auto}
+.hero img{border-radius:12px;aspect-ratio:3/2;object-fit:cover}
+.hero.wide img{aspect-ratio:2.1/1}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0}
+.gallery figure{margin:0}.gallery img{border-radius:8px;aspect-ratio:4/3;object-fit:cover}
+.gallery figcaption{font-size:.8rem;color:var(--muted);margin-top:4px}
+.card h3{margin-top:0}.card h3 a{color:var(--ink);text-decoration:none}
+.card.photo{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start}
+.card.photo img{border-radius:8px;aspect-ratio:4/3;object-fit:cover}
+@media (max-width:560px){.card.photo{grid-template-columns:1fr}}
 </style>
 ${jsonLd.map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join("\n")}
 </head>
@@ -179,6 +190,7 @@ function hotelLd(m: SiteModel, p: Property, lang: PageLang): Record<string, unkn
     name: p.name,
     ...(p.alternateName?.length ? { alternateName: p.alternateName } : {}),
     description: p.description,
+    ...(PHOTOS[p.slug] ? { image: photoUrls(base(m), p.slug) } : {}),
     url: p.website,
     brand: { "@id": `${m.facts.brand.website}/#org` },
     parentOrganization: { "@id": `${m.facts.brand.website}/#org` },
@@ -282,7 +294,10 @@ function availabilityTable(m: SiteModel, lang: PageLang, filterSlug?: string): s
 }
 
 function propertyCard(m: SiteModel, p: Property, lang: PageLang): string {
-  return `<div class="card"><h3><a href="${base(m)}/${ROUTES[lang].hotel}/${p.slug}/">${esc(p.name)}</a></h3><p>${esc(p.tagline)} — ${p.rooms} ${tx(lang, "camere", "Zimmer", "rooms")}.</p><a class="cta" href="${p.bookingUrl}">${tx(lang, "Prenota direttamente", "Direkt buchen", "Book direct")}</a></div>`;
+  const ph = PHOTOS[p.slug];
+  const href = `${base(m)}/${ROUTES[lang].hotel}/${p.slug}/`;
+  const text = `<div><h3><a href="${href}">${esc(p.name)}</a></h3><p>${esc(p.tagline)} — ${p.rooms} ${tx(lang, "camere", "Zimmer", "rooms")}.</p><a class="cta" href="${p.bookingUrl}">${tx(lang, "Prenota direttamente", "Direkt buchen", "Book direct")}</a></div>`;
+  return ph ? `<div class="card photo"><a href="${href}">${pictureHtml(base(m), ph.hero, lang)}</a>${text}</div>` : `<div class="card">${text}</div>`;
 }
 
 /* ---------- pagine ---------- */
@@ -341,6 +356,7 @@ export function renderPages(m: SiteModel, lang: PageLang = "it"): Page[] {
       ? `\n<h2>${t("Aggiornamenti dagli hotel", "Aktuelles aus dem Grödnertal", "Latest from Val Gardena")}</h2><ul>${ups.slice(0, 5).map((n) => `<li><strong>${n.date}</strong> — ${esc(n.title)}</li>`).join("")}</ul><p><a href="${B}/${dir(R.updates)}">${t("Tutti gli aggiornamenti", "Alle Neuigkeiten", "All updates")} →</a></p>`
       : "";
     const body = `<h1>${t(`Vacanza nelle Dolomiti con ${esc(f.brand.name)}`, `Urlaub in den Dolomiten mit ${esc(f.brand.name)}`, `Holidays in the Dolomites with ${esc(f.brand.name)}`)}</h1>
+${pictureHtml(B, HOME_HERO, lang, { eager: true, cls: "hero wide" })}
 <p class="lead">${esc(f.brand.description)}</p>
 <h2>${t("Le case", "Die Häuser", "Our hotels")}</h2>${f.properties.map(card).join("")}
 <h2>${esc(f.destination.name)}</h2><p>${esc(f.destination.summary)}</p><ul>${f.destination.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
@@ -360,7 +376,9 @@ export function renderPages(m: SiteModel, lang: PageLang = "it"): Page[] {
     const country = t("Italia", "Italien", "Italy");
     const roomsWord = t("camere", "Zimmer", "rooms");
     const rooms = `${p.rooms} ${roomsWord}${p.roomTypes ? ": " + p.roomTypes.map((r) => `${r.quantity} ${lang === "it" ? r.name.toLowerCase() : lang === "en" ? r.name.toLowerCase() : r.name}`).join(", ") : ""}.`;
-    const body = `<h1>${esc(p.name)}</h1><p class="lead">${esc(p.tagline)}</p><p>${esc(p.description)}</p>
+    const ph = PHOTOS[p.slug];
+    const gallery = ph ? `<div class="gallery">${ph.gallery.map((g) => `<figure>${pictureHtml(B, g, lang)}<figcaption>${esc(g.alt[lang])}</figcaption></figure>`).join("")}</div>` : "";
+    const body = `<h1>${esc(p.name)}</h1>${ph ? pictureHtml(B, ph.hero, lang, { eager: true, cls: "hero" }) : ""}<p class="lead">${esc(p.tagline)}</p><p>${esc(p.description)}</p>${gallery}
 <p><a class="cta" href="${p.bookingUrl}">${t("Prenota direttamente", "Direkt buchen", "Book direct")}</a> &nbsp; <a href="${p.website}">${t("Sito ufficiale", "Offizielle Website", "Official website")}</a>${p.googleMapsUrl ? ` &nbsp; <a href="${p.googleMapsUrl}">${t("Mappa", "Karte", "Map")}</a>` : ""}</p>
 <h2>${t("Posizione", "Lage", "Location")}</h2><p>${esc([p.address.street, `${p.address.postalCode} ${p.address.locality}`, region, country].filter(Boolean).join(", "))}</p>
 <h2>${t("Camere", "Zimmer", "Rooms")}</h2><p>${esc(rooms)}</p>
