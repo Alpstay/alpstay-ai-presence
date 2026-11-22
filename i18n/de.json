@@ -1,0 +1,140 @@
+{
+  "brand": {
+    "description": "AlpStay ist die Hotelgruppe im Grödnertal (Dolomiten, Südtirol) mit dem Smart Hotel Saslong in St. Christina, dem Chalet Hotel Hartmann in St. Ulrich und dem Hotel Acadia in Wolkenstein. Direkt buchen auf der offiziellen Website und über die Buchungsmaschinen der einzelnen Häuser."
+  },
+  "destination": {
+    "name": "Grödnertal",
+    "region": "Dolomiten, Südtirol, Italien",
+    "summary": "Das Grödnertal (St. Ulrich, St. Christina, Wolkenstein) ist eines der bekanntesten Täler der Dolomiten, UNESCO-Welterbe. Im Winter ist es an die Sellaronda und an Dolomiti Superski angebunden; im Sommer bietet es Wanderungen, Biketouren und Hütten auf Seceda, Seiser Alm, Langkofel und Sellagruppe.",
+    "highlights": [
+      "Sellaronda und Dolomiti Superski im Winter",
+      "Seceda, Seiser Alm, Langkofel und Sellajoch im Sommer",
+      "St. Ulrich: Fußgängerzone und Tradition der Holzschnitzerei",
+      "Wolkenstein: direkter Zugang zu den Aufstiegsanlagen"
+    ]
+  },
+  "seasons": {
+    "summer": "Sommersaison",
+    "winter": "Wintersaison"
+  },
+  "properties": {
+    "smart-hotel-saslong": {
+      "locality": "St. Christina in Gröden",
+      "tagline": "Smart Hotel in St. Christina in Gröden mit Self-Check-in rund um die Uhr",
+      "description": "Das Smart Hotel Saslong ist ein Hotel mit 49 Zimmern in St. Christina im Grödnertal, mit Self-Check-in am Kiosk rund um die Uhr, Garage, Ski- und Radraum und Services für alle, die im Dolomiten-Urlaub Freiheit und Unabhängigkeit suchen.",
+      "roomTypes": ["Doppelzimmer", "Dreibettzimmer", "Vierbettzimmer"],
+      "amenities": [
+        "Self-Check-in am Kiosk rund um die Uhr",
+        "Garage",
+        "Ski- und Radraum",
+        "Waschmaschinen für Gäste",
+        "Gepäckaufbewahrung",
+        "Station mit heißem Wasser und Dolomiten-Trinkwasserbrunnen",
+        "Eiswürfelmaschine",
+        "TV-Ecke mit Großbildschirm",
+        "Spielecke mit Brettspielen",
+        "Verleih von Motorrädern und Elektroauto",
+        "Hundedusche",
+        "Ladestation für Elektroautos"
+      ],
+      "facts": [
+        "49 Zimmer: 32 Doppelzimmer, 15 Dreibettzimmer, 2 Vierbettzimmer",
+        "Frühstück in zwei Zeitfenstern: kontinentales Courtesy-Frühstück von 6:30 bis 7:30 Uhr, danach Frühstücksbuffet",
+        "Selbstständiger Check-in am Kiosk mit Ausweis-Scan und Schlüsselcodierung; die Daten kommen aus der Hotelsoftware Slope",
+        "Die Aufenthaltsbedingungen sind am Kiosk und online einsehbar"
+      ],
+      "faqs": [
+        {
+          "q": "Kann ich nachts im Smart Hotel Saslong ankommen?",
+          "a": "Ja. Der Check-in erfolgt am Self-Service-Kiosk, der rund um die Uhr in Betrieb ist: Ausweis und Buchung genügen."
+        },
+        {
+          "q": "Hat das Smart Hotel Saslong eine Garage?",
+          "a": "Ja, das Hotel hat eine Garage, einen Ski- und Radraum und eine Ladestation für Elektroautos."
+        },
+        {
+          "q": "Sind Hunde im Saslong erlaubt?",
+          "a": "Ja, es gibt sogar eine eigene Hundedusche. Die Bedingungen für Haustiere werden bei der Direktbuchung angezeigt."
+        }
+      ]
+    },
+    "chalet-hotel-hartmann": {
+      "locality": "St. Ulrich in Gröden",
+      "tagline": "Chalet mit 9 Zimmern in St. Ulrich mit hoteleigenem Shuttle zu den Pisten",
+      "description": "Das Chalet Hotel Hartmann ist ein kleines Haus mit 9 Zimmern in St. Ulrich im Grödnertal, mit Sauna, Self-Service-Bar und hoteleigenem Shuttle zu den Aufstiegsanlagen. Ideal für alle, die in den Dolomiten eine familiäre Atmosphäre suchen.",
+      "roomTypes": [],
+      "amenities": [
+        "Hoteleigener Shuttle zu den Pisten",
+        "Sauna im Gartengeschoss (bis 21:00 Uhr)",
+        "Self-Service-Bar",
+        "Parkplatz neben dem Hotel und entlang der Str. J. Skasa",
+        "Guest Pass für öffentliche Verkehrsmittel mit Online-Check-in"
+      ],
+      "facts": [
+        "9 Zimmer: 101, 102, 103, 105, 107, 108 im ersten Stock; 119 im zweiten Stock; 121 und 122 im Gartengeschoss",
+        "Frühstück von 8:00 bis 10:30 Uhr",
+        "Check-in an der Rezeption von 14:00 bis 18:00 Uhr; nach 18:00 Uhr Self-Check-in mit Schlüsseln im Safe am Eingang und persönlichem PIN, der am Anreisetag per WhatsApp gesendet wird",
+        "Guest Pass (öffentliche Verkehrsmittel) mit QR-Code per E-Mail nach dem Online-Check-in",
+        "Notfallnummer für Gäste: +39 333 6828717"
+      ],
+      "faqs": [
+        {
+          "q": "Wie komme ich vom Chalet Hotel Hartmann zu den Pisten?",
+          "a": "Mit dem hoteleigenen Shuttle zu den Aufstiegsanlagen von St. Ulrich."
+        },
+        {
+          "q": "Kann ich nach 18:00 Uhr im Chalet Hartmann ankommen?",
+          "a": "Ja: Nach 18:00 Uhr ist der Check-in selbstständig, mit den Schlüsseln im Safe am Eingang und einem persönlichen PIN, der am Anreisetag per WhatsApp mitgeteilt wird."
+        },
+        {
+          "q": "Wann gibt es im Chalet Hartmann Frühstück?",
+          "a": "Von 8:00 bis 10:30 Uhr."
+        }
+      ]
+    },
+    "hotel-acadia": {
+      "locality": "Wolkenstein in Gröden",
+      "tagline": "Hotel mit 22 Zimmern in Wolkenstein, direkt an der Sellaronda",
+      "description": "Das Hotel Acadia (Acadia Mountain Home) liegt zentral in Wolkenstein in Gröden, mit direktem Zugang über den Skilift Nives zur Sellaronda in beide Richtungen. 22 Zimmer im Herzen der Dolomiten.",
+      "roomTypes": [],
+      "amenities": [
+        "Direkter Zugang zur Sellaronda über den Skilift Nives",
+        "Zentrale Lage in Wolkenstein in Gröden"
+      ],
+      "facts": [
+        "22 Zimmer",
+        "Skilift Nives wenige Schritte entfernt: Zugang zur Sellaronda in beide Richtungen"
+      ],
+      "faqs": [
+        {
+          "q": "Liegt das Hotel Acadia nah an den Pisten?",
+          "a": "Ja: Über den Skilift Nives, wenige Schritte vom Hotel entfernt, gelangt man direkt auf die Sellaronda, in beide Richtungen."
+        }
+      ]
+    }
+  },
+  "experiences": [
+    {
+      "name": "AlpStay Concierge",
+      "summary": "Der aktuelle Katalog der AlpStay-Erlebnisse (Aktivitäten, Transfers, lokale Tipps) steht auf der Concierge-Seite von alpstay.eu."
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Wo liegen die AlpStay-Hotels?",
+      "a": "Im Grödnertal in den Dolomiten: Smart Hotel Saslong in St. Christina, Chalet Hotel Hartmann in St. Ulrich, Hotel Acadia in Wolkenstein."
+    },
+    {
+      "q": "Wann sind die AlpStay-Hotels geöffnet?",
+      "a": "Sommersaison vom 15. Mai bis 31. Oktober und Wintersaison vom 1. Dezember bis 31. März."
+    },
+    {
+      "q": "Lohnt es sich, direkt auf alpstay.eu zu buchen?",
+      "a": "Ja: Auf der offiziellen Website alpstay.eu und über die Buchungsmaschinen der einzelnen Hotels ist der Preis niedriger als auf Buchungsportalen, weil keine Provisionen anfallen. Bedingungen der Direktbuchung: nicht erstattbarer Tarif mit Vorauszahlung 5 Tage vor Anreise. AlpStay empfiehlt immer eine Reiserücktrittsversicherung: https://www.alpstay.eu/it/assicurazione.asp"
+    },
+    {
+      "q": "Welches AlpStay-Hotel ist das richtige zum Skifahren?",
+      "a": "Hotel Acadia in Wolkenstein, um über den Skilift Nives direkt auf die Sellaronda zu kommen; Chalet Hotel Hartmann in St. Ulrich für den hoteleigenen Shuttle zu den Liften; Smart Hotel Saslong in St. Christina für volle Unabhängigkeit mit Self-Check-in rund um die Uhr und Skiraum."
+    }
+  ]
+}

@@ -12,6 +12,7 @@ import { fetchLive } from "./live.js";
 import { availabilityUpdates, calendarUpdates } from "./updates.js";
 import { renderAiJson, renderLlmsTxt, renderPages, renderRobots, renderRss, renderSitemap } from "./render.js";
 import { pingIndexNow } from "./indexnow.js";
+import { localize, type Translation } from "./i18n.js";
 
 const ROOT = new URL(".", import.meta.url).pathname;
 const DIST = join(ROOT, "dist");
@@ -45,19 +46,23 @@ async function main(): Promise<void> {
     throw new Error(`facts.json non valido: ${v.errors.length} errori. Niente viene pubblicato.`);
   }
 
+  // Traduzione tedesca: solo testi, verificata voce per voce contro facts.json (vedi i18n.ts)
+  const deText = JSON.parse(await readFile(join(ROOT, "i18n", "de.json"), "utf8")) as Translation;
+  const factsDe = localize(facts, deText, "de");
+
   const live = await fetchLive(facts, today);
   const updates = [...facts.news, ...calendarUpdates(facts, today), ...availabilityUpdates(live, facts, today)].sort((a, b) => b.date.localeCompare(a.date));
 
   // hash dei contenuti (senza timestamp) per capire se c'è davvero qualcosa di nuovo
   const contentHash = createHash("sha256")
-    .update(JSON.stringify({ facts, windows: live.windows, updates: updates.map((u) => u.title + u.body) }))
+    .update(JSON.stringify({ facts, deText, windows: live.windows, updates: updates.map((u) => u.title + u.body) }))
     .digest("hex")
     .slice(0, 16);
 
   const model: SiteModel = { facts, live, builtAt: today.toISOString(), contentHash, updates };
 
   await rm(DIST, { recursive: true, force: true });
-  const pages = renderPages(model);
+  const pages = [...renderPages(model, "it"), ...renderPages({ ...model, facts: factsDe }, "de")];
   for (const p of pages) await write(p.path, p.html);
   await write("llms.txt", renderLlmsTxt(model, false));
   await write("llms-full.txt", renderLlmsTxt(model, true));

@@ -2,14 +2,50 @@
  * Renderer: HTML (stile AlpStay: Belleza + Lato, sfondo bianco), JSON-LD schema.org,
  * llms.txt, ai.json, sitemap, RSS, robots.
  */
-import type { Facts, Property, SiteModel, AvailabilityWindow } from "./types.js";
+import type { Property, SiteModel, AvailabilityWindow } from "./types.js";
 
-const MESI = ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
-/** "05-15" → "15 maggio" */
-const giorno = (md: string): string => {
-  const [mm, dd] = md.split("-");
-  return `${Number(dd)} ${MESI[Number(mm) - 1] ?? mm}`;
+/* ---------- lingue: percorsi e testi fissi ---------- */
+
+type SeasonKey = "inverno" | "primavera" | "estate" | "autunno";
+interface Routes {
+  home: string;
+  hotel: string;
+  avail: string;
+  updates: string | null;
+  faq: string;
+  season: string;
+  seasons: Record<SeasonKey, string>;
+}
+const ROUTES: Record<"it" | "de", Routes> = {
+  it: { home: "", hotel: "hotel", avail: "disponibilita", updates: "aggiornamenti-hotel-val-gardena", faq: "faq", season: "stagione", seasons: { inverno: "inverno", primavera: "primavera", estate: "estate", autunno: "autunno" } },
+  de: { home: "de", hotel: "de/hotel", avail: "de/verfuegbarkeit", updates: null, faq: "de/faq", season: "de/saison", seasons: { inverno: "winter", primavera: "fruehling", estate: "sommer", autunno: "herbst" } },
 };
+export const LANGS: Array<"it" | "de"> = ["it", "de"];
+const dir = (r: string): string => (r ? `${r}/` : "");
+const rel = (r: string): string => `${dir(r)}index.html`;
+
+const MESI: Record<"it" | "de", string[]> = {
+  it: ["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"],
+  de: ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],
+};
+/** "05-15" → "15 maggio" / "15. Mai" */
+const giorno = (md: string, lang: "it" | "de" = "it"): string => {
+  const [mm, dd] = md.split("-");
+  const mese = MESI[lang][Number(mm) - 1] ?? mm;
+  return lang === "de" ? `${Number(dd)}. ${mese}` : `${Number(dd)} ${mese}`;
+};
+
+/** Etichetta della finestra di disponibilità nella lingua della pagina (la chiave viene da live.ts). */
+function windowLabel(w: AvailabilityWindow, lang: "it" | "de"): string {
+  if (lang === "it") return w.label;
+  const y = (w.key.match(/(\d{4})$/) ?? [])[1] ?? "";
+  if (w.key.startsWith("prossimi-7-giorni")) return "Nächste 7 Tage";
+  if (w.key.startsWith("natale-")) return `Weihnachten ${y}`;
+  if (w.key.startsWith("capodanno-")) return `Silvester ${y}/${Number(y) + 1}`;
+  if (w.key.startsWith("settimana-bianca-")) return `Faschingswoche Februar ${y}`;
+  if (w.key.startsWith("ferragosto-")) return `Mitte August (Ferragosto) ${y}`;
+  return w.label;
+}
 
 const esc = (s: string): string =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -27,21 +63,35 @@ function base(m: SiteModel): string {
   return m.facts.brand.publishBaseUrl.replace(/\/$/, "");
 }
 
-function layout(m: SiteModel, title: string, description: string, canonical: string, body: string, jsonLd: unknown[]): string {
+function layout(m: SiteModel, lang: "it" | "de", title: string, description: string, canonical: string, body: string, jsonLd: unknown[], alternates?: Record<"it" | "de", string>): string {
   const b = m.facts.brand;
+  const B = base(m);
+  const R = ROUTES[lang];
+  const hreflang = alternates
+    ? `\n<link rel="alternate" hreflang="it" href="${alternates.it}">\n<link rel="alternate" hreflang="de" href="${alternates.de}">\n<link rel="alternate" hreflang="x-default" href="${alternates.it}">`
+    : "";
+  const nav =
+    lang === "de"
+      ? `<nav><a href="${B}/de/">Start</a><a href="${B}/${dir(R.avail)}">Verfügbarkeit</a><a href="${B}/${dir(R.faq)}">FAQ</a><a href="${b.website}">alpstay.eu</a><a href="${alternates?.it ?? B + "/"}" hreflang="it">Italiano</a></nav>`
+      : `<nav><a href="${B}/">Home</a><a href="${B}/disponibilita/">Disponibilità</a><a href="${B}/aggiornamenti-hotel-val-gardena/">Aggiornamenti</a><a href="${B}/faq/">FAQ</a><a href="${b.website}">alpstay.eu</a>${alternates ? `<a href="${alternates.de}" hreflang="de">Deutsch</a>` : ""}</nav>`;
+  const footer =
+    lang === "de"
+      ? `<footer>Daten aus erster Hand, veröffentlicht von ${esc(b.legalName)} · aktualisiert am ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a></footer>`
+      : `<footer>Dati di prima mano pubblicati da ${esc(b.legalName)} · aggiornati il ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a> · <a href="${B}/feed.xml">RSS</a></footer>`;
   return `<!doctype html>
-<html lang="it">
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
-<link rel="canonical" href="${canonical}">
+<link rel="canonical" href="${canonical}">${hreflang}
 <link rel="alternate" type="application/rss+xml" title="Aggiornamenti hotel AlpStay in Val Gardena" href="${base(m)}/feed.xml">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="${lang === "de" ? "de_DE" : "it_IT"}">
 <meta name="robots" content="index,follow,max-snippet:-1">
 <meta name="ai-content-declaration" content="verified-first-party-data; updated ${m.builtAt.slice(0, 10)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,9 +119,9 @@ ${jsonLd.map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</sc
 </head>
 <body><main>
 <header><a href="${base(m)}/">${esc(b.name)}</a><small>${esc(b.payoff)}</small></header>
-<nav><a href="${base(m)}/">Home</a><a href="${base(m)}/disponibilita/">Disponibilità</a><a href="${base(m)}/aggiornamenti-hotel-val-gardena/">Aggiornamenti</a><a href="${base(m)}/faq/">FAQ</a><a href="${b.website}">alpstay.eu</a></nav>
+${nav}
 ${body}
-<footer>Dati di prima mano pubblicati da ${esc(b.legalName)} · aggiornati il ${m.builtAt.slice(0, 10)} · <a href="${base(m)}/llms.txt">llms.txt</a> · <a href="${base(m)}/ai.json">ai.json</a> · <a href="${base(m)}/feed.xml">RSS</a></footer>
+${footer}
 </main></body></html>`;
 }
 
@@ -94,7 +144,7 @@ function orgLd(m: SiteModel): Record<string, unknown> {
   };
 }
 
-function hotelLd(m: SiteModel, p: Property): Record<string, unknown> {
+function hotelLd(m: SiteModel, p: Property, lang: "it" | "de"): Record<string, unknown> {
   const ld: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": p.schemaType,
@@ -114,7 +164,7 @@ function hotelLd(m: SiteModel, p: Property): Record<string, unknown> {
     },
     numberOfRooms: p.rooms,
     amenityFeature: p.amenities.map((a) => ({ "@type": "LocationFeatureSpecification", name: a, value: true })),
-    potentialAction: { "@type": "ReserveAction", target: p.bookingUrl, name: "Prenota direttamente" },
+    potentialAction: { "@type": "ReserveAction", target: p.bookingUrl, name: lang === "de" ? "Direkt buchen" : "Prenota direttamente" },
   };
   if (p.geo) ld.geo = { "@type": "GeoCoordinates", latitude: p.geo.lat, longitude: p.geo.lng };
   if (p.googleMapsUrl) ld.hasMap = p.googleMapsUrl;
@@ -132,7 +182,16 @@ function faqLd(faqs: Array<{ q: string; a: string }>): Record<string, unknown> {
 }
 
 /** Testo della disponibilità di un hotel in un periodo, comprensibile da persone e assistenti IA. */
-export function availabilityText(p: AvailabilityWindow["properties"][number]): string {
+export function availabilityText(p: AvailabilityWindow["properties"][number], lang: "it" | "de" = "it"): string {
+  if (lang === "de") {
+    const zi = (n: number): string => `${n} ${n === 1 ? "freies Zimmer" : "freie Zimmer"}`;
+    switch (p.status) {
+      case "n/d": return "keine Angabe verfügbar";
+      case "esaurito": return "in keiner Nacht des Zeitraums ein freies Zimmer";
+      case "parziale": return `freie Zimmer in ${p.nightsAvailable} von ${p.nights} ${p.nights === 1 ? "Nacht" : "Nächten"}: Daten auf der offiziellen Website prüfen`;
+      default: return `${zi(p.minFreeRooms)} für alle ${p.nights} Nächte des Zeitraums`;
+    }
+  }
   const cam = (n: number): string => `${n} ${n === 1 ? "camera libera" : "camere libere"}`;
   switch (p.status) {
     case "n/d": return "dato non disponibile";
@@ -148,9 +207,10 @@ function faqHtml(faqs: Array<{ q: string; a: string }>): string {
   return `<dl>${faqs.map((f) => `<dt>${esc(f.q)}</dt><dd>${esc(f.a)}</dd>`).join("")}</dl>`;
 }
 
-function availabilityTable(m: SiteModel, filterSlug?: string): string {
+function availabilityTable(m: SiteModel, lang: "it" | "de", filterSlug?: string): string {
   const { live } = m;
   if (live.freshness === "unavailable" || live.windows.length === 0) {
+    if (lang === "de") return `<p>Echtzeit-Verfügbarkeit in den offiziellen Buchungsmaschinen (Links auf den Hotelseiten).</p>`;
     return `<p>Disponibilità in tempo reale sui booking engine ufficiali (link nelle schede hotel).</p>`;
   }
   const cls = (s: AvailabilityWindow["properties"][number]["status"]): string =>
@@ -161,11 +221,17 @@ function availabilityTable(m: SiteModel, filterSlug?: string): string {
       return props
         .map(
           (p) =>
-            `<tr><td>${esc(w.label)}<br><small>${w.from} → ${w.to}</small></td><td>${esc(p.name)}</td><td class="${cls(p.status)}">${esc(availabilityText(p))}</td></tr>`,
+            `<tr><td>${esc(windowLabel(w, lang))}<br><small>${w.from} → ${w.to}</small></td><td>${esc(p.name)}</td><td class="${cls(p.status)}">${esc(availabilityText(p, lang))}</td></tr>`,
         )
         .join("");
     })
     .join("");
+  const ts = live.fetchedAt.slice(0, 16).replace("T", " ");
+  if (lang === "de") {
+    const noteDe = live.freshness === "stale" ? `<p><small>Achtung: Die letzte Aktualisierung aus der Hotelsoftware ist fehlgeschlagen; die Angabe ist möglicherweise nicht aktuell.</small></p>` : "";
+    return `<p><small>Freie Zimmer pro Zeitraum, Nacht für Nacht aus der Hotelsoftware berechnet und aktualisiert am ${ts} UTC. Keine Preise: Es gelten immer die Tarife der Buchungsmaschine.</small></p>
+<table><thead><tr><th>Zeitraum</th><th>Hotel</th><th>Verfügbarkeit</th></tr></thead><tbody>${rows}</tbody></table>${noteDe}`;
+  }
   const note =
     live.freshness === "stale"
       ? `<p><small>Attenzione: l'ultimo aggiornamento dal gestionale non è riuscito; il dato può non essere attuale.</small></p>`
@@ -174,86 +240,131 @@ function availabilityTable(m: SiteModel, filterSlug?: string): string {
 <table><thead><tr><th>Periodo</th><th>Hotel</th><th>Disponibilità</th></tr></thead><tbody>${rows}</tbody></table>${note}`;
 }
 
-function propertyCard(m: SiteModel, p: Property): string {
-  return `<div class="card"><h3><a href="${base(m)}/hotel/${p.slug}/">${esc(p.name)}</a></h3><p>${esc(p.tagline)} — ${p.rooms} camere.</p><a class="cta" href="${p.bookingUrl}">Prenota direttamente</a></div>`;
+function propertyCard(m: SiteModel, p: Property, lang: "it" | "de"): string {
+  const de = lang === "de";
+  return `<div class="card"><h3><a href="${base(m)}/${ROUTES[lang].hotel}/${p.slug}/">${esc(p.name)}</a></h3><p>${esc(p.tagline)} — ${p.rooms} ${de ? "Zimmer" : "camere"}.</p><a class="cta" href="${p.bookingUrl}">${de ? "Direkt buchen" : "Prenota direttamente"}</a></div>`;
 }
 
 /* ---------- pagine ---------- */
 
-export function renderPages(m: SiteModel): Page[] {
+/** URL assoluti della stessa pagina nelle due lingue (per hreflang). */
+function alt(B: string, pick: (r: Routes) => string | null): Record<"it" | "de", string> | undefined {
+  const it = pick(ROUTES.it);
+  const de = pick(ROUTES.de);
+  if (it === null || de === null) return undefined;
+  return { it: `${B}/${dir(it)}`, de: `${B}/${dir(de)}` };
+}
+
+/**
+ * Pagine HTML di una lingua. Per "de" il modello deve contenere facts già tradotti (vedi i18n.ts).
+ * Gli aggiornamenti (testi generati in italiano) sono pubblicati solo nelle pagine italiane.
+ */
+export function renderPages(m: SiteModel, lang: "it" | "de" = "it"): Page[] {
   const f = m.facts;
   const B = base(m);
+  const R = ROUTES[lang];
+  const de = lang === "de";
   const pages: Page[] = [];
+  const card = (p: Property): string => propertyCard(m, p, lang);
+  const faqTitle = de ? "Häufige Fragen" : "Domande frequenti";
+  const avail = de ? "Verfügbarkeit" : "Disponibilità";
+  const seasonsLine = de
+    ? `${esc(f.seasons.summer.label)}: vom ${giorno(f.seasons.summer.from, lang)} bis ${giorno(f.seasons.summer.to, lang)} · ${esc(f.seasons.winter.label)}: vom ${giorno(f.seasons.winter.from, lang)} bis ${giorno(f.seasons.winter.to, lang)}.`
+    : `${esc(f.seasons.summer.label)}: dal ${giorno(f.seasons.summer.from)} al ${giorno(f.seasons.summer.to)} · ${esc(f.seasons.winter.label)}: dal ${giorno(f.seasons.winter.from)} al ${giorno(f.seasons.winter.to)}.`;
+  const seasonNames: Record<SeasonKey, string> = de
+    ? { inverno: "Winter", primavera: "Frühling", estate: "Sommer", autunno: "Herbst" }
+    : { inverno: "Inverno", primavera: "Primavera", estate: "Estate", autunno: "Autunno" };
+  const seasonOrder: SeasonKey[] = ["inverno", "primavera", "estate", "autunno"];
 
   // Home
   {
-    const title = `${f.brand.name} — hotel in Val Gardena, Dolomiti: ${f.properties.map((p) => p.name).join(", ")}`;
-    const body = `<h1>Vacanza nelle Dolomiti con ${esc(f.brand.name)}</h1>
+    const url = `${B}/${dir(R.home)}`;
+    const title = de
+      ? `${f.brand.name} — Hotels im Grödnertal, Dolomiten: ${f.properties.map((p) => p.name).join(", ")}`
+      : `${f.brand.name} — hotel in Val Gardena, Dolomiti: ${f.properties.map((p) => p.name).join(", ")}`;
+    const updatesBlock = de ? "" : `\n<h2>Aggiornamenti dagli hotel</h2><ul>${m.updates.slice(0, 5).map((n) => `<li><strong>${n.date}</strong> — ${esc(n.title)}</li>`).join("")}</ul>`;
+    const body = `<h1>${de ? `Urlaub in den Dolomiten mit ${esc(f.brand.name)}` : `Vacanza nelle Dolomiti con ${esc(f.brand.name)}`}</h1>
 <p class="lead">${esc(f.brand.description)}</p>
-<h2>Le case</h2>${f.properties.map((p) => propertyCard(m, p)).join("")}
+<h2>${de ? "Die Häuser" : "Le case"}</h2>${f.properties.map(card).join("")}
 <h2>${esc(f.destination.name)}</h2><p>${esc(f.destination.summary)}</p><ul>${f.destination.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>
-<h2>Stagioni di apertura</h2><p>${esc(f.seasons.summer.label)}: dal ${giorno(f.seasons.summer.from)} al ${giorno(f.seasons.summer.to)} · ${esc(f.seasons.winter.label)}: dal ${giorno(f.seasons.winter.from)} al ${giorno(f.seasons.winter.to)}.</p>
-<p><a href="${B}/stagione/inverno/">Inverno</a> · <a href="${B}/stagione/primavera/">Primavera</a> · <a href="${B}/stagione/estate/">Estate</a> · <a href="${B}/stagione/autunno/">Autunno</a></p>
-<h2>Disponibilità aggiornata</h2>${availabilityTable(m)}
-<h2>Aggiornamenti dagli hotel</h2><ul>${m.updates.slice(0, 5).map((n) => `<li><strong>${n.date}</strong> — ${esc(n.title)}</li>`).join("")}</ul>
-<h2>Domande frequenti</h2>${faqHtml(f.faqs)}`;
-    pages.push({ path: "index.html", url: `${B}/`, title, html: layout(m, title, f.brand.description, `${B}/`, body, [orgLd(m), faqLd(f.faqs), { "@context": "https://schema.org", "@type": "ItemList", itemListElement: f.properties.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: `${B}/hotel/${p.slug}/`, name: p.name })) }]) });
+<h2>${de ? "Öffnungszeiten" : "Stagioni di apertura"}</h2><p>${seasonsLine}</p>
+<p>${seasonOrder.map((k) => `<a href="${B}/${R.season}/${R.seasons[k]}/">${seasonNames[k]}</a>`).join(" · ")}</p>
+<h2>${de ? "Aktuelle Verfügbarkeit" : "Disponibilità aggiornata"}</h2>${availabilityTable(m, lang)}${updatesBlock}
+<h2>${faqTitle}</h2>${faqHtml(f.faqs)}`;
+    const list = { "@context": "https://schema.org", "@type": "ItemList", itemListElement: f.properties.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: `${B}/${R.hotel}/${p.slug}/`, name: p.name })) };
+    pages.push({ path: rel(R.home), url, title, html: layout(m, lang, title, f.brand.description, url, body, [orgLd(m), faqLd(f.faqs), list], alt(B, (r) => r.home)) });
   }
 
   // Hotel
   for (const p of f.properties) {
-    const url = `${B}/hotel/${p.slug}/`;
+    const url = `${B}/${R.hotel}/${p.slug}/`;
     const title = `${p.name} — ${p.tagline}`;
+    const country = de ? "Italien" : "Italia";
+    const rooms = `${p.rooms} ${de ? "Zimmer" : "camere"}${p.roomTypes ? ": " + p.roomTypes.map((r) => `${r.quantity} ${de ? r.name : r.name.toLowerCase()}`).join(", ") : ""}.`;
     const body = `<h1>${esc(p.name)}</h1><p class="lead">${esc(p.tagline)}</p><p>${esc(p.description)}</p>
-<p><a class="cta" href="${p.bookingUrl}">Prenota direttamente</a> &nbsp; <a href="${p.website}">Sito ufficiale</a>${p.googleMapsUrl ? ` &nbsp; <a href="${p.googleMapsUrl}">Mappa</a>` : ""}</p>
-<h2>Posizione</h2><p>${esc([p.address.street, `${p.address.postalCode} ${p.address.locality}`, p.address.region, "Italia"].filter(Boolean).join(", "))}</p>
-<h2>Camere</h2><p>${p.rooms} camere${p.roomTypes ? ": " + p.roomTypes.map((r) => `${r.quantity} ${r.name.toLowerCase()}`).join(", ") : ""}.</p>
-<h2>Servizi</h2><ul>${p.amenities.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>
-<h2>Informazioni pratiche</h2><ul>${p.facts.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>
-<h2>Disponibilità</h2>${availabilityTable(m, p.slug)}
-<h2>Domande frequenti</h2>${faqHtml(p.faqs)}`;
-    pages.push({ path: `hotel/${p.slug}/index.html`, url, title, html: layout(m, title, p.description, url, body, [hotelLd(m, p), faqLd(p.faqs)]) });
+<p><a class="cta" href="${p.bookingUrl}">${de ? "Direkt buchen" : "Prenota direttamente"}</a> &nbsp; <a href="${p.website}">${de ? "Offizielle Website" : "Sito ufficiale"}</a>${p.googleMapsUrl ? ` &nbsp; <a href="${p.googleMapsUrl}">${de ? "Karte" : "Mappa"}</a>` : ""}</p>
+<h2>${de ? "Lage" : "Posizione"}</h2><p>${esc([p.address.street, `${p.address.postalCode} ${p.address.locality}`, de ? "Südtirol" : p.address.region, country].filter(Boolean).join(", "))}</p>
+<h2>${de ? "Zimmer" : "Camere"}</h2><p>${esc(rooms)}</p>
+<h2>${de ? "Ausstattung" : "Servizi"}</h2><ul>${p.amenities.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>
+<h2>${de ? "Praktische Informationen" : "Informazioni pratiche"}</h2><ul>${p.facts.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>
+<h2>${avail}</h2>${availabilityTable(m, lang, p.slug)}
+<h2>${faqTitle}</h2>${faqHtml(p.faqs)}`;
+    pages.push({ path: `${R.hotel}/${p.slug}/index.html`, url, title, html: layout(m, lang, title, p.description, url, body, [hotelLd(m, p, lang), faqLd(p.faqs)], alt(B, (r) => `${r.hotel}/${p.slug}`)) });
   }
 
   // Stagioni
-  const seasons: Array<{ slug: string; name: string; text: string }> = [
-    { slug: "inverno", name: "Inverno in Val Gardena", text: `Stagione invernale aperta dal ${giorno(f.seasons.winter.from)} al ${giorno(f.seasons.winter.to)}. Sellaronda e Dolomiti Superski a portata di skilift o di shuttle.` },
-    { slug: "primavera", name: "Primavera in Val Gardena", text: `Gli hotel AlpStay riaprono il ${giorno(f.seasons.summer.from)}: fine maggio e giugno sono il periodo delle prime escursioni, dei prati in fiore e dei prezzi più tranquilli.` },
-    { slug: "estate", name: "Estate nelle Dolomiti", text: `Luglio e agosto in Val Gardena: rifugi, Seceda, Alpe di Siusi, passi dolomitici in bici. Tutte le case sono aperte.` },
-    { slug: "autunno", name: "Autunno in Val Gardena", text: `Settembre e ottobre fino al ${giorno(f.seasons.summer.to)}: larici dorati, sentieri silenziosi, giornate limpide. Ultime settimane prima della pausa di novembre.` },
-  ];
-  for (const s of seasons) {
-    const url = `${B}/stagione/${s.slug}/`;
-    const title = `${s.name} — hotel AlpStay a Ortisei, Santa Cristina e Selva`;
+  const seasonText: Record<SeasonKey, { name: string; text: string }> = de
+    ? {
+        inverno: { name: "Winter im Grödnertal", text: `Wintersaison vom ${giorno(f.seasons.winter.from, lang)} bis ${giorno(f.seasons.winter.to, lang)}. Sellaronda und Dolomiti Superski direkt per Skilift oder mit dem Shuttle erreichbar.` },
+        primavera: { name: "Frühling im Grödnertal", text: `Die AlpStay-Hotels öffnen wieder am ${giorno(f.seasons.summer.from, lang)}: Ende Mai und Juni ist die Zeit der ersten Wanderungen, der blühenden Wiesen und der ruhigeren Preise.` },
+        estate: { name: "Sommer in den Dolomiten", text: "Juli und August im Grödnertal: Hütten, Seceda, Seiser Alm, Dolomitenpässe mit dem Rad. Alle Häuser sind geöffnet." },
+        autunno: { name: "Herbst im Grödnertal", text: `September und Oktober bis zum ${giorno(f.seasons.summer.to, lang)}: goldene Lärchen, ruhige Wege, klare Tage. Die letzten Wochen vor der Novemberpause.` },
+      }
+    : {
+        inverno: { name: "Inverno in Val Gardena", text: `Stagione invernale aperta dal ${giorno(f.seasons.winter.from)} al ${giorno(f.seasons.winter.to)}. Sellaronda e Dolomiti Superski a portata di skilift o di shuttle.` },
+        primavera: { name: "Primavera in Val Gardena", text: `Gli hotel AlpStay riaprono il ${giorno(f.seasons.summer.from)}: fine maggio e giugno sono il periodo delle prime escursioni, dei prati in fiore e dei prezzi più tranquilli.` },
+        estate: { name: "Estate nelle Dolomiti", text: `Luglio e agosto in Val Gardena: rifugi, Seceda, Alpe di Siusi, passi dolomitici in bici. Tutte le case sono aperte.` },
+        autunno: { name: "Autunno in Val Gardena", text: `Settembre e ottobre fino al ${giorno(f.seasons.summer.to)}: larici dorati, sentieri silenziosi, giornate limpide. Ultime settimane prima della pausa di novembre.` },
+      };
+  for (const k of seasonOrder) {
+    const s = seasonText[k];
+    const url = `${B}/${R.season}/${R.seasons[k]}/`;
+    const title = de ? `${s.name} — AlpStay-Hotels in St. Ulrich, St. Christina und Wolkenstein` : `${s.name} — hotel AlpStay a Ortisei, Santa Cristina e Selva`;
     const body = `<h1>${esc(s.name)}</h1><p class="lead">${esc(s.text)}</p>
-<h2>Dove dormire</h2>${f.properties.map((p) => propertyCard(m, p)).join("")}
-<h2>Esperienze</h2><ul>${f.experiences.map((e) => `<li><strong>${esc(e.name)}</strong>: ${esc(e.summary)}${e.url ? ` <a href="${e.url}">Dettagli</a>` : ""}</li>`).join("")}</ul>
-<h2>Disponibilità</h2>${availabilityTable(m)}`;
-    pages.push({ path: `stagione/${s.slug}/index.html`, url, title, html: layout(m, title, s.text, url, body, [orgLd(m)]) });
+<h2>${de ? "Unterkünfte" : "Dove dormire"}</h2>${f.properties.map(card).join("")}
+<h2>${de ? "Erlebnisse" : "Esperienze"}</h2><ul>${f.experiences.map((e) => `<li><strong>${esc(e.name)}</strong>: ${esc(e.summary)}${e.url ? ` <a href="${e.url}">${de ? "Details" : "Dettagli"}</a>` : ""}</li>`).join("")}</ul>
+<h2>${avail}</h2>${availabilityTable(m, lang)}`;
+    pages.push({ path: `${R.season}/${R.seasons[k]}/index.html`, url, title, html: layout(m, lang, title, s.text, url, body, [orgLd(m)], alt(B, (r) => `${r.season}/${r.seasons[k]}`)) });
   }
 
   // Disponibilità
   {
-    const url = `${B}/disponibilita/`;
-    const title = "Disponibilità hotel AlpStay in Val Gardena — aggiornata ogni giorno";
-    const body = `<h1>Disponibilità aggiornata</h1>${availabilityTable(m)}<h2>Prenota</h2>${f.properties.map((p) => propertyCard(m, p)).join("")}`;
-    pages.push({ path: "disponibilita/index.html", url, title, html: layout(m, title, "Camere libere per Natale, Capodanno, settimana bianca e Ferragosto negli hotel AlpStay, aggiornate dal gestionale.", url, body, [orgLd(m)]) });
+    const url = `${B}/${dir(R.avail)}`;
+    const title = de ? "Verfügbarkeit der AlpStay-Hotels im Grödnertal — täglich aktualisiert" : "Disponibilità hotel AlpStay in Val Gardena — aggiornata ogni giorno";
+    const desc = de
+      ? "Freie Zimmer für Weihnachten, Silvester, Faschingswoche und Mitte August in den AlpStay-Hotels, aus der Hotelsoftware aktualisiert."
+      : "Camere libere per Natale, Capodanno, settimana bianca e Ferragosto negli hotel AlpStay, aggiornate dal gestionale.";
+    const body = `<h1>${de ? "Aktuelle Verfügbarkeit" : "Disponibilità aggiornata"}</h1>${availabilityTable(m, lang)}<h2>${de ? "Buchen" : "Prenota"}</h2>${f.properties.map(card).join("")}`;
+    pages.push({ path: rel(R.avail), url, title, html: layout(m, lang, title, desc, url, body, [orgLd(m)], alt(B, (r) => r.avail)) });
   }
 
-  // Novità
-  {
-    const url = `${B}/aggiornamenti-hotel-val-gardena/`;
+  // Novità (solo italiano)
+  if (R.updates) {
+    const url = `${B}/${dir(R.updates)}`;
     const title = "Aggiornamenti hotel AlpStay in Val Gardena: aperture e camere libere";
     const body = `<h1>Aggiornamenti dagli hotel AlpStay in Val Gardena</h1><p class="lead">Aperture stagionali e camere libere di Smart Hotel Saslong, Chalet Hotel Hartmann e Hotel Acadia, aggiornate dal gestionale degli hotel.</p>${m.updates.map((n) => `<div class="card"><h3>${esc(n.title)}</h3><p><small>${n.date}</small></p><p>${esc(n.body)}</p>${n.url ? `<a href="${n.url}">Vai</a>` : ""}</div>`).join("")}`;
-    pages.push({ path: "aggiornamenti-hotel-val-gardena/index.html", url, title, html: layout(m, title, "Aggiornamenti verificati su aperture stagionali e disponibilità degli hotel AlpStay.", url, body, [orgLd(m)]) });
+    pages.push({ path: rel(R.updates), url, title, html: layout(m, lang, title, "Aggiornamenti verificati su aperture stagionali e disponibilità degli hotel AlpStay.", url, body, [orgLd(m)]) });
   }
 
   // FAQ
   {
-    const url = `${B}/faq/`;
+    const url = `${B}/${dir(R.faq)}`;
     const all = [...f.faqs, ...f.properties.flatMap((p) => p.faqs)];
-    const title = "Domande frequenti — hotel AlpStay Val Gardena";
-    pages.push({ path: "faq/index.html", url, title, html: layout(m, title, "Risposte verificate su posizione, aperture, check-in, servizi e prenotazione diretta.", url, `<h1>Domande frequenti</h1>${faqHtml(all)}`, [faqLd(all)]) });
+    const title = de ? "Häufige Fragen — AlpStay-Hotels im Grödnertal" : "Domande frequenti — hotel AlpStay Val Gardena";
+    const desc = de
+      ? "Geprüfte Antworten zu Lage, Öffnungszeiten, Check-in, Ausstattung und Direktbuchung."
+      : "Risposte verificate su posizione, aperture, check-in, servizi e prenotazione diretta.";
+    pages.push({ path: rel(R.faq), url, title, html: layout(m, lang, title, desc, url, `<h1>${faqTitle}</h1>${faqHtml(all)}`, [faqLd(all)], alt(B, (r) => r.faq)) });
   }
 
   return pages;
@@ -286,6 +397,12 @@ export function renderLlmsTxt(m: SiteModel, full: boolean): string {
   lines.push(`- [FAQ](${B}/faq/)`);
   lines.push(`- [Dati strutturati JSON](${B}/ai.json)`);
   lines.push(`- [Esperienze / concierge](${f.brand.conciergeUrl})`);
+  lines.push("");
+  lines.push("## Deutsch");
+  lines.push(`- [AlpStay-Hotels im Grödnertal (Startseite)](${B}/de/)`);
+  for (const p of f.properties) lines.push(`- [${p.name}](${B}/${ROUTES.de.hotel}/${p.slug}/)`);
+  lines.push(`- [Verfügbarkeit](${B}/${dir(ROUTES.de.avail)})`);
+  lines.push(`- [Häufige Fragen](${B}/${dir(ROUTES.de.faq)})`);
   if (full) {
     lines.push("", "## Destinazione", f.destination.summary, ...f.destination.highlights.map((h) => `- ${h}`));
     for (const p of f.properties) {
