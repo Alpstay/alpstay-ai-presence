@@ -158,8 +158,8 @@
       "scatolaPropertyId": "11111111-1111-4111-8111-111111111111",
       "name": "Hotel Acadia",
       "schemaType": "Hotel",
-      "tagline": "Hotel di 22 camere a Selva di Val Gardena, sulla Sellaronda",
-      "description": "L'Hotel Acadia (Acadia Mountain Home) si trova in posizione centrale a Selva di Val Gardena con accesso immediato, tramite lo skilift Nives, al carosello Sellaronda in entrambe le direzioni. 22 camere nel cuore delle Dolomiti.",
+      "tagline": "Hotel di 21 camere a Selva di Val Gardena, sulla Sellaronda",
+      "description": "L'Hotel Acadia (Acadia Mountain Home) si trova in posizione centrale a Selva di Val Gardena con accesso immediato, tramite lo skilift Nives, al carosello Sellaronda in entrambe le direzioni. 21 camere nel cuore delle Dolomiti.",
       "website": "https://www.hotel-acadia.com",
       "bookingUrl": "https://booking.slope.it/4cb5989a-8788-46f6-a726-f31abc67f697",
       "address": {
@@ -169,13 +169,13 @@
         "region": "Alto Adige - Südtirol",
         "country": "IT"
       },
-      "rooms": 22,
+      "rooms": 21,
       "amenities": [
         "Accesso immediato alla Sellaronda tramite lo skilift Nives",
         "Posizione centrale a Selva di Val Gardena"
       ],
       "facts": [
-        "22 camere",
+        "21 camere",
         "Skilift Nives a pochi passi: accesso alla Sellaronda in entrambe le direzioni"
       ],
       "faqs": [
