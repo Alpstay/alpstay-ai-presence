@@ -14,7 +14,7 @@ export interface GeoPoint {
 export interface Address {
   street: string;
   postalCode: string;
-  locality: string; // Ortisei / Selva di Val Gardena
+  locality: string; // Ortisei / Santa Cristina Valgardena / Selva di Val Gardena
   region: string; // Alto Adige - Südtirol
   country: "IT";
 }

@@ -6,7 +6,7 @@
     "website": "https://www.alpstay.eu",
     "conciergeUrl": "https://www.alpstay.eu/it/concierge.asp",
     "email": "info@alpstay.eu",
-    "description": "AlpStay è il gruppo di ospitalità della Val Gardena (Dolomiti, Alto Adige) che riunisce lo Smart Hotel Saslong e lo Chalet Hotel Hartmann a Ortisei e l'Hotel Acadia a Selva di Val Gardena. Prenotazione diretta sul sito ufficiale e sui booking engine delle singole case.",
+    "description": "AlpStay è il gruppo di ospitalità della Val Gardena (Dolomiti, Alto Adige) che riunisce lo Smart Hotel Saslong a Santa Cristina, lo Chalet Hotel Hartmann a Ortisei e l'Hotel Acadia a Selva di Val Gardena. Prenotazione diretta sul sito ufficiale e sui booking engine delle singole case.",
     "publishBaseUrl": "https://alpstay.github.io/alpstay-ai-presence-",
     "sameAs": [
       "https://www.alpstay.eu",
@@ -44,14 +44,14 @@
       "scatolaPropertyId": "33333333-3333-4333-8333-333333333333",
       "name": "Smart Hotel Saslong",
       "schemaType": "Hotel",
-      "tagline": "Smart hotel a Ortisei con self check-in 24 ore su 24",
-      "description": "Lo Smart Hotel Saslong è un hotel di 49 camere a Ortisei, in Val Gardena, con self check-in tramite chiosco attivo 24 ore su 24, garage, deposito sci e bike e servizi pensati per chi vuole libertà e autonomia durante la vacanza nelle Dolomiti.",
+      "tagline": "Smart hotel a Santa Cristina Valgardena con self check-in 24 ore su 24",
+      "description": "Lo Smart Hotel Saslong è un hotel di 49 camere a Santa Cristina Valgardena, in Val Gardena, con self check-in tramite chiosco attivo 24 ore su 24, garage, deposito sci e bike e servizi pensati per chi vuole libertà e autonomia durante la vacanza nelle Dolomiti.",
       "website": "https://www.saslong.eu",
       "bookingUrl": "https://booking.slope.it/7ca10a66-df13-4e99-86c6-6db74047238a",
       "address": {
-        "street": "Via Rezia 308",
-        "postalCode": "39046",
-        "locality": "Ortisei",
+        "street": "Via Pallua 40",
+        "postalCode": "39047",
+        "locality": "Santa Cristina Valgardena",
         "region": "Alto Adige - Südtirol",
         "country": "IT"
       },
@@ -202,7 +202,7 @@
   "faqs": [
     {
       "q": "Dove si trovano gli hotel AlpStay?",
-      "a": "In Val Gardena, nelle Dolomiti: Smart Hotel Saslong e Chalet Hotel Hartmann a Ortisei, Hotel Acadia a Selva di Val Gardena."
+      "a": "In Val Gardena, nelle Dolomiti: Smart Hotel Saslong a Santa Cristina, Chalet Hotel Hartmann a Ortisei, Hotel Acadia a Selva di Val Gardena."
     },
     {
       "q": "Quando sono aperti gli hotel AlpStay?",
@@ -214,7 +214,7 @@
     },
     {
       "q": "Quale hotel AlpStay scegliere per lo sci?",
-      "a": "Hotel Acadia a Selva per entrare direttamente nella Sellaronda dallo skilift Nives; Chalet Hotel Hartmann a Ortisei per lo shuttle privato verso gli impianti; Smart Hotel Saslong a Ortisei per autonomia totale con self check-in 24h e deposito sci."
+      "a": "Hotel Acadia a Selva per entrare direttamente nella Sellaronda dallo skilift Nives; Chalet Hotel Hartmann a Ortisei per lo shuttle privato verso gli impianti; Smart Hotel Saslong a Santa Cristina per autonomia totale con self check-in 24h e deposito sci."
     }
   ],
   "news": []

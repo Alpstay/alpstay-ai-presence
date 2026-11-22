@@ -224,7 +224,7 @@ export function renderPages(m: SiteModel): Page[] {
   ];
   for (const s of seasons) {
     const url = `${B}/stagione/${s.slug}/`;
-    const title = `${s.name} — hotel AlpStay a Ortisei e Selva`;
+    const title = `${s.name} — hotel AlpStay a Ortisei, Santa Cristina e Selva`;
     const body = `<h1>${esc(s.name)}</h1><p class="lead">${esc(s.text)}</p>
 <h2>Dove dormire</h2>${f.properties.map((p) => propertyCard(m, p)).join("")}
 <h2>Esperienze</h2><ul>${f.experiences.map((e) => `<li><strong>${esc(e.name)}</strong>: ${esc(e.summary)}${e.url ? ` <a href="${e.url}">Dettagli</a>` : ""}</li>`).join("")}</ul>
