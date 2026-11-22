@@ -11,7 +11,7 @@ const MAX_KM = 12;
 const MAX_AGE_H = 3;
 
 interface StationFeature {
-  properties: { SCODE: string; NAME_I: string; NAME_D: string; ALT: number; LAT: number; LONG: number };
+  properties: { SCODE: string; NAME_I: string; NAME_D: string; NAME_E?: string; ALT: number; LAT: number; LONG: number };
 }
 interface SensorRow { SCODE: string; TYPE: string; UNIT: string; DATE: string; VALUE: number }
 interface SeriesRow { DATE: string; VALUE: number }
@@ -19,6 +19,8 @@ interface SeriesRow { DATE: string; VALUE: number }
 export interface StationReading {
   code: string;
   name: string;
+  /** nome della stazione nelle tre lingue (dati della Provincia) */
+  names: { it: string; de: string; en: string };
   altitude: number;
   distanceKm: number;
   /** ISO con fuso, ora dell'ultima misura */
@@ -72,7 +74,8 @@ async function reading(f: StationFeature, now: Date): Promise<StationReading | n
     } catch { /* senza serie: solo altezza attuale */ }
   }
   return {
-    code: p.SCODE, name: p.NAME_I || p.NAME_D, altitude: p.ALT,
+    code: p.SCODE, name: p.NAME_I || p.NAME_D,
+    names: { it: p.NAME_I || p.NAME_D, de: p.NAME_D || p.NAME_I, en: p.NAME_E && p.NAME_E !== p.NAME_D ? p.NAME_E : p.NAME_I || p.NAME_D }, altitude: p.ALT,
     distanceKm: Math.round(km(CENTER, { lat: p.LAT, lon: p.LONG }) * 10) / 10,
     at: parseBzDate((lt ?? hs)!.DATE),
     airTempC: lt ? Math.round(lt.VALUE * 10) / 10 : undefined,

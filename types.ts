@@ -147,4 +147,8 @@ export interface SiteModel {
   contentHash: string;
   /** Notizie generate dal calendario (apertura stagione ecc.) + news manuali */
   updates: NewsItem[];
+  /** aggiornamenti tradotti (meteo + eventi) per le pagine tedesche e inglesi */
+  updatesByLang?: Partial<Record<"de" | "en", NewsItem[]>>;
+  /** dati strutturati schema.org Event per lingua */
+  eventsLdByLang?: Partial<Record<Lang, object[]>>;
 }

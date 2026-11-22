@@ -10,7 +10,7 @@ import type { Facts, SiteModel } from "./types.js";
 import { validateFacts } from "./validate.js";
 import { fetchLive } from "./live.js";
 import { availabilityUpdates, calendarUpdates } from "./updates.js";
-import { eventUpdates } from "./events.js";
+import { eventUpdates, eventsLd } from "./events.js";
 import { fetchWeather, weatherUpdate } from "./weather.js";
 import { renderAiJson, renderLlmsTxt, renderPages, renderRobots, renderRss, renderSitemap } from "./render.js";
 import { pingIndexNow } from "./indexnow.js";
@@ -59,13 +59,18 @@ async function main(): Promise<void> {
   // meteo per primo: a parità di data resta in cima (ordinamento stabile)
   const updates = [...weatherUpdate(weather, facts), ...facts.news, ...eventUpdates(facts, today), ...calendarUpdates(facts, today), ...availabilityUpdates(live, facts, today)].sort((a, b) => b.date.localeCompare(a.date));
 
+  const updatesByLang = {
+    de: [...weatherUpdate(weather, facts, "de"), ...eventUpdates(facts, today, "de")],
+    en: [...weatherUpdate(weather, facts, "en"), ...eventUpdates(facts, today, "en")],
+  };
+  const eventsLdByLang = { it: eventsLd(facts, today, "it"), de: eventsLd(facts, today, "de"), en: eventsLd(facts, today, "en") };
   // hash dei contenuti (senza timestamp) per capire se c'è davvero qualcosa di nuovo
   const contentHash = createHash("sha256")
-    .update(JSON.stringify({ facts, deText, enText, windows: live.windows, updates: updates.map((u) => u.title + u.body) }))
+    .update(JSON.stringify({ facts, deText, enText, windows: live.windows, updates: updates.map((u) => u.title + u.body), updatesByLang, eventsLdByLang }))
     .digest("hex")
     .slice(0, 16);
 
-  const model: SiteModel = { facts, live, builtAt: today.toISOString(), contentHash, updates };
+  const model: SiteModel = { facts, live, builtAt: today.toISOString(), contentHash, updates, updatesByLang, eventsLdByLang };
 
   await rm(DIST, { recursive: true, force: true });
   const pages = [...renderPages(model, "it"), ...renderPages({ ...model, facts: factsDe }, "de"), ...renderPages({ ...model, facts: factsEn }, "en")];

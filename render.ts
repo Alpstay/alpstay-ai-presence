@@ -25,8 +25,8 @@ interface Routes {
 }
 const ROUTES: Record<PageLang, Routes> = {
   it: { home: "", hotel: "hotel", avail: "disponibilita", updates: "aggiornamenti-hotel-val-gardena", faq: "faq", season: "stagione", seasons: { inverno: "inverno", primavera: "primavera", estate: "estate", autunno: "autunno" } },
-  de: { home: "de", hotel: "de/hotel", avail: "de/verfuegbarkeit", updates: null, faq: "de/faq", season: "de/saison", seasons: { inverno: "winter", primavera: "fruehling", estate: "sommer", autunno: "herbst" } },
-  en: { home: "en", hotel: "en/hotel", avail: "en/availability", updates: null, faq: "en/faq", season: "en/season", seasons: { inverno: "winter", primavera: "spring", estate: "summer", autunno: "autumn" } },
+  de: { home: "de", hotel: "de/hotel", avail: "de/verfuegbarkeit", updates: "de/aktuelles-hotels-groeden", faq: "de/faq", season: "de/saison", seasons: { inverno: "winter", primavera: "fruehling", estate: "sommer", autunno: "herbst" } },
+  en: { home: "en", hotel: "en/hotel", avail: "en/availability", updates: "en/val-gardena-hotel-news", faq: "en/faq", season: "en/season", seasons: { inverno: "winter", primavera: "spring", estate: "summer", autunno: "autumn" } },
 };
 const dir = (r: string): string => (r ? `${r}/` : "");
 const rel = (r: string): string => `${dir(r)}index.html`;
@@ -91,7 +91,7 @@ function layout(m: SiteModel, lang: PageLang, title: string, description: string
   const nav =
     lang === "it"
       ? `<nav><a href="${B}/">Home</a><a href="${B}/disponibilita/">Disponibilità e prezzi</a><a href="${B}/aggiornamenti-hotel-val-gardena/">Aggiornamenti</a><a href="${B}/faq/">FAQ</a><span class="langs">${otherLangs}</span></nav>`
-      : `<nav><a href="${B}/${dir(R.home)}">${tx(lang, "", "Start", "Home")}</a><a href="${B}/${dir(R.avail)}">${tx(lang, "", "Verfügbarkeit und Preise", "Availability and prices")}</a><a href="${B}/${dir(R.faq)}">FAQ</a><span class="langs">${otherLangs || `<a href="${B}/" hreflang="it">Italiano</a>`}</span></nav>`;
+      : `<nav><a href="${B}/${dir(R.home)}">${tx(lang, "", "Start", "Home")}</a><a href="${B}/${dir(R.avail)}">${tx(lang, "", "Verfügbarkeit und Preise", "Availability and prices")}</a>${R.updates ? `<a href="${B}/${dir(R.updates)}">${tx(lang, "", "Aktuelles", "News")}</a>` : ""}<a href="${B}/${dir(R.faq)}">FAQ</a><span class="langs">${otherLangs || `<a href="${B}/" hreflang="it">Italiano</a>`}</span></nav>`;
   const footer =
     lang === "it"
       ? `<footer>Dati di prima mano pubblicati da ${esc(b.legalName)} · aggiornati il ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a> · <a href="${B}/feed.xml">RSS</a></footer>`
@@ -287,6 +287,11 @@ function propertyCard(m: SiteModel, p: Property, lang: PageLang): string {
 
 /* ---------- pagine ---------- */
 
+/** Aggiornamenti da mostrare in una lingua. */
+function updatesFor(m: SiteModel, lang: PageLang): SiteModel["updates"] {
+  return lang === "it" ? m.updates : (m.updatesByLang?.[lang] ?? []);
+}
+
 /** URL assoluti della stessa pagina nelle tre lingue (per hreflang). */
 function alt(B: string, pick: (r: Routes) => string | null): Record<PageLang, string> | undefined {
   const out: Partial<Record<PageLang, string>> = {};
@@ -300,7 +305,8 @@ function alt(B: string, pick: (r: Routes) => string | null): Record<PageLang, st
 
 /**
  * Pagine HTML di una lingua. Per "de" ed "en" il modello deve contenere facts già tradotti (vedi i18n.ts).
- * Gli aggiornamenti (testi generati in italiano) sono pubblicati solo nelle pagine italiane.
+ * Aggiornamenti: in italiano tutti (meteo, eventi, aperture, disponibilità); in tedesco e inglese meteo ed eventi
+ * (la disponibilità tradotta è già nella pagina Verfügbarkeit / Availability).
  */
 export function renderPages(m: SiteModel, lang: PageLang = "it"): Page[] {
   const f = m.facts;
@@ -330,7 +336,10 @@ export function renderPages(m: SiteModel, lang: PageLang = "it"): Page[] {
   {
     const url = `${B}/${dir(R.home)}`;
     const title = t(`${f.brand.name} — hotel in Val Gardena, Dolomiti: ${names}`, `${f.brand.name} — Hotels im Grödnertal, Dolomiten: ${names}`, `${f.brand.name} — hotels in Val Gardena, Dolomites: ${names}`);
-    const updatesBlock = lang === "it" ? `\n<h2>Aggiornamenti dagli hotel</h2><ul>${m.updates.slice(0, 5).map((n) => `<li><strong>${n.date}</strong> — ${esc(n.title)}</li>`).join("")}</ul>` : "";
+    const ups = updatesFor(m, lang);
+    const updatesBlock = ups.length && R.updates
+      ? `\n<h2>${t("Aggiornamenti dagli hotel", "Aktuelles aus dem Grödnertal", "Latest from Val Gardena")}</h2><ul>${ups.slice(0, 5).map((n) => `<li><strong>${n.date}</strong> — ${esc(n.title)}</li>`).join("")}</ul><p><a href="${B}/${dir(R.updates)}">${t("Tutti gli aggiornamenti", "Alle Neuigkeiten", "All updates")} →</a></p>`
+      : "";
     const body = `<h1>${t(`Vacanza nelle Dolomiti con ${esc(f.brand.name)}`, `Urlaub in den Dolomiten mit ${esc(f.brand.name)}`, `Holidays in the Dolomites with ${esc(f.brand.name)}`)}</h1>
 <p class="lead">${esc(f.brand.description)}</p>
 <h2>${t("Le case", "Die Häuser", "Our hotels")}</h2>${f.properties.map(card).join("")}
@@ -421,12 +430,22 @@ export function renderPages(m: SiteModel, lang: PageLang = "it"): Page[] {
     pages.push({ path: rel(R.avail), url, title, html: layout(m, lang, title, desc, url, body, [orgLd(m)], alt(B, (r) => r.avail)) });
   }
 
-  // Novità (solo italiano)
+  // Aggiornamenti (tutte e tre le lingue)
   if (R.updates) {
     const url = `${B}/${dir(R.updates)}`;
-    const title = "Aggiornamenti hotel AlpStay in Val Gardena: aperture e camere libere";
-    const body = `<h1>Aggiornamenti dagli hotel AlpStay in Val Gardena</h1><p class="lead">Aperture stagionali e camere libere di Smart Hotel Saslong, Chalet Hotel Hartmann e Acadia Mountain Home, aggiornate dal gestionale degli hotel.</p>${m.updates.map((n) => `<div class="card"><h3>${esc(n.title)}</h3><p><small>${n.date}</small></p><p>${esc(n.body)}</p>${n.url ? `<a href="${n.url}">Vai</a>` : ""}</div>`).join("")}`;
-    pages.push({ path: rel(R.updates), url, title, html: layout(m, lang, title, "Aggiornamenti verificati su aperture stagionali e disponibilità degli hotel AlpStay.", url, body, [orgLd(m)]) });
+    const ups = updatesFor(m, lang);
+    const title = t("Aggiornamenti hotel AlpStay in Val Gardena: aperture e camere libere", "Aktuelles aus dem Grödnertal: Wetter, Schnee und Events – AlpStay-Hotels", "Val Gardena news: weather, snow and events – AlpStay hotels");
+    const h1 = t("Aggiornamenti dagli hotel AlpStay in Val Gardena", "Aktuelles von den AlpStay-Hotels im Grödnertal", "News from the AlpStay hotels in Val Gardena");
+    const lead = t(
+      "Meteo del giorno, eventi principali, aperture stagionali e camere libere di Smart Hotel Saslong, Chalet Hotel Hartmann e Acadia Mountain Home.",
+      "Wetter und Schnee von heute und die wichtigsten Events im Grödnertal, veröffentlicht von Smart Hotel Saslong, Chalet Hotel Hartmann und Acadia Mountain Home.",
+      "Today's weather and snow and the main events in Val Gardena, published by Smart Hotel Saslong, Chalet Hotel Hartmann and Acadia Mountain Home.",
+    );
+    const desc = t("Aggiornamenti verificati su meteo, eventi, aperture stagionali e disponibilità degli hotel AlpStay.", "Wetter, Schneehöhe und Events im Grödnertal, aktualisiert von den AlpStay-Hotels.", "Weather, snow depth and events in Val Gardena, updated by the AlpStay hotels.");
+    const more = t("Prenota", "Direkt buchen", "Book direct");
+    const extra = lang === "it" ? "" : `<p><a href="${B}/${dir(R.avail)}">${t("", "Freie Zimmer und Richtpreise", "Free rooms and indicative prices")} →</a></p>`;
+    const body = `<h1>${h1}</h1><p class="lead">${lead}</p>${ups.map((n) => `<div class="card"><h3>${esc(n.title)}</h3><p><small>${n.date}</small></p><p>${esc(n.body)}</p>${n.url ? `<a href="${n.url}">${more}</a>` : ""}</div>`).join("")}${extra}`;
+    pages.push({ path: rel(R.updates), url, title, html: layout(m, lang, title, desc, url, body, [orgLd(m), ...(m.eventsLdByLang?.[lang] ?? [])], alt(B, (r) => r.updates)) });
   }
 
   // FAQ
@@ -473,17 +492,24 @@ export function renderLlmsTxt(m: SiteModel, full: boolean): string {
   lines.push(`- [Dati strutturati JSON](${B}/ai.json)`);
   lines.push(`- [Esperienze / concierge](${f.brand.conciergeUrl})`);
   lines.push("");
+  lines.push("## Oggi in Val Gardena");
+  for (const n of m.updates.slice(0, 6)) lines.push(`- ${n.date}: ${n.title}`);
+  lines.push("");
   lines.push("## Deutsch");
   lines.push(`- [AlpStay-Hotels im Grödnertal (Startseite)](${B}/de/)`);
   for (const p of f.properties) lines.push(`- [${p.name}](${B}/${ROUTES.de.hotel}/${p.slug}/)`);
   lines.push(`- [Verfügbarkeit und Preise](${B}/${dir(ROUTES.de.avail)})`);
+  lines.push(`- [Aktuelles: Wetter, Schnee, Events](${B}/${dir(ROUTES.de.updates!)})`);
   lines.push(`- [Häufige Fragen](${B}/${dir(ROUTES.de.faq)})`);
+  for (const n of (m.updatesByLang?.de ?? []).slice(0, 6)) lines.push(`- ${n.date}: ${n.title}`);
   lines.push("");
   lines.push("## English");
   lines.push(`- [AlpStay hotels in Val Gardena (home)](${B}/en/)`);
   for (const p of f.properties) lines.push(`- [${p.name}](${B}/${ROUTES.en.hotel}/${p.slug}/)`);
   lines.push(`- [Availability and prices](${B}/${dir(ROUTES.en.avail)})`);
+  lines.push(`- [News: weather, snow, events](${B}/${dir(ROUTES.en.updates!)})`);
   lines.push(`- [FAQ](${B}/${dir(ROUTES.en.faq)})`);
+  for (const n of (m.updatesByLang?.en ?? []).slice(0, 6)) lines.push(`- ${n.date}: ${n.title}`);
   if (full) {
     lines.push("", "## Destinazione", f.destination.summary, ...f.destination.highlights.map((h) => `- ${h}`));
     for (const p of f.properties) {
@@ -497,6 +523,8 @@ export function renderLlmsTxt(m: SiteModel, full: boolean): string {
       }
     }
     lines.push("", "## Aggiornamenti dagli hotel", ...m.updates.map((n) => `- ${n.date}: ${n.title}. ${n.body}`));
+    lines.push("", "## Aktuelles (Deutsch)", ...(m.updatesByLang?.de ?? []).map((n) => `- ${n.date}: ${n.title}. ${n.body}`));
+    lines.push("", "## News (English)", ...(m.updatesByLang?.en ?? []).map((n) => `- ${n.date}: ${n.title}. ${n.body}`));
   }
   return lines.join("\n") + "\n";
 }
@@ -521,6 +549,8 @@ export function renderAiJson(m: SiteModel): string {
       faqs: f.faqs,
       availability: m.live,
       updates: m.updates,
+      updatesByLang: m.updatesByLang ?? {},
+      events: m.eventsLdByLang?.it ?? [],
     },
     null,
     2,
