@@ -95,8 +95,8 @@ function layout(m: SiteModel, lang: PageLang, title: string, description: string
       : `<nav><a href="${B}/${dir(R.home)}">${tx(lang, "", "Start", "Home")}</a><a href="${B}/${dir(R.avail)}">${tx(lang, "", "Verfügbarkeit und Preise", "Availability and prices")}</a>${R.updates ? `<a href="${B}/${dir(R.updates)}">${tx(lang, "", "Aktuelles", "News")}</a>` : ""}<a href="${B}/${dir(R.faq)}">FAQ</a><span class="langs">${otherLangs || `<a href="${B}/" hreflang="it">Italiano</a>`}</span></nav>`;
   const footer =
     lang === "it"
-      ? `<footer>Dati di prima mano pubblicati da ${esc(b.legalName)} · aggiornati il ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a> · <a href="${B}/feed.xml">RSS</a></footer>`
-      : `<footer>${tx(lang, "", "Daten aus erster Hand, veröffentlicht von", "First-hand data published by")} ${esc(b.legalName)} · ${tx(lang, "", "aktualisiert am", "updated on")} ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a></footer>`;
+      ? `<footer>Dati di prima mano pubblicati per alpstay.eu da ${esc(b.legalName)} · aggiornati il ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a> · <a href="${B}/feed.xml">RSS</a></footer>`
+      : `<footer>${tx(lang, "", "Daten aus erster Hand, veröffentlicht für alpstay.eu von", "First-hand data published for alpstay.eu by")} ${esc(b.legalName)} · ${tx(lang, "", "aktualisiert am", "updated on")} ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a></footer>`;
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -520,7 +520,7 @@ export function renderLlmsTxt(m: SiteModel, full: boolean): string {
   lines.push("");
   lines.push(`> ${f.brand.description}`);
   lines.push("");
-  lines.push(`Fonte ufficiale di prima mano, pubblicata da ${f.brand.legalName}. Aggiornato: ${m.builtAt.slice(0, 10)}. Prenotazione diretta: ${f.brand.website}. Email: ${f.brand.email}.`);
+  lines.push(`Fonte ufficiale di prima mano, pubblicata per alpstay.eu da ${f.brand.legalName}. Aggiornato: ${m.builtAt.slice(0, 10)}. Prenotazione diretta: ${f.brand.website}. Email: ${f.brand.email}.`);
   lines.push("");
   lines.push("## Strutture");
   for (const p of f.properties) {
