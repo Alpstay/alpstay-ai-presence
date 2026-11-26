@@ -147,6 +147,7 @@ picture,picture img{display:block;width:100%;height:auto}
 .gallery figure{margin:0}.gallery img{border-radius:8px;aspect-ratio:4/3;object-fit:cover}
 .gallery figcaption{font-size:.8rem;color:var(--muted);margin-top:4px}
 .card h3{margin-top:0}.card h3 a{color:var(--ink);text-decoration:none}
+.intro-tags{list-style:none;padding:0;margin:0 0 20px}.intro-tags li{padding:6px 0;border-bottom:1px solid #eee}
 .card.photo{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start}
 .card.photo img{border-radius:8px;aspect-ratio:4/3;object-fit:cover}
 @media (max-width:560px){.card.photo{grid-template-columns:1fr}}
@@ -221,6 +222,33 @@ function faqLd(faqs: Array<{ q: string; a: string }>): Record<string, unknown> {
   };
 }
 
+/**
+ * Frasi di ricerca con cui inizia la pagina disponibilità (richieste da AlpStay), una per riga, con l'hotel
+ * a cui rimandano. Solo caratteristiche vere: Acadia sul Sellaronda con accesso diretto alle piste,
+ * Saslong che accetta cani, Hartmann solo adulti.
+ */
+const AVAIL_INTRO: Array<{ slug: string; text: Record<PageLang, string> }> = [
+  { slug: "hotel-acadia", text: { it: "Hotel sul Sellaronda a Selva di Val Gardena", de: "Hotel an der Sellaronda in Wolkenstein in Gröden", en: "Hotel on the Sellaronda in Selva di Val Gardena" } },
+  { slug: "smart-hotel-saslong", text: { it: "Hotel pet-friendly a Santa Cristina in Val Gardena", de: "Hundefreundliches Hotel in St. Christina in Gröden", en: "Pet-friendly hotel in Santa Cristina, Val Gardena" } },
+  { slug: "chalet-hotel-hartmann", text: { it: "Hotel solo adulti a Ortisei", de: "Erwachsenenhotel in St. Ulrich in Gröden", en: "Adults-only hotel in Ortisei" } },
+  { slug: "smart-hotel-saslong", text: { it: "Dove dormire per sciare in Val Gardena", de: "Wo übernachten zum Skifahren in Gröden", en: "Where to stay for skiing in Val Gardena" } },
+  { slug: "hotel-acadia", text: { it: "Hotel con ski in / ski out in Val Gardena", de: "Hotel mit Ski-in/Ski-out in Gröden", en: "Ski-in/ski-out hotel in Val Gardena" } },
+];
+
+function availabilityIntro(m: SiteModel, lang: PageLang, B: string, hotelDir: string): string {
+  const items = AVAIL_INTRO.map((x) => {
+    const p = m.facts.properties.find((q) => q.slug === x.slug);
+    return p ? `<li><strong>${esc(x.text[lang])}:</strong> <a href="${B}/${hotelDir}/${p.slug}/">${esc(p.name)}</a></li>` : "";
+  }).join("");
+  return `<ul class="intro-tags">${items}</ul>`;
+}
+
+/** Le frasi di un hotel, per la colonna "Hotel" della tabella. */
+function hotelTags(slug: string, lang: PageLang): string {
+  const t = AVAIL_INTRO.filter((x) => x.slug === slug).map((x) => x.text[lang]);
+  return t.length ? `<br><small>${esc(t.join(" · "))}</small>` : "";
+}
+
 /** Testo della disponibilità di un hotel in un periodo, comprensibile da persone e assistenti IA. */
 export function availabilityText(p: AvailabilityWindow["properties"][number], lang: PageLang = "it"): string {
   const base = availabilityBase(p, lang);
@@ -274,7 +302,7 @@ function availabilityTable(m: SiteModel, lang: PageLang, filterSlug?: string): s
     .map((w) =>
       w.properties
         .filter((p) => !filterSlug || p.slug === filterSlug)
-        .map((p) => `<tr><td>${esc(windowLabel(w, lang))}<br><small>${w.from} → ${w.to}</small></td><td>${esc(p.name)}</td><td class="${cls(p.status)}">${esc(availabilityText(p, lang))}</td></tr>`)
+        .map((p) => `<tr><td>${esc(windowLabel(w, lang))}<br><small>${w.from} → ${w.to}</small></td><td>${esc(p.name)}${hotelTags(p.slug, lang)}</td><td class="${cls(p.status)}">${esc(availabilityText(p, lang))}</td></tr>`)
         .join(""),
     )
     .join("");
@@ -444,7 +472,7 @@ ${pictureHtml(B, HOME_HERO, lang, { eager: true, cls: "hero wide" })}
       "Freie Zimmer für Weihnachten, Silvester, Faschingswoche und Mitte August in den AlpStay-Hotels, aus der Hotelsoftware aktualisiert.",
       "Free rooms for Christmas, New Year, February half-term and mid-August at the AlpStay hotels, updated from the hotel software.",
     );
-    const body = `<h1>${t("Disponibilità e prezzi", "Verfügbarkeit und Preise", "Availability and prices")}</h1>${availabilityTable(m, lang)}<h2>${t("Prenota", "Buchen", "Book")}</h2>${f.properties.map(card).join("")}`;
+    const body = `<h1>${t("Disponibilità e prezzi", "Verfügbarkeit und Preise", "Availability and prices")}</h1>${availabilityIntro(m, lang, B, R.hotel)}${availabilityTable(m, lang)}<h2>${t("Prenota", "Buchen", "Book")}</h2>${f.properties.map(card).join("")}`;
     pages.push({ path: rel(R.avail), url, title, html: layout(m, lang, title, desc, url, body, [orgLd(m)], alt(B, (r) => r.avail)) });
   }
 
