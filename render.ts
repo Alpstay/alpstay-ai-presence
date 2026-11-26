@@ -93,10 +93,12 @@ function layout(m: SiteModel, lang: PageLang, title: string, description: string
     lang === "it"
       ? `<nav><a href="${B}/">Home</a><a href="${B}/disponibilita/">Disponibilità e prezzi</a><a href="${B}/aggiornamenti-hotel-val-gardena/">Aggiornamenti</a><a href="${B}/faq/">FAQ</a><span class="langs">${otherLangs}</span></nav>`
       : `<nav><a href="${B}/${dir(R.home)}">${tx(lang, "", "Start", "Home")}</a><a href="${B}/${dir(R.avail)}">${tx(lang, "", "Verfügbarkeit und Preise", "Availability and prices")}</a>${R.updates ? `<a href="${B}/${dir(R.updates)}">${tx(lang, "", "Aktuelles", "News")}</a>` : ""}<a href="${B}/${dir(R.faq)}">FAQ</a><span class="langs">${otherLangs || `<a href="${B}/" hreflang="it">Italiano</a>`}</span></nav>`;
+  // Titolare del sito (dati legali forniti da AlpStay). Indirizzo scritto come in facts.json ("Palua").
+  const owner = `<address class="imprint"><strong>${tx(lang, "Titolare del sito", "Betreiber der Website", "Website owner")}:</strong><br>Alpstay<br>Saslong SRL<br>Via Palua 40 - I-39047 S.Cristina (BZ)<br>Tel.: <a href="tel:+390471774480">+39 0471 774 480</a><br>Fax: +39 0471 774477<br>${tx(lang, "P.IVA", "MwSt.-Nr.", "VAT no.")}: 02675760215<br>E-mail: <a href="mailto:info@alpstay.eu">info@alpstay.eu</a><br>Web: <a href="https://www.alpstay.eu">www.alpstay.eu</a><br><br>CIN Saslong: IT021085A1AIKCG7PH<br>CIN Acadia: IT021089A1IP5JY4HS<br>CIN Hartmann: IT021061A1YW8PFOAI</address>`;
   const footer =
     lang === "it"
-      ? `<footer>Dati di prima mano pubblicati per alpstay.eu da ${esc(b.legalName)} · aggiornati il ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a> · <a href="${B}/feed.xml">RSS</a></footer>`
-      : `<footer>${tx(lang, "", "Daten aus erster Hand, veröffentlicht für alpstay.eu von", "First-hand data published for alpstay.eu by")} ${esc(b.legalName)} · ${tx(lang, "", "aktualisiert am", "updated on")} ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a></footer>`;
+      ? `<footer>Dati di prima mano pubblicati per alpstay.eu da ${esc(b.legalName)} · aggiornati il ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a> · <a href="${B}/feed.xml">RSS</a>${owner}</footer>`
+      : `<footer>${tx(lang, "", "Daten aus erster Hand, veröffentlicht für alpstay.eu von", "First-hand data published for alpstay.eu by")} ${esc(b.legalName)} · ${tx(lang, "", "aktualisiert am", "updated on")} ${m.builtAt.slice(0, 10)} · <a href="${B}/llms.txt">llms.txt</a> · <a href="${B}/ai.json">ai.json</a>${owner}</footer>`;
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -147,6 +149,7 @@ picture,picture img{display:block;width:100%;height:auto}
 .gallery figure{margin:0}.gallery img{border-radius:8px;aspect-ratio:4/3;object-fit:cover}
 .gallery figcaption{font-size:.8rem;color:var(--muted);margin-top:4px}
 .card h3{margin-top:0}.card h3 a{color:var(--ink);text-decoration:none}
+.imprint{font-style:normal;margin-top:14px;line-height:1.6}
 .intro-tags{list-style:none;padding:0;margin:0 0 20px}.intro-tags li{padding:6px 0;border-bottom:1px solid #eee}
 .card.photo{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start}
 .card.photo img{border-radius:8px;aspect-ratio:4/3;object-fit:cover}
